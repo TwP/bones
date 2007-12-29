@@ -1,3 +1,8 @@
+== 1.1.1 / 2007-12-29
+
+* 1 bugfix
+  * Fixed the bad interaction with RSpec gem
+
 == 1.1.0 / 2007-12-29
 
 * 3 minor enhancements

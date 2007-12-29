@@ -1,8 +1,8 @@
 # $Id$
 
-load 'tasks/setup.rb'
+$:.unshift('lib')
 
-ensure_in_path 'lib'
+load 'tasks/setup.rb'
 require 'bones'
 
 task :default => 'spec:run'
@@ -17,6 +17,7 @@ PROJ.changes = paragraphs_of('History.txt', 0..1).join("\n\n")
 PROJ.rubyforge_name = 'codeforpeople'
 PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
+PROJ.specs = nil
 
 PROJ.exclude << '^doc'
 PROJ.rdoc_exclude << '^data'
