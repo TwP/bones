@@ -1,3 +1,4 @@
+# $Id$
 
 if HAVE_SPEC
 

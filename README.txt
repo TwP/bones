@@ -4,15 +4,15 @@ Mr Bones
 
 == DESCRIPTION:
   
-Mr Bones is a handy tool tha builds a skeleton for your new Ruby projects. The
-skelton contains some starter code and a collection of rake tasks to ease the
-management and deployment of your source code. Mr Bones is not viral -- all the
-code your project needs is included in the skelton (no gem dependency
-required).
+Mr Bones is a handy tool that builds a skeleton for your new Ruby projects.
+The skeleton contains some starter code and a collection of rake tasks to
+ease the management and deployment of your source code. Mr Bones is not
+viral -- all the code your project needs is included in the skeleton (no
+gem dependency required).
 
 == FEATURES/PROBLEMS:
 
-Mr Bones provides the following rake tasks; you are free to add your own:
+Mr Bones provides the following rake tasks:
 
   clobber              # Remove all build products
   doc                  # Alias to doc:rdoc
@@ -28,13 +28,20 @@ Mr Bones provides the following rake tasks; you are free to add your own:
   gem:release          # Package and upload to RubyForge
   gem:repackage        # Force a rebuild of the package files
   gem:uninstall        # Uninstall the gem
-  manifest:check       # Verify the manfiest
+  manifest:check       # Verify the manifest
   manifest:create      # Create a new manifest
+  notes                # Enumerate all annotations
+  notes:fixme          # Enumerate all FIXME annotations
+  notes:optimize       # Enumerate all OPTIMIZE annotations
+  notes:todo           # Enumerate all TODO annotations
   spec:rcov            # Run all specs with RCov
   spec:run             # Run all specs with basic output
   spec:specdoc         # Run all specs with text output
   test:rcov            # Run rcov on the unit tests
   test:run             # Run tests for run
+
+The rake tasks in the Mr Bones framework can be found in the "tasks" directory.
+Add your own tasks there when you need more functionality.
 
 == SYNOPSIS:
 
@@ -53,12 +60,13 @@ And if you ever get confused about what Mr Bones can do:
 
 == REQUIREMENTS:
 
-Mr Bones does not have any "requirements", but if you do not have the following
-gems installed you will not get all that Mr Bones has to offer.
+Mr Bones does not have any "requirements", but if you do not have the
+following gems installed you will not get all that Mr Bones has to offer.
 
 * rubyforge - for easy gem publishing to rubyforge.org
 * rcov - for code coverage testing
 * rspec - if that's the way you roll
+* rails - for source annotation extractor (notes)
 
 == INSTALL:
 
@@ -66,59 +74,63 @@ gems installed you will not get all that Mr Bones has to offer.
 
 == MANUAL:
 
-Bag of rake tasks for easing the pain of project management. The tasks are controlled through options defined in the Rakefile. The tasks themselves are defined as '.rake' files in the tasks diectory.
+The +bones+ command line tool is used to create a skeleton for a Ruby
+project. In that skeleton is a "tasks" directory that contains the Mr Bones
+rake files. These files are quite generic, and their functionality is
+controlled by options configured in the top-level Rakefile. Take a look at
+the Rakefile for the Mr Bones gem itself:
 
-Use a Manifest.txt to control which files are included in the gem
+  load 'tasks/setup.rb'
 
-Use "depend_on" to declare dependencies
+  ensure_in_path 'lib'
+  require 'bones'
 
-  depend_on 'rake', '0.8.1'
+  task :default => 'spec:run'
 
-name = nil
-summary = nil
-description = nil
-changes = nil
-authors = nil
-email = nil
-url = nil
-version = ENV['VERSION'] || '0.0.0'
-rubyforge_name = nil
-exclude = %w(tmp$ bak$ ~$ CVS \.svn)
-extensions = FileList['ext/**/extconf.rb']
-ruby_opts = %w(-w)
-libs = []
+  PROJ.name = 'bones'
+  PROJ.summary = 'Mr Bones is a handy tool that builds a skeleton for your new Ruby projects'
+  PROJ.authors = 'Tim Pease'
+  PROJ.email = 'not.real@fake.com'
+  PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
+  PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
+  PROJ.changes = paragraphs_of('History.txt', 0..1).join("\n\n")
+  PROJ.rubyforge_name = 'codeforpeople'
+  PROJ.rdoc_remote_dir = 'bones'
+  PROJ.version = Bones::VERSION
 
-RDoc Options
+  PROJ.exclude << '^doc'
+  PROJ.rdoc_exclude << '^data'
 
-rdoc_opts = []
-rdoc_include = %w(^lib ^bin ^ext txt$)
-rdoc_exclude = %w(extconf\.rb$ ^Manifest\.txt$)
-rdoc_main = 'README.txt'
-rdoc_dir = 'doc'
-rdoc_remote_dir = nil
+  PROJ.spec_opts << '--color'
 
-Test::Unit Options
+  # EOF
 
-tests = FileList['test/**/test_*.rb']
-test_file = 'test/all.rb'
-test_opts = []
+The +PROJ+ constant is an open struct that contains all the configuration
+options for the project. The open struct is created in the "tasks/setup.rb"
+file, and that is also where all the configurable options are defined. Take
+a look in the "setup.rb" file to see what options are available, but always
+make your changes in the Rakefile itself.
 
-RSpec Options
+The Mr Bones rake system is based on a "Manifest.txt" file that contains a
+list of all the files that will be used in the project. If a file does not
+appear in the manifest, it will not be included in the gem. Use the
++manifest+ rake tasks to create and update the manifest as needed.
 
-specs = FileList['spec/**/*_spec.rb']
-spec_opts = []
+You can exclude files from being seen by the manifest -- the files are
+invisible to the Mr Bones rake tasks. You would do this for any subversion
+directories, backup files, or anything else you don't want gumming up the
+works. The files to exclude are given as an array of regular expression
+patterns.
 
-RCov Options
+  PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn)
+  PROJ.exclude << '^doc'
 
-rcov_opts = ['--sort', 'coverage', '-T']
+If your project depends on other gems, use the +depend_on+ command in your
+Rakefile to declare the dependency. If you do not specify a version, the
+most current version number for the installed gem is used.
 
-Gem Options
-
-files = [] (from Manifest.txt)
-executables = PROJ.files.find_all {|fn| fn =~ %r/^bin/}
-dependencies = []
-need_tar = true
-need_zip = false
+  depend_on 'logging'
+  depend_on 'rake', '0.7.3'
 
 == LICENSE:
 
@@ -129,7 +141,7 @@ Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 'Software'), to deal in the Software without restriction, including
 without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
+distribute, sub-license, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions:
 

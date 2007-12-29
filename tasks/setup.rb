@@ -89,7 +89,7 @@ SUDO = if WIN32 then ''
 RCOV = WIN32 ? 'rcov.cmd'  : 'rcov'
 GEM  = WIN32 ? 'gem.cmd'   : 'gem'
 
-%w(rcov spec rubyforge).each do |lib|
+%w(rcov spec rubyforge source_annotation_extractor).each do |lib|
   begin
     require lib
     Object.instance_eval {const_set "HAVE_#{lib.upcase}", true}

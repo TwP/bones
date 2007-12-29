@@ -1,3 +1,4 @@
+# $Id$
 
 if PROJ.rubyforge_name && HAVE_RUBYFORGE
 

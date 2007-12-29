@@ -10,6 +10,7 @@ data/Rakefile.erb
 data/bin/NAME.erb
 data/lib/NAME.rb.erb
 data/spec/NAME_spec.rb
+data/tasks/annotations.rake
 data/tasks/doc.rake
 data/tasks/gem.rake
 data/tasks/manifest.rake
@@ -19,6 +20,7 @@ data/tasks/spec.rake
 data/tasks/test.rake
 data/test/test_NAME.rb
 lib/bones.rb
+tasks/annotations.rake
 tasks/doc.rake
 tasks/gem.rake
 tasks/manifest.rake

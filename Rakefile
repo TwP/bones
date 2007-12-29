@@ -8,7 +8,7 @@ require 'bones'
 task :default => 'spec:run'
 
 PROJ.name = 'bones'
-PROJ.summary = 'Mr Bones is a handy tool tha builds a skeleton for your new Ruby projects'
+PROJ.summary = 'Mr Bones is a handy tool that builds a skeleton for your new Ruby projects'
 PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
