@@ -6,13 +6,17 @@ require 'erb'
 
 module Bones
 
-  VERSION = '1.0.0'    # :nodoc:
-  PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))  # :nodoc:
+  # :stopdoc:
+  VERSION = '1.1.0'
+  PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+  WIN32 = %r/win32/ =~ RUBY_PLATFORM unless defined? WIN32
+  DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'
+  # :startdoc:
 
   class Main
 
     attr_writer :update
-    attr_accessor :name, :data
+    attr_accessor :name, :data, :verbose
 
     # Create a new instance of Main, and run the +bones+ application given
     # the command line _args_.
@@ -31,6 +35,7 @@ module Bones
     def parse( args )
       self.data = File.join(::Bones::PATH, 'data')
       self.update = false
+      self.verbose = false
 
       opts = OptionParser.new
       opts.banner << ' project_name'
@@ -38,6 +43,8 @@ module Bones
       opts.separator ''
       opts.on('-u', '--update',
               'update the rake tasks for the project') {self.update = true}
+      opts.on('-v', '--verbose',
+              'enable verbose output') {self.verbose = true}
 
       opts.separator ''
       opts.separator 'common options:'
@@ -73,22 +80,9 @@ module Bones
       name.split('_').map {|x| x.capitalize}.join
     end
 
-    #
+    # Create a new project from the bones/data project template.
     #
     def create
-      # see if the directory already exists
-      abort "'#{name}' already exists" if test ?e, name
-
-      files_to_copy.each {|fn| cp fn}
-
-      pwd = File.expand_path(FileUtils.pwd)
-      begin
-        FileUtils.cd name
-        system "rake manifest:create 2>&1 > /dev/null"
-      ensure
-        FileUtils.cd pwd
-      end
-
       # * copy files from either
       #   1) the user's '.bones/data' directory or
       #   2) the Bones 'data' directory
@@ -96,6 +90,26 @@ module Bones
       # TODO - figure out if this really is the best way of doing this
       #        should I just use either the .bones data or the gem data, not
       #        both
+
+      # see if the directory already exists
+      abort "'#{name}' already exists" if test ?e, name
+
+      begin
+        files_to_copy.each {|fn| cp fn}
+
+        pwd = File.expand_path(FileUtils.pwd)
+        begin
+          FileUtils.cd name
+          system "rake manifest:create 2>&1 > #{DEV_NULL}"
+        ensure
+          FileUtils.cd pwd
+        end
+      rescue Exception => err
+        FileUtils.rm_rf name
+        abort "could not create '#{name}'"
+      end
+
+      STDOUT.puts "created '#{name}'"
     end
     
     # Archive any existing tasks in the project's tasks folder, and then
@@ -120,6 +134,8 @@ module Bones
         next unless 'tasks' == File.basename(File.dirname(fn))
         cp fn
       end
+
+      STDOUT.puts "updated tasks for '#{name}'"
     end
 
 
@@ -130,10 +146,12 @@ module Bones
     # indicating tha the file is being created.
     #
     def cp( file )
-      dir = File.join(name, File.dirname(file))
+      dir = File.dirname(file)
+      dir = (dir == '.' ? name : File.join(name, dir))
       dst = File.join(dir,  File.basename(file, '.erb').sub('NAME', name))
       src = File.join(data, file)
 
+      puts (test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose
       FileUtils.mkdir_p(dir)
 
       if '.erb' == File.extname(file)
