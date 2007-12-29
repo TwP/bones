@@ -3,7 +3,13 @@ Manifest.txt
 README.txt
 Rakefile
 bin/bones
+data/History.txt.erb
 data/Manifest.txt
+data/README.txt.erb
+data/Rakefile.erb
+data/bin/NAME.erb
+data/lib/NAME.rb.erb
+data/spec/NAME_spec.rb
 data/tasks/doc.rake
 data/tasks/gem.rake
 data/tasks/manifest.rake
@@ -11,7 +17,7 @@ data/tasks/rubyforge.rake
 data/tasks/setup.rb
 data/tasks/spec.rake
 data/tasks/test.rake
-data/tasks/website.rake
+data/test/test_NAME.rb
 lib/bones.rb
 tasks/doc.rake
 tasks/gem.rake
@@ -20,4 +26,3 @@ tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
 tasks/test.rake
-tasks/website.rake
