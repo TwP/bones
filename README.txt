@@ -40,8 +40,8 @@ Mr Bones provides the following rake tasks:
   test:rcov            # Run rcov on the unit tests
   test:run             # Run tests for run
 
-The rake tasks in the Mr Bones framework can be found in the "tasks" directory.
-Add your own tasks there when you need more functionality.
+The rake tasks in the Mr Bones framework can be found in the "tasks"
+directory. Add your own tasks there when you need more functionality.
 
 == SYNOPSIS:
 

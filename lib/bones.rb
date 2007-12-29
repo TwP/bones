@@ -6,7 +6,7 @@ require 'erb'
 
 module Bones
 
-  VERSION = '0.1.0'    # :nodoc:
+  VERSION = '1.0.0'    # :nodoc:
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))  # :nodoc:
 
   class Main
