@@ -1,26 +1,64 @@
-Mr. Bones
+Mr Bones
     by Tim Pease
-    FIX (url)
+    http://codeforpeople.rubyforge.org/bones
 
 == DESCRIPTION:
   
-FIX (describe your package)
+Mr Bones is a handy tool tha builds a skeleton for your new Ruby projects. The
+skelton contains some starter code and a collection of rake tasks to ease the
+management and deployment of your source code. Mr Bones is not viral -- all the
+code your project needs is included in the skelton (no gem dependency
+required).
 
 == FEATURES/PROBLEMS:
-  
-* FIX (list of features or problems)
+
+Mr Bones provides the following rake tasks; you are free to add your own:
+
+  clobber              # Remove all build products
+  doc                  # Alias to doc:rdoc
+  doc:rdoc             # Build the rdoc HTML Files
+  doc:release          # Publish RDoc to RubyForge
+  doc:rerdoc           # Force a rebuild of the RDOC files
+  doc:ri               # Generate ri locally for testing
+  gem                  # Alias to gem:package
+  gem:debug            # Show information about the gem
+  gem:gem              # Build the gem file
+  gem:install          # Install the gem
+  gem:package          # Build all the packages
+  gem:release          # Package and upload to RubyForge
+  gem:repackage        # Force a rebuild of the package files
+  gem:uninstall        # Uninstall the gem
+  manifest:check       # Verify the manfiest
+  manifest:create      # Create a new manifest
+  spec:rcov            # Run all specs with RCov
+  spec:run             # Run all specs with basic output
+  spec:specdoc         # Run all specs with text output
+  test:rcov            # Run rcov on the unit tests
+  test:run             # Run tests for run
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+To create a new "Get Fuzzy" project:
+
+  bones get_fuzzy
+
+If a new release of Mr Bones comes out with better features the "Get Fuzzy"
+project will need to be updated:
+
+  bones --update get_fuzzy
+
+And if you ever get confused about what Mr Bones can do:
+
+  bones --help
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+Mr Bones does not have any "requirements", but if you do not have the following
+gems installed you will not get all that Mr Bones has to offer.
 
-* rubyforge
-* rcov
-* spec
+* rubyforge - for easy gem publishing to rubyforge.org
+* rcov - for code coverage testing
+* rspec - if that's the way you roll
 
 == INSTALL:
 
@@ -81,7 +119,6 @@ executables = PROJ.files.find_all {|fn| fn =~ %r/^bin/}
 dependencies = []
 need_tar = true
 need_zip = false
-
 
 == LICENSE:
 

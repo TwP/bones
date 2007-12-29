@@ -1,4 +1,4 @@
-# $Id: manifest.rake 77 2007-12-22 21:26:09Z tim_pease $
+# $Id$
 
 require 'find'
 

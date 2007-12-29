@@ -1,4 +1,4 @@
-# $Id: doc.rake 77 2007-12-22 21:26:09Z tim_pease $
+# $Id$
 
 require 'rake/rdoctask'
 
@@ -38,6 +38,10 @@ namespace :doc do
 
 end  # namespace :doc
 
+desc 'Alias to doc:rdoc'
+task :doc => 'doc:rdoc'
+
+desc 'Remove all build products'
 task :clobber => %w(doc:clobber_rdoc doc:clobber_ri)
 
 # EOF

@@ -1,4 +1,4 @@
-# $Id: gem.rake 77 2007-12-22 21:26:09Z tim_pease $
+# $Id$
 
 require 'rake/gempackagetask'
 
@@ -78,6 +78,9 @@ namespace :gem do
   end
 
 end  # namespace :gem
+
+desc 'Alias to gem:package'
+task :gem => 'gem:package'
 
 task :clobber => 'gem:clobber_package'
 

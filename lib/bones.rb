@@ -113,7 +113,7 @@ module Bones
 
       Dir.glob(File.join(task_dir, '*')).each do |fn|
         next if fn == archive_dir
-        FileUtils.mv fn, archive_dir
+        FileUtils.cp fn, archive_dir
       end
 
       files_to_copy.each do |fn|
