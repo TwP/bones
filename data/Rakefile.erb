@@ -1,0 +1,23 @@
+# Look in the tasks/setup.rb file for the various options that can be
+# configured in this Rakefile. The .rake files in the tasks directory
+# are where the options are used.
+
+load 'tasks/setup.rb'
+
+ensure_in_path 'lib'
+require '<%= name %>'
+
+task :default => 'spec:run'
+
+PROJ.name = '<%= name %>'
+PROJ.summary = 'FIX'
+PROJ.authors = 'FIX'
+PROJ.email = 'FIX'
+PROJ.url = 'FIX'
+PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
+PROJ.changes = paragraphs_of('History.txt', 0..1).join("\n\n")
+PROJ.rubyforge_name = '<%= name %>'
+
+PROJ.spec_opts << '--color'
+
+# EOF
