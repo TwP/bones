@@ -135,8 +135,8 @@ most current version number for the installed gem is used.
 
 Ryan Davis and Eric Hodel and their Hoe gem (from which much of the Mr Bones
 rake tasks have been stolen). The rails team and their source annotation
-extractor. Bruce Williams for help in coming up with the project name. Ara
-T. Howard for letting me squat in the codeforpeople rubyforge project.
+extractor. Bruce Williams for help in coming up with the project name. Ara T.
+Howard for letting me squat in the codeforpeople rubyforge project.
 
 == LICENSE:
 
