@@ -1,3 +1,10 @@
+== 1.1.0 / 2007-12-29
+
+* 3 minor enhancements
+  * Output message when files are created or updated
+  * Directory cleanup if project creation fails
+  * Pulled the rails source annotation extractor into Mr Bones
+
 == 1.0.0 / 2007-12-28
 
 * 1 major enhancement

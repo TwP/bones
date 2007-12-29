@@ -66,7 +66,6 @@ following gems installed you will not get all that Mr Bones has to offer.
 * rubyforge - for easy gem publishing to rubyforge.org
 * rcov - for code coverage testing
 * rspec - if that's the way you roll
-* rails - for source annotation extractor (notes)
 
 == INSTALL:
 
@@ -131,6 +130,13 @@ most current version number for the installed gem is used.
 
   depend_on 'logging'
   depend_on 'rake', '0.7.3'
+
+== ACKNOWLEDGEMENTS:
+
+Ryan Davis and Eric Hodel and their Hoe gem (from which much of the Mr Bones
+rake tasks have been stolen). The rails team and their source annotation
+extractor. Bruce Williams for help in coming up with the project name. Ara
+T. Howard for letting me squat in the codeforpeople rubyforge project.
 
 == LICENSE:
 
