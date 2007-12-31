@@ -18,7 +18,6 @@ PROJ.rubyforge_name = 'codeforpeople'
 PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
 
-PROJ.exclude << '^doc'
 PROJ.rdoc_exclude << '^data'
 
 PROJ.spec_opts << '--color'
