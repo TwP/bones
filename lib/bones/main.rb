@@ -93,6 +93,8 @@ class Main
       begin
         FileUtils.cd name
         system "rake manifest:create 2>&1 > #{::Bones::DEV_NULL}"
+        STDOUT.puts "created '#{name}'\nnow you need to fix these files"
+        system "rake notes"
       ensure
         FileUtils.cd pwd
       end
@@ -100,8 +102,6 @@ class Main
       FileUtils.rm_rf name
       abort "could not create '#{name}'"
     end
-
-    STDOUT.puts "created '#{name}'"
   end
   
   # Archive any existing tasks in the project's tasks folder, and then

@@ -56,6 +56,10 @@ PROJ.dependencies = []
 PROJ.need_tar = true
 PROJ.need_zip = false
 
+# File Annotations
+PROJ.annotation_exclude = []
+PROJ.annotation_extensions = %w(.txt .rb .erb) << ''
+
 # Load the other rake files in the tasks folder
 Dir.glob('tasks/*.rake').sort.each {|fn| import fn}
 
