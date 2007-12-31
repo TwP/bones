@@ -91,7 +91,7 @@ the Rakefile for the Mr Bones gem itself:
   PROJ.authors = 'Tim Pease'
   PROJ.email = 'not.real@fake.com'
   PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
-  PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
+  PROJ.description = paragraphs_of('README.txt', 1).join("\n\n")
   PROJ.changes = paragraphs_of('History.txt', 0..1).join("\n\n")
   PROJ.rubyforge_name = 'codeforpeople'
   PROJ.rdoc_remote_dir = 'bones'
@@ -119,9 +119,9 @@ You can exclude files from being seen by the manifest -- the files are
 invisible to the Mr Bones rake tasks. You would do this for any subversion
 directories, backup files, or anything else you don't want gumming up the
 works. The files to exclude are given as an array of regular expression
-patterns.
+patterns; a file is excluded if it matches any of the patterns.
 
-  PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn)
+  PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn ^pkg)
   PROJ.exclude << '^doc'
 
 If your project depends on other gems, use the +depend_on+ command in your
