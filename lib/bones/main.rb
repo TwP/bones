@@ -25,7 +25,8 @@ class Main
   # the +create+ and +update+ methods.
   #
   def parse( args )
-    self.data = File.join(::Bones::PATH, 'data')
+    self.data = File.join(bonesrc_dir, 'data')
+    self.data = File.join(::Bones::PATH, 'data') unless test(?d, data)
     self.update = false
     self.verbose = false
 
@@ -37,6 +38,17 @@ class Main
             'update the rake tasks for the project') {self.update = true}
     opts.on('-v', '--verbose',
             'enable verbose output') {self.verbose = true}
+
+    opts.separator ''
+    opts.on('--freeze', 'freeze the project skeleton') {freeze; exit}
+    opts.on('--unfreeze', 'use the standard project skeleton') {unfreeze; exit}
+    opts.on('-i', '--info',
+            'report on the project skeleton being used') do
+      STDOUT.puts "the project skeleton will be copied from"
+      STDOUT.write "    "
+      STDOUT.puts data
+      exit
+    end
 
     opts.separator ''
     opts.separator 'common options:'
@@ -65,7 +77,7 @@ class Main
     @update
   end
 
-  # Returns the project name but converted to be useable as a Ruby class
+  # Returns the project name but converted to be usable as a Ruby class
   # name.
   #
   def classname
@@ -123,11 +135,79 @@ class Main
     end
 
     files_to_copy.each do |fn|
-      next unless 'tasks' == File.basename(File.dirname(fn))
+      next unless %r/^tasks\// =~ fn
       cp fn
     end
 
     STDOUT.puts "updated tasks for '#{name}'"
+  end
+
+  # Freeze the project skeleton to the current Mr Bones gem. If the project
+  # skeleton has already been frozen, then it will be archived before being
+  # overwritten by the current Mr Bones skeleton.
+  #
+  # If the project skeleton is already frozen, only the tasks from the Mr
+  # Bones skeleton will be copied to the user's data directory.
+  #
+  def freeze
+    bones_data_dir = File.join(::Bones::PATH, 'data')
+    data_dir = File.join(bonesrc_dir, 'data')
+    archive_dir = File.join(bonesrc_dir, 'archive')
+    tasks_only = false
+
+    if test(?d, data_dir)
+      STDOUT.puts "archiving #{data_dir}" if verbose
+      FileUtils.rm_rf(archive_dir)
+      FileUtils.mkdir(archive_dir)
+      FileUtils.cp_r(File.join(data_dir, '.'), archive_dir)
+      tasks_only = true
+    else
+      FileUtils.mkdir_p(data_dir)
+    end
+
+    files_to_copy.each do |file|
+      next if tasks_only && !(%r/^tasks\// =~ file)
+
+      src = File.join(bones_data_dir, file)
+      dst = File.join(data_dir, file)
+
+      STDOUT.puts "freezing #{dst}" if verbose
+      FileUtils.mkdir_p(File.dirname(dst))
+      FileUtils.cp(src, dst)
+    end
+
+    File.open(frozen_version_file, 'w') {|fd| fd.puts ::Bones::VERSION}
+
+    if tasks_only
+      STDOUT.puts "project skeleton tasks have been updated " <<
+                  "from Mr Bones #{::Bones::VERSION}"
+    else
+      STDOUT.puts "project skeleton has been frozen " <<
+                  "to Mr Bones #{::Bones::VERSION}"
+    end
+  end
+
+  # Unfreeze the project skeleton. The default Mr Bones skeleton will be
+  # used insetad. This method will archive the current frozen skeleton if
+  # one exists.
+  #
+  def unfreeze
+    data_dir = File.join(bonesrc_dir, 'data')
+    archive_dir = File.join(bonesrc_dir, 'archive')
+
+    if test(?d, data_dir)
+      STDOUT.puts "archiving #{data_dir}" if verbose
+      FileUtils.rm_rf(archive_dir)
+      FileUtils.mkdir(archive_dir)
+      FileUtils.cp_r(File.join(data_dir, '.'), archive_dir)
+      FileUtils.rm_rf(data_dir)
+
+      STDOUT.puts "project skeleton has been unfrozen"
+      STDOUT.puts "(default Mr Bones #{::Bones::VERSION} sekeleton will be used)"
+    else
+      STDOUT.puts "project skeleton is not frozen (no action taken)"
+    end
+    FileUtils.rm_f frozen_version_file
   end
 
 
@@ -135,7 +215,7 @@ class Main
 
   # Copy a file from the Bones prototype project location to the user
   # specified project location. A message will be displayed to the screen
-  # indicating tha the file is being created.
+  # indicating that the file is being created.
   #
   def cp( file )
     dir = File.dirname(file)
@@ -179,6 +259,22 @@ class Main
     ary.compact!
     ary.sort!
     ary
+  end
+
+  # Returns the .bonesrc resource directory in the user's home directory.
+  #
+  def bonesrc_dir
+    return @bonesrc_dir if defined? @bonesrc_dir
+
+    path = (::Bones::WIN32 ? ENV['HOMEPATH'].tr("\\", "/") : ENV['HOME'])
+    path = File.join(path, '.bonesrc')
+    @bonesrc_dir = File.expand_path(path)
+  end
+
+  # File containing the Mr Bones version from which the skeleton was frozen.
+  #
+  def frozen_version_file
+    File.join(bonesrc_dir, 'version.txt')
   end
 
 end  # class Main
