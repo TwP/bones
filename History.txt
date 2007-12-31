@@ -1,3 +1,12 @@
+== 1.1.2 / 2007-12-31
+
+* 2 minor enhancements
+  * The pkg and doc directories are now excluded from the manifest
+  * Added method to hide tasks from the rake task listing
+
+* 1 bugfixes
+  * Fixed typo in an abort message (thanks Bill Kleb)
+
 == 1.1.1 / 2007-12-29
 
 * 1 bugfix

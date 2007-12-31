@@ -28,7 +28,12 @@ namespace :spec do
 
 end  # namespace :spec
 
+desc 'Alias to spec:run'
+task :spec => 'spec:run'
+
 task :clobber => 'spec:clobber_rcov' if HAVE_RCOV
+
+remove_desc_for_task %w(spec:clobber_rcov)
 
 end  # if HAVE_SPEC
 

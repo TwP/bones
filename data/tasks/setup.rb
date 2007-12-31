@@ -16,7 +16,7 @@ PROJ.email = nil
 PROJ.url = nil
 PROJ.version = ENV['VERSION'] || '0.0.0'
 PROJ.rubyforge_name = nil
-PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn)
+PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn ^pkg ^doc)
 
 # Rspec
 PROJ.specs = FileList['spec/**/*_spec.rb']
@@ -124,6 +124,17 @@ end
 def ensure_in_path( path )
   path = File.expand_path(path)
   $:.unshift(path) if test(?d, path) and not $:.include?(path)
+end
+
+# Find a rake task using the task name and remove any description text. This
+# will prevent the task from being displayed in the list of available tasks.
+#
+def remove_desc_for_task( names )
+  Array(names).each do |task_name|
+    task = Rake.application.tasks.find {|t| t.name == task_name}
+    next if task.nil?
+    task.instance_variable_set :@comment, nil
+  end
 end
 
 # EOF

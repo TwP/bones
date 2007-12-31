@@ -108,7 +108,7 @@ class Main
   # copy in new tasks from the bones/data directory.
   #
   def update
-    abort "'#{name}' does no exist" unless test ?e, name
+    abort "'#{name}' does not exist" unless test ?e, name
 
     task_dir = File.join(name, 'tasks')
     abort "no tasks directory found in '#{name}'" unless test ?d, task_dir
