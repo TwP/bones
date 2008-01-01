@@ -172,8 +172,8 @@ the ".mrbones" directory before it is removed.
 ==== Custom Modifications
 
 Mr Bones will perform a limited set of substitutions on the files in the
-skeleton when it generates a new project. ERB is the to insert the project name
-and the derived class name into any template files. The file must end in an
+skeleton when it generates a new project. ERB is used to insert the project
+name and the derived class name into template files. The file must end in an
 ".erb" suffix for ERB substitutions to take place. The ".erb" suffix is
 stripped from the file during project generation. Therefore, your ERB files
 should have two suffixes -- the ".erb" suffix that will be stripped, and the
