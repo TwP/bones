@@ -1,7 +1,7 @@
 == 1.2.0 / 2007-12-31
 
 * 1 major enhancement
-  - Users can define their own skeletons to use (freeze bones)
+  - Users can define their own skeletons to use (bones --freeze)
 * 1 minor enhancement
   - Show a list of the files a user needs to change after project creation
 
