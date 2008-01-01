@@ -25,7 +25,7 @@ class Main
   # the +create+ and +update+ methods.
   #
   def parse( args )
-    self.data = File.join(bonesrc_dir, 'data')
+    self.data = File.join(mrbones_dir, 'data')
     self.data = File.join(::Bones::PATH, 'data') unless test(?d, data)
     self.update = false
     self.verbose = false
@@ -61,7 +61,7 @@ class Main
 
     # parse the command line arguments
     opts.parse! args
-    self.name = args.shift
+    self.name = args.join('_')
 
     if name.nil?
       puts opts
@@ -87,14 +87,6 @@ class Main
   # Create a new project from the bones/data project template.
   #
   def create
-    # * copy files from either
-    #   1) the user's '.bones/data' directory or
-    #   2) the Bones 'data' directory
-    #
-    # TODO - figure out if this really is the best way of doing this
-    #        should I just use either the .bones data or the gem data, not
-    #        both
-
     # see if the directory already exists
     abort "'#{name}' already exists" if test ?e, name
 
@@ -151,8 +143,8 @@ class Main
   #
   def freeze
     bones_data_dir = File.join(::Bones::PATH, 'data')
-    data_dir = File.join(bonesrc_dir, 'data')
-    archive_dir = File.join(bonesrc_dir, 'archive')
+    data_dir = File.join(mrbones_dir, 'data')
+    archive_dir = File.join(mrbones_dir, 'archive')
     tasks_only = false
 
     if test(?d, data_dir)
@@ -192,8 +184,8 @@ class Main
   # one exists.
   #
   def unfreeze
-    data_dir = File.join(bonesrc_dir, 'data')
-    archive_dir = File.join(bonesrc_dir, 'archive')
+    data_dir = File.join(mrbones_dir, 'data')
+    archive_dir = File.join(mrbones_dir, 'archive')
 
     if test(?d, data_dir)
       STDOUT.puts "archiving #{data_dir}" if verbose
@@ -261,20 +253,20 @@ class Main
     ary
   end
 
-  # Returns the .bonesrc resource directory in the user's home directory.
+  # Returns the .bones resource directory in the user's home directory.
   #
-  def bonesrc_dir
-    return @bonesrc_dir if defined? @bonesrc_dir
+  def mrbones_dir
+    return @mrbones_dir if defined? @mrbones_dir
 
     path = (::Bones::WIN32 ? ENV['HOMEPATH'].tr("\\", "/") : ENV['HOME'])
-    path = File.join(path, '.bonesrc')
-    @bonesrc_dir = File.expand_path(path)
+    path = File.join(path, '.mrbones')
+    @mrbones_dir = File.expand_path(path)
   end
 
   # File containing the Mr Bones version from which the skeleton was frozen.
   #
   def frozen_version_file
-    File.join(bonesrc_dir, 'version.txt')
+    File.join(mrbones_dir, 'version.txt')
   end
 
 end  # class Main
