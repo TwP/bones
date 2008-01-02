@@ -3,7 +3,7 @@
 module Bones
 
   # :stopdoc:
-  VERSION = '1.2.0'
+  VERSION = '1.2.1'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   WIN32 = %r/win32/ =~ RUBY_PLATFORM
   DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'

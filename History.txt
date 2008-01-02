@@ -1,3 +1,9 @@
+== 1.2.1 /
+
+* 2 bug fixes
+  - With no arguments, the bones command was not showing the help message
+  - Freezing a second time was not updating all the skeleton tasks
+
 == 1.2.0 / 2007-12-31
 
 * 1 major enhancement

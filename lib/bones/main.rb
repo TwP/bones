@@ -61,7 +61,7 @@ class Main
 
     # parse the command line arguments
     opts.parse! args
-    self.name = args.join('_')
+    self.name = args.empty? ? nil : args.join('_')
 
     if name.nil?
       puts opts
@@ -142,7 +142,7 @@ class Main
   # Bones skeleton will be copied to the user's data directory.
   #
   def freeze
-    bones_data_dir = File.join(::Bones::PATH, 'data')
+    self.data = File.join(::Bones::PATH, 'data')
     data_dir = File.join(mrbones_dir, 'data')
     archive_dir = File.join(mrbones_dir, 'archive')
     tasks_only = false
@@ -160,7 +160,7 @@ class Main
     files_to_copy.each do |file|
       next if tasks_only && !(%r/^tasks\// =~ file)
 
-      src = File.join(bones_data_dir, file)
+      src = File.join(data, file)
       dst = File.join(data_dir, file)
 
       STDOUT.puts "freezing #{dst}" if verbose
