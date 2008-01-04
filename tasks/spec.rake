@@ -35,6 +35,6 @@ task :clobber => 'spec:clobber_rcov' if HAVE_RCOV
 
 remove_desc_for_task %w(spec:clobber_rcov)
 
-end  # if HAVE_SPEC
+end  # if HAVE_SPEC_RAKE_SPECTASK
 
 # EOF
