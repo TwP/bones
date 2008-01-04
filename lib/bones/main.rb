@@ -55,7 +55,7 @@ class Main
 
     opts.on_tail( '-h', '--help', 'show this message' ) {puts opts; exit}
     opts.on_tail( '--version', 'show version' ) do
-      puts "Bones #{::Bones::VERSION}"
+      puts "Mr Bones #{::Bones::VERSION}"
       exit
     end
 
