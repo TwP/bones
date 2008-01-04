@@ -1,4 +1,12 @@
-== 1.2.1 /
+== 1.3.0 /
+
+* 1 minor enhancement
+  - Added a few more methods to the default framework
+* 1 bug fix
+  - Fixed a nil value error for the remote rdoc directory
+    (path supplied by Chris Shea)
+
+== 1.2.1 / 2008-01-02
 
 * 2 bug fixes
   - With no arguments, the bones command was not showing the help message
