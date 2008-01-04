@@ -1,10 +1,11 @@
 == 1.3.0 /
 
-* 1 minor enhancement
+* 2 minor enhancements
   - Added a few more methods to the default framework
+  - Added tasks to support tagging releases in SVN
 * 1 bug fix
   - Fixed a nil value error for the remote rdoc directory
-    (path supplied by Chris Shea)
+    (patch supplied by Chris Shea)
 
 == 1.2.1 / 2008-01-02
 

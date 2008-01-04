@@ -18,8 +18,9 @@ PROJ.rubyforge_name = 'codeforpeople'
 PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
 
-PROJ.rdoc_exclude << '^data'
-PROJ.annotation_exclude = %w(^README\.txt$ ^data\/)
+PROJ.rdoc_exclude << '^data/'
+PROJ.annotation_exclude = %w(^README\.txt$ ^data/)
+PROJ.svn = 'bones'
 
 PROJ.spec_opts << '--color'
 
