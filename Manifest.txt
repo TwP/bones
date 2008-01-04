@@ -17,6 +17,7 @@ data/tasks/manifest.rake
 data/tasks/rubyforge.rake
 data/tasks/setup.rb
 data/tasks/spec.rake
+data/tasks/svn.rake
 data/tasks/test.rake
 data/test/test_NAME.rb
 lib/bones.rb
@@ -29,4 +30,5 @@ tasks/manifest.rake
 tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
+tasks/svn.rake
 tasks/test.rake

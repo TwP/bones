@@ -22,7 +22,7 @@ Mr Bones provides the following rake tasks:
   doc:ri           # Generate ri locally for testing
   gem              # Alias to gem:package
   gem:debug        # Show information about the gem
-  gem:gem          # Build the gem file bones-1.2.0.gem
+  gem:gem          # Build the gem file bones-1.3.0.gem
   gem:install      # Install the gem
   gem:package      # Build all the packages
   gem:release      # Package and upload to RubyForge
@@ -38,6 +38,8 @@ Mr Bones provides the following rake tasks:
   spec:rcov        # Run all specs with RCov
   spec:run         # Run all specs with basic output
   spec:specdoc     # Run all specs with text output
+  svn:create_tag   # Create a new tag in the SVN repository
+  svn:show_tags    # Show tags from the SVN repository
   test             # Alias to test:run
   test:rcov        # Run rcov on the unit tests
   test:run         # Run tests for run
@@ -99,8 +101,9 @@ the Rakefile for the Mr Bones gem itself:
   PROJ.rdoc_remote_dir = 'bones'
   PROJ.version = Bones::VERSION
 
-  PROJ.exclude << '^doc'
   PROJ.rdoc_exclude << '^data'
+  PROJ.annotation_exclude = %w(^README\.txt$ ^data/)
+  PROJ.svn = 'bones'
 
   PROJ.spec_opts << '--color'
 
@@ -123,8 +126,8 @@ directories, backup files, or anything else you don't want gumming up the
 works. The files to exclude are given as an array of regular expression
 patterns; a file is excluded if it matches any of the patterns.
 
-  PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn ^pkg)
-  PROJ.exclude << '^doc'
+  PROJ.exclude = %w(tmp$ bak$ ~$ CVS \.svn ^pkg ^doc)
+  PROJ.exclude << '^tags$'
 
 If your project depends on other gems, use the +depend_on+ command in your
 Rakefile to declare the dependency. If you do not specify a version, the
