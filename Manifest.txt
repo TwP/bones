@@ -9,7 +9,9 @@ data/README.txt.erb
 data/Rakefile.erb
 data/bin/NAME.erb
 data/lib/NAME.rb.erb
-data/spec/NAME_spec.rb
+data/spec/NAME_spec.rb.erb
+data/spec/spec_helper.rb.erb
+data/tasks/0_post_load.rake
 data/tasks/annotations.rake
 data/tasks/doc.rake
 data/tasks/gem.rake
@@ -23,6 +25,7 @@ data/test/test_NAME.rb
 lib/bones.rb
 lib/bones/annotation_extractor.rb
 lib/bones/main.rb
+tasks/0_post_load.rake
 tasks/annotations.rake
 tasks/doc.rake
 tasks/gem.rake
