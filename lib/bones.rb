@@ -3,7 +3,7 @@
 module Bones
 
   # :stopdoc:
-  VERSION = '1.3.0'
+  VERSION = '1.3.1'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   WIN32 = %r/win32/ =~ RUBY_PLATFORM
   DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'
@@ -24,6 +24,10 @@ module Bones
 
     Dir.glob(search_me).sort.each {|rb| require rb}
   end
+
+  # TODO: fix file lists for Test::Unit and RSpec
+  #       these guys are just grabbing whatever is there and not pulling
+  #       the filenames from the manifest
 
 end  # module Bones
 

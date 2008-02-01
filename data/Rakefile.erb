@@ -10,12 +10,9 @@ require '<%= name %>'
 task :default => 'spec:run'
 
 PROJ.name = '<%= name %>'
-PROJ.summary = 'FIXME (summary of your project)'
 PROJ.authors = 'FIXME (who is writing this software)'
 PROJ.email = 'FIXME (your e-mail)'
 PROJ.url = 'FIXME (project homepage)'
-PROJ.description = paragraphs_of('README.txt', 1).join("\n\n")
-PROJ.changes = paragraphs_of('History.txt', 0..1).join("\n\n")
 PROJ.rubyforge_name = '<%= name %>'
 
 PROJ.spec_opts << '--color'
