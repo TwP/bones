@@ -3,7 +3,7 @@ Mr Bones
     http://codeforpeople.rubyforge.org/bones
 
 == DESCRIPTION:
-  
+
 Mr Bones is a handy tool that builds a skeleton for your new Ruby projects.
 The skeleton contains some starter code and a collection of rake tasks to
 ease the management and deployment of your source code. Mr Bones is not
@@ -28,6 +28,7 @@ Mr Bones provides the following rake tasks:
   gem:release      # Package and upload to RubyForge
   gem:repackage    # Force a rebuild of the package files
   gem:uninstall    # Uninstall the gem
+  manifest         # Alias to manifest:check
   manifest:check   # Verify the manifest
   manifest:create  # Create a new manifest
   notes            # Enumerate all annotations
@@ -180,7 +181,7 @@ name and the derived class name into template files. The file must end in an
 ".erb" suffix for ERB substitutions to take place. The ".erb" suffix is
 stripped from the file during project generation. Therefore, your ERB files
 should have two suffixes -- the ".erb" suffix that will be stripped, and the
-suffix you want the resulting project file to have. 
+suffix you want the resulting project file to have.
 
 Only two values can be substituted into files using ERB -- the project name and
 the derived class name.
