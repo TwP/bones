@@ -12,7 +12,7 @@ unless PROJ.description
 end
 
 unless PROJ.summary
-  PROJ.summary = PROJ.description.split('.').first << '.'
+  PROJ.summary = PROJ.description.split('.').first
 end
 
 # EOF
