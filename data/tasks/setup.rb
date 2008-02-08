@@ -1,4 +1,4 @@
-# $Id$
+# $Id: setup.rb 504 2008-02-05 04:50:00Z tim_pease $
 
 require 'rubygems'
 require 'rake'
@@ -59,6 +59,7 @@ PROJ.need_zip = false
 # File Annotations
 PROJ.annotation_exclude = []
 PROJ.annotation_extensions = %w(.txt .rb .erb) << ''
+PROJ.annotation_tags = %w(FIXME OPTIMIZE TODO)
 
 # Subversion Repository
 PROJ.svn = false

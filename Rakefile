@@ -16,7 +16,7 @@ PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
 
 PROJ.rdoc_exclude << '^data/'
-PROJ.annotation_exclude = %w(^README\.txt$ ^data/)
+PROJ.annotation_exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
 PROJ.svn = 'bones'
 
 PROJ.spec_opts << '--color'
