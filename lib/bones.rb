@@ -29,6 +29,8 @@ module Bones
   #       these guys are just grabbing whatever is there and not pulling
   #       the filenames from the manifest
 
+  # TODO: create some tasks to generate e-mails / announcements
+  
 end  # module Bones
 
 
