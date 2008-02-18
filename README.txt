@@ -14,36 +14,39 @@ gem dependency required).
 
 Mr Bones provides the following rake tasks:
 
-  clobber          # Remove all build products
-  doc              # Alias to doc:rdoc
-  doc:rdoc         # Build the rdoc HTML Files
-  doc:release      # Publish RDoc to RubyForge
-  doc:rerdoc       # Force a rebuild of the RDOC files
-  doc:ri           # Generate ri locally for testing
-  gem              # Alias to gem:package
-  gem:debug        # Show information about the gem
-  gem:gem          # Build the gem file bones-1.3.0.gem
-  gem:install      # Install the gem
-  gem:package      # Build all the packages
-  gem:release      # Package and upload to RubyForge
-  gem:repackage    # Force a rebuild of the package files
-  gem:uninstall    # Uninstall the gem
-  manifest         # Alias to manifest:check
-  manifest:check   # Verify the manifest
-  manifest:create  # Create a new manifest
-  notes            # Enumerate all annotations
-  notes:fixme      # Enumerate all FIXME annotations
-  notes:optimize   # Enumerate all OPTIMIZE annotations
-  notes:todo       # Enumerate all TODO annotations
-  spec             # Alias to spec:run
-  spec:rcov        # Run all specs with RCov
-  spec:run         # Run all specs with basic output
-  spec:specdoc     # Run all specs with text output
-  svn:create_tag   # Create a new tag in the SVN repository
-  svn:show_tags    # Show tags from the SVN repository
-  test             # Alias to test:run
-  test:rcov        # Run rcov on the unit tests
-  test:run         # Run tests for run
+  ann               # Alias to ann:announcement
+  ann:announcement  # Create an announcement file
+  ann:email         # Send email announcement
+  clobber           # Remove all build products
+  doc               # Alias to doc:rdoc
+  doc:rdoc          # Build the rdoc HTML Files
+  doc:release       # Publish RDoc to RubyForge
+  doc:rerdoc        # Force a rebuild of the RDOC files
+  doc:ri            # Generate ri locally for testing
+  gem               # Alias to gem:package
+  gem:debug         # Show information about the gem
+  gem:gem           # Build the gem file bones-1.3.3.gem
+  gem:install       # Install the gem
+  gem:package       # Build all the packages
+  gem:release       # Package and upload to RubyForge
+  gem:repackage     # Force a rebuild of the package files
+  gem:uninstall     # Uninstall the gem
+  manifest          # Alias to manifest:check
+  manifest:check    # Verify the manifest
+  manifest:create   # Create a new manifest
+  notes             # Enumerate all annotations
+  notes:fixme       # Enumerate all FIXME annotations
+  notes:optimize    # Enumerate all OPTIMIZE annotations
+  notes:todo        # Enumerate all TODO annotations
+  spec              # Alias to spec:run
+  spec:rcov         # Run all specs with RCov
+  spec:run          # Run all specs with basic output
+  spec:specdoc      # Run all specs with text output
+  svn:create_tag    # Create a new tag in the SVN repository
+  svn:show_tags     # Show tags from the SVN repository
+  test              # Alias to test:run
+  test:rcov         # Run rcov on the unit tests
+  test:run          # Run tests for run
 
 The rake tasks in the Mr Bones framework can be found in the "tasks"
 directory. Add your own tasks there when you need more functionality.

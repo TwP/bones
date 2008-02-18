@@ -11,6 +11,7 @@ data/bin/NAME.erb
 data/lib/NAME.rb.erb
 data/spec/NAME_spec.rb.erb
 data/spec/spec_helper.rb.erb
+data/tasks/ann.rake
 data/tasks/annotations.rake
 data/tasks/doc.rake
 data/tasks/gem.rake
@@ -25,6 +26,8 @@ data/test/test_NAME.rb
 lib/bones.rb
 lib/bones/annotation_extractor.rb
 lib/bones/main.rb
+lib/bones/smtp_tls.rb
+tasks/ann.rake
 tasks/annotations.rake
 tasks/doc.rake
 tasks/gem.rake

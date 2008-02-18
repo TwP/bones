@@ -210,7 +210,7 @@ class Main
   # indicating that the file is being created.
   #
   def cp( file )
-    dir = File.dirname(file)
+    dir = File.dirname(file).sub('NAME', name)
     dir = (dir == '.' ? name : File.join(name, dir))
     dst = File.join(dir,  File.basename(file, '.erb').sub('NAME', name))
     src = File.join(data, file)

@@ -1,12 +1,21 @@
-== 1.3.3 / 2008-
+== 1.3.3 / 2008-02-18
 
-* 1 minor enhancement
+* 4 minor enhancements
   - The annotation tags to search for can be specified by the user
     in the Rakefile
+  - Directory names can be substituted during skeleton creation
+  - Support for the GEM post_install_message
+  - Support to generate an announcement text file and send the
+    announcement via e-mail
+  - Added a manifest:assert task that can be used when building the
+    gem to assert that the manifest is up to date
+       task 'gem:package' => 'manifest:assert'
+* 1 bug fix
+  - Fixed a circular dependency in the gem creation tasks
 
 == 1.3.2 / 2008-02-05
 
-* 1 minor enchancement
+* 1 minor enhancement
   - Added colorization to the manifest:check task
 
 == 1.3.1 / 2008-02-01
@@ -22,7 +31,7 @@
   - RSpec tasks were not including the user defined project libraries
     such as "ext" or anything besides "lib"
   - Tweaked the gem install/uninstall tasks to remove installed binaries
-    and to install paltform specific gem versions
+    and to install platform specific gem versions
   - Fixed a bug where the RDoc task was ignore the PROJ.rdoc_opts
 
 == 1.3.0 / 2008-01-04
@@ -52,12 +61,12 @@
 * 2 minor enhancements
   - The pkg and doc directories are now excluded from the manifest
   - Added method to hide tasks from the rake task listing
-* 1 bugfix
+* 1 bug fix
   - Fixed typo in an abort message (thanks Bill Kleb)
 
 == 1.1.1 / 2007-12-29
 
-* 1 bugfix
+* 1 bug fix
   - Fixed the bad interaction with RSpec gem
 
 == 1.1.0 / 2007-12-29
