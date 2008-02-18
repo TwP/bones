@@ -16,7 +16,7 @@ Mr Bones provides the following rake tasks:
 
   ann               # Alias to ann:announcement
   ann:announcement  # Create an announcement file
-  ann:email         # Send email announcement
+  ann:email         # Send an email announcement
   clobber           # Remove all build products
   doc               # Alias to doc:rdoc
   doc:rdoc          # Build the rdoc HTML Files
@@ -25,9 +25,8 @@ Mr Bones provides the following rake tasks:
   doc:ri            # Generate ri locally for testing
   gem               # Alias to gem:package
   gem:debug         # Show information about the gem
-  gem:gem           # Build the gem file bones-1.3.3.gem
   gem:install       # Install the gem
-  gem:package       # Build all the packages
+  gem:package       # Build the gem file bones-1.3.3.gem
   gem:release       # Package and upload to RubyForge
   gem:repackage     # Force a rebuild of the package files
   gem:uninstall     # Uninstall the gem
