@@ -26,7 +26,7 @@ namespace :ann do
       PROJ.ann_paragraphs.each do |p|
         fd.puts "== #{p.upcase}"
         fd.puts
-        fd.puts paragraphs_of('README.txt', p).join("\n\n")
+        fd.puts paragraphs_of(PROJ.readme_file, p).join("\n\n")
         fd.puts
       end
       fd.puts PROJ.ann_text if PROJ.ann_text
@@ -66,15 +66,11 @@ namespace :ann do
     ### send email
     Net::SMTP.start(*params) {|smtp| smtp.sendmail(rfc822msg, from, to)}
   end
-
-  task :clobber_announcement do
-    rm PROJ.ann_file rescue nil
-  end
 end  # namespace :ann
 
 desc 'Alias to ann:announcement'
 task :ann => 'ann:announcement'
 
-task :clobber => %w(ann:clobber_announcement)
+CLOBBER << PROJ.ann_file
 
 # EOF

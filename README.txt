@@ -17,7 +17,8 @@ Mr Bones provides the following rake tasks:
   ann               # Alias to ann:announcement
   ann:announcement  # Create an announcement file
   ann:email         # Send an email announcement
-  clobber           # Remove all build products
+  clean             # Remove any temporary products.
+  clobber           # Remove any generated file.
   doc               # Alias to doc:rdoc
   doc:rdoc          # Build the rdoc HTML Files
   doc:release       # Publish RDoc to RubyForge
@@ -26,7 +27,7 @@ Mr Bones provides the following rake tasks:
   gem               # Alias to gem:package
   gem:debug         # Show information about the gem
   gem:install       # Install the gem
-  gem:package       # Build the gem file bones-1.3.3.gem
+  gem:package       # Build the gem file bones-1.3.4.gem
   gem:release       # Package and upload to RubyForge
   gem:repackage     # Force a rebuild of the package files
   gem:uninstall     # Uninstall the gem
@@ -41,6 +42,7 @@ Mr Bones provides the following rake tasks:
   spec:rcov         # Run all specs with RCov
   spec:run          # Run all specs with basic output
   spec:specdoc      # Run all specs with text output
+  spec:verify       # Verify that rcov coverage is at least 90.0%
   svn:create_tag    # Create a new tag in the SVN repository
   svn:show_tags     # Show tags from the SVN repository
   test              # Alias to test:run

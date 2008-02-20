@@ -1,11 +1,15 @@
 == 1.3.4 / 2008-
 
-* 3 minor enhancements
+* 4 minor enhancements
   - Added more RCov options and tasks to verify a coverage
     threshold (RSpec only)
   - Can specify exact dependency version requirement
   - Added a command line option to specify the output directory for
     a new project
+  - The history, readme, and manifest file names can be configured
+    in the Rakefile
+* 1 bug fix
+  - Now including the default rake/clean tasks
 
 == 1.3.3 / 2008-02-18
 
