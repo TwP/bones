@@ -8,7 +8,7 @@ module Bones
 class Main
 
   attr_writer :update
-  attr_accessor :name, :data, :verbose
+  attr_accessor :name, :data, :verbose, :output_dir
 
   # Create a new instance of Main, and run the +bones+ application given
   # the command line _args_.
@@ -38,6 +38,8 @@ class Main
             'update the rake tasks for the project') {self.update = true}
     opts.on('-v', '--verbose',
             'enable verbose output') {self.verbose = true}
+    opts.on('-d', '--directory DIRECTORY', String,
+            'project directory to create') {|dir| self.output_dir = dir}
 
     opts.separator ''
     opts.on('--freeze', 'freeze the project skeleton') {freeze; exit}
@@ -67,6 +69,8 @@ class Main
       puts opts
       ::Kernel.abort
     end
+
+    self.output_dir = name if output_dir.nil?
     nil
   end
 
@@ -88,23 +92,28 @@ class Main
   #
   def create
     # see if the directory already exists
-    abort "'#{name}' already exists" if test ?e, name
+    abort "'#{output_dir}' already exists" if test ?e, output_dir
 
     begin
       files_to_copy.each {|fn| cp fn}
 
       pwd = File.expand_path(FileUtils.pwd)
       begin
-        FileUtils.cd name
+        FileUtils.cd output_dir
         system "rake manifest:create 2>&1 > #{::Bones::DEV_NULL}"
-        STDOUT.puts "created '#{name}'\nnow you need to fix these files"
+        msg = "created '#{name}'"
+        msg << " in directory '#{output_dir}'" if name != output_dir
+        msg << "\nnow you need to fix these files"
+        STDOUT.puts msg
         system "rake notes"
       ensure
         FileUtils.cd pwd
       end
     rescue Exception => err
-      FileUtils.rm_rf name
-      abort "could not create '#{name}'"
+      FileUtils.rm_rf output_dir
+      msg = "could not create '#{name}'"
+      msg << " in directory '#{output_dir}'" if name != output_dir
+      abort msg
     end
   end
   
@@ -112,10 +121,10 @@ class Main
   # copy in new tasks from the bones/data directory.
   #
   def update
-    abort "'#{name}' does not exist" unless test ?e, name
+    abort "'#{output_dir}' does not exist" unless test ?e, output_dir
 
-    task_dir = File.join(name, 'tasks')
-    abort "no tasks directory found in '#{name}'" unless test ?d, task_dir
+    task_dir = File.join(output_dir, 'tasks')
+    abort "no tasks directory found in '#{output_dir}'" unless test ?d, task_dir
 
     archive_dir = File.join(task_dir, 'archive')
     FileUtils.rm_rf archive_dir
@@ -131,7 +140,9 @@ class Main
       cp fn
     end
 
-    STDOUT.puts "updated tasks for '#{name}'"
+    msg = "updated tasks for '#{name}'"
+    msg << " in directory '#{output_dir}'" if name != output_dir
+    STDOUT.puts msg
   end
 
   # Freeze the project skeleton to the current Mr Bones gem. If the project
@@ -211,7 +222,7 @@ class Main
   #
   def cp( file )
     dir = File.dirname(file).sub('NAME', name)
-    dir = (dir == '.' ? name : File.join(name, dir))
+    dir = (dir == '.' ? output_dir : File.join(output_dir, dir))
     dst = File.join(dir,  File.basename(file, '.erb').sub('NAME', name))
     src = File.join(data, file)
 

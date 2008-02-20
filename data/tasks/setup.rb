@@ -16,7 +16,7 @@ PROJ.email = nil
 PROJ.url = nil
 PROJ.version = ENV['VERSION'] || '0.0.0'
 PROJ.rubyforge_name = nil
-PROJ.exclude = %w(tmp$ bak$ ~$ CVS .svn/ ^pkg/ ^doc/ announcement.txt)
+PROJ.exclude = %w(tmp$ bak$ ~$ CVS .svn/ ^pkg/ ^doc/)
 PROJ.release_name = ENV['RELEASE']
 
 # Rspec
@@ -74,6 +74,7 @@ PROJ.svn_tags = 'tags'
 PROJ.svn_branches = 'branches'
 
 # Announce
+PROJ.ann_file = 'announcement.txt'
 PROJ.ann_text = nil
 PROJ.ann_paragraphs = []
 PROJ.ann_email = {
