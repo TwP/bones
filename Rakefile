@@ -5,8 +5,6 @@ $:.unshift('lib')
 load 'tasks/setup.rb'
 require 'bones'
 
-task :default => 'spec:run'
-
 PROJ.name = 'bones'
 PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
@@ -14,7 +12,7 @@ PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.rubyforge_name = 'codeforpeople'
 PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Fractal Bovine'
+PROJ.release_name = 'Finite State Puppy'
 
 PROJ.rdoc_exclude << '^data/'
 PROJ.annotation_exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
@@ -35,18 +33,22 @@ PROJ.ann_paragraphs = %w[install synopsis features requirements]
 PROJ.ann_text = <<-ANN
 == FUN FACT
 
-Half of all Americans are below average.
+A 'jiffy' is an actual unit of time for 1/100th of a second.
 
 == POST SCRIPT
 
 Blessings,
 TwP
 
+== POST POST SCRIPT
+
+The "Finite State Puppy" is the only known pet that is Touring complete.
+
 #{PROJ.post_install_message}
 ANN
 
+task :default => 'spec:run'
 task 'gem:package' => 'manifest:assert'
-
 task(:titlize) {PROJ.name = 'Mr Bones'}
 task 'ann:announcement' => :titlize
 

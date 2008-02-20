@@ -75,6 +75,7 @@ following gems installed you will not get all that Mr Bones has to offer.
 * rubyforge - for easy gem publishing to rubyforge.org
 * rcov - for code coverage testing
 * rspec - if that's the way you roll
+* facets - for pretty colors
 
 == INSTALL:
 
