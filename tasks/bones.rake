@@ -5,7 +5,7 @@ require 'stringio'
 
 namespace :bones do
 
-  desc 'Debug the PROJ open struct'
+  desc 'Show the PROJ open struct'
   task :debug do |t|
     atr = if ARGV.length == 2
       t.application.top_level_tasks.pop
