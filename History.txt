@@ -1,3 +1,9 @@
+== 1.3.5 / 2008-02
+
+* 1 minor enhancement
+  - Added a bones:debug task to inspect the PROJ open struct or
+    a single attribute of the PROJ open struct
+
 == 1.3.4 / 2008-02-20
 
 * 4 minor enhancements

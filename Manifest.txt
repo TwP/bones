@@ -13,6 +13,7 @@ data/spec/NAME_spec.rb.erb
 data/spec/spec_helper.rb.erb
 data/tasks/ann.rake
 data/tasks/annotations.rake
+data/tasks/bones.rake
 data/tasks/doc.rake
 data/tasks/gem.rake
 data/tasks/manifest.rake
@@ -29,6 +30,7 @@ lib/bones/main.rb
 lib/bones/smtp_tls.rb
 tasks/ann.rake
 tasks/annotations.rake
+tasks/bones.rake
 tasks/doc.rake
 tasks/gem.rake
 tasks/manifest.rake
