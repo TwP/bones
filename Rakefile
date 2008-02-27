@@ -52,4 +52,6 @@ task 'gem:package' => 'manifest:assert'
 task(:titlize) {PROJ.name = 'Mr Bones'}
 task 'ann:announcement' => :titlize
 
+depend_on 'rake'
+
 # EOF
