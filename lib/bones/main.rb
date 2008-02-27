@@ -85,6 +85,8 @@ class Main
   # name.
   #
   def classname
+    # FIXME: project names with dashes don't work
+    #        bones new-proj   <--- fails
     name.split('_').map {|x| x.capitalize}.join
   end
 
