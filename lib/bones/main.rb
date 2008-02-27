@@ -39,7 +39,8 @@ class Main
     opts.on('-v', '--verbose',
             'enable verbose output') {self.verbose = true}
     opts.on('-d', '--directory DIRECTORY', String,
-            'project directory to create', '(defaults to project_name)') {|dir| self.output_dir = dir}
+            'project directory to create',
+            '(defaults to project_name)') {|dir| self.output_dir = dir}
 
     opts.separator ''
     opts.on('--freeze', 'freeze the project skeleton') {freeze; exit}
