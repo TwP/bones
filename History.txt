@@ -4,6 +4,8 @@
   - Added a bones:debug task to inspect the PROJ open struct or
     a single attribute of the PROJ open struct
   - Small adjustments to the gem and spec tasks
+* 1 bug fix
+  - Project names can now contain dahes (my-proj)
 
 == 1.3.4 / 2008-02-20
 

@@ -39,7 +39,7 @@ class Main
     opts.on('-v', '--verbose',
             'enable verbose output') {self.verbose = true}
     opts.on('-d', '--directory DIRECTORY', String,
-            'project directory to create') {|dir| self.output_dir = dir}
+            'project directory to create', '(defaults to project_name)') {|dir| self.output_dir = dir}
 
     opts.separator ''
     opts.on('--freeze', 'freeze the project skeleton') {freeze; exit}
@@ -85,9 +85,7 @@ class Main
   # name.
   #
   def classname
-    # FIXME: project names with dashes don't work
-    #        bones new-proj   <--- fails
-    name.split('_').map {|x| x.capitalize}.join
+    name.tr('-','_').split('_').map {|x| x.capitalize}.join
   end
 
   # Create a new project from the bones/data project template.
