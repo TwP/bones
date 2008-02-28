@@ -12,7 +12,7 @@ PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.rubyforge_name = 'codeforpeople'
 PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Agitated Beaver'
+PROJ.release_name = 'Skeletor'
 
 PROJ.rdoc_exclude << '^data/'
 PROJ.annotation_exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
