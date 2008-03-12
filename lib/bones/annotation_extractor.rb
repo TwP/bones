@@ -46,11 +46,11 @@ class AnnotationExtractor
   def find
     results = {}
     rgxp = %r/(#{tag}):?\s*(.*?)(?:\s*(?:-?%>|\*+\/))?$/o
-    extensions = project.annotation_extensions.dup
-    exclude = if project.annotation_exclude.empty? then nil
-              else Regexp.new(project.annotation_exclude.join('|')) end
+    extensions = project.notes.extensions.dup
+    exclude = if project.notes.exclude.empty? then nil
+              else Regexp.new(project.notes.exclude.join('|')) end
 
-    project.files.each do |fn|
+    project.gem.files.each do |fn|
       next if exclude && exclude =~ fn
       next unless extensions.include? File.extname(fn)
       results.update(extract_annotations_from(fn, rgxp))

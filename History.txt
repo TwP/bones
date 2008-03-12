@@ -1,3 +1,11 @@
+== 2.0.0 / 2008-03-
+
+* 1 major enhancement
+  - Reworked the PROJ open struct to use nested open struct
+    objects
+* 1 minor enhancement
+  - Selectable project skeleton when creating a new project
+
 == 1.3.5 / 2008-02-27
 
 * 2 minor enhancements

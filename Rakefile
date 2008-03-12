@@ -9,38 +9,39 @@ PROJ.name = 'bones'
 PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
-PROJ.rubyforge_name = 'codeforpeople'
-PROJ.rdoc_remote_dir = 'bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Skeletor'
+PROJ.release_name = 'Gadzooks!!'
 
-PROJ.rdoc_exclude << '^data/'
-PROJ.annotation_exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
-PROJ.svn = 'bones'
+PROJ.rubyforge.name = 'codeforpeople'
 
-PROJ.spec_opts << '--color'
+PROJ.rdoc.remote_dir = 'bones'
+PROJ.rdoc.exclude << '^data/'
+PROJ.notes.exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
+PROJ.svn.path = 'bones'
 
-PROJ.ann_email[:server] = 'smtp.gmail.com'
-PROJ.ann_email[:port] = 587
+PROJ.spec.opts << '--color'
 
-PROJ.post_install_message = <<-MSG
+PROJ.ann.email[:server] = 'smtp.gmail.com'
+PROJ.ann.email[:port] = 587
+
+PROJ.gem.post_install_message = <<-MSG
 --------------------------
  Keep rattlin' dem bones!
 --------------------------
 MSG
 
-PROJ.ann_paragraphs = %w[install synopsis features requirements]
-PROJ.ann_text = <<-ANN
+PROJ.ann.paragraphs = %w[install synopsis features requirements]
+PROJ.ann.text = <<-ANN
 == FUN FACT
 
-90% of New York City cab drivers are recently arrived immigrants.
+The number of left-handed men is double that of left-handed women.
 
 == POST SCRIPT
 
 Blessings,
 TwP
 
-#{PROJ.post_install_message}
+#{PROJ.gem.post_install_message}
 ANN
 
 task :default => 'spec:run'

@@ -101,13 +101,15 @@ the Rakefile for the Mr Bones gem itself:
   PROJ.authors = 'Tim Pease'
   PROJ.email = 'not.real@fake.com'
   PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
-  PROJ.rubyforge_name = 'codeforpeople'
-  PROJ.rdoc_remote_dir = 'bones'
   PROJ.version = Bones::VERSION
+  PROJ.rubyforge.name = 'codeforpeople'
 
-  PROJ.rdoc_exclude << '^data'
-  PROJ.annotation_exclude = %w(^README\.txt$ ^data/)
-  PROJ.svn = 'bones'
+  PROJ.rdoc.remote_dir = 'bones'
+  PROJ.rdoc.exclude << '^data'
+
+  PROJ.notes.exclude = %w(^README\.txt$ ^data/)
+
+  PROJ.svn.path = 'bones'
 
   PROJ.spec_opts << '--color'
 

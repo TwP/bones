@@ -3,11 +3,19 @@
 module Bones
 
   # :stopdoc:
-  VERSION = '1.3.5'
+  VERSION = '2.0.0'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   WIN32 = %r/win32/ =~ RUBY_PLATFORM
   DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'
   # :startdoc:
+
+  # Returns the path for Mr Bones. If any arguments are given,
+  # they will be joined to the end of the path using
+  # <tt>File.join</tt>.
+  #
+  def self.path( *args )
+    args.empty? ? PATH : File.join(PATH, *args)
+  end
 
   # call-seq:
   #    Bones.require_all_libs_relative_to( filename, directory = nil )

@@ -26,7 +26,7 @@ class Main
   #
   def parse( args )
     self.data = File.join(mrbones_dir, 'data')
-    self.data = File.join(::Bones::PATH, 'data') unless test(?d, data)
+    self.data = ::Bones.path('data') unless test(?d, data)
     self.update = false
     self.verbose = false
 
@@ -41,6 +41,18 @@ class Main
     opts.on('-d', '--directory DIRECTORY', String,
             'project directory to create',
             '(defaults to project_name)') {|dir| self.output_dir = dir}
+    opts.on('-s', '--skeleton NAME', String,
+            'project skeleton to use') do |name|
+        path = File.join(mrbones_dir, name)
+        if test(?d, path)
+          self.data = path 
+        elsif test(?d, name)
+          self.data = name
+        else
+          STDOUT.puts "    unknown skeleton '#{name}'"
+          exit
+        end
+      end
 
     opts.separator ''
     opts.on('--freeze', 'freeze the project skeleton') {freeze; exit}
@@ -56,9 +68,13 @@ class Main
     opts.separator ''
     opts.separator 'common options:'
 
-    opts.on_tail( '-h', '--help', 'show this message' ) {puts opts; exit}
+    opts.on_tail( '-h', '--help', 'show this message' ) do
+      STDOUT.puts opts
+      exit
+    end
+
     opts.on_tail( '--version', 'show version' ) do
-      puts "Mr Bones #{::Bones::VERSION}"
+      STDOUT.puts "Mr Bones #{::Bones::VERSION}"
       exit
     end
 
@@ -67,7 +83,7 @@ class Main
     self.name = args.empty? ? nil : args.join('_')
 
     if name.nil?
-      puts opts
+      STDOUT.puts opts
       ::Kernel.abort
     end
 
@@ -154,7 +170,7 @@ class Main
   # Bones skeleton will be copied to the user's data directory.
   #
   def freeze
-    self.data = File.join(::Bones::PATH, 'data')
+    self.data = ::Bones.path('data')
     data_dir = File.join(mrbones_dir, 'data')
     archive_dir = File.join(mrbones_dir, 'archive')
     tasks_only = false
@@ -227,7 +243,7 @@ class Main
     dst = File.join(dir,  File.basename(file, '.erb').sub('NAME', name))
     src = File.join(data, file)
 
-    puts (test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose
+    STDOUT.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose
     FileUtils.mkdir_p(dir)
 
     if '.erb' == File.extname(file)
