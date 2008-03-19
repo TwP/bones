@@ -230,6 +230,24 @@ class Main
     FileUtils.rm_f frozen_version_file
   end
 
+  # Returns a list of the files to copy from the bones/data directory to
+  # the new project directory
+  #
+  def files_to_copy
+    rgxp = %r/\A#{data}\/?/o
+    exclude = %r/tmp$|bak$|~$|CVS|\.svn/o
+
+    ary = Dir.glob(File.join(data, '**', '*')).map do |filename|
+      next if exclude =~ filename
+      next if test(?d, filename)
+      filename.sub rgxp, ''
+    end
+
+    ary.compact!
+    ary.sort!
+    ary
+  end
+
 
   private
 
@@ -261,24 +279,6 @@ class Main
   def abort( msg )
     STDERR.puts msg
     exit 1
-  end
-
-  # Returns a list of the files to copy from the bones/data directory to
-  # the new project directory
-  #
-  def files_to_copy
-    rgxp = %r/\A#{data}\/?/o
-    exclude = %r/tmp$|bak$|~$|CVS|\.svn/o
-
-    ary = Dir.glob(File.join(data, '**', '*')).map do |filename|
-      next if exclude =~ filename
-      next if test(?d, filename)
-      filename.sub rgxp, ''
-    end
-
-    ary.compact!
-    ary.sort!
-    ary
   end
 
   # Returns the .bones resource directory in the user's home directory.

@@ -1,5 +1,12 @@
 # $Id$
 
+begin
+  require 'facets/ansicode'
+  HAVE_COLOR = true
+rescue LoadError
+  HAVE_COLOR = false
+end
+
 module Bones
 
 # A helper class used to find and display any annotations in a collection of
@@ -23,20 +30,26 @@ class AnnotationExtractor
   # will search for all athe annotations and display them on standard
   # output.
   #
-  def self.enumerate( project, tag, opts = {} )
-    extractor = new(project, tag)
+  def self.enumerate( project, tag, id = nil, opts = {} )
+    extractor = new(project, tag, id)
     extractor.display(extractor.find, opts)
   end
 
-  attr_reader :tag, :project
+  attr_reader :tag, :project, :id
 
   # Creates a new annotation extractor configured to use the _project_ open
   # strcut and to search for the given _tag_ (which can be more than one tag
   # via a regular expression 'or' operation -- i.e. THIS|THAT|OTHER)
   #
-  def initialize( project, tag )
+  def initialize( project, tag, id) 
     @project = project
     @tag = tag
+    @id = @id_rgxp = nil
+
+    unless id.nil? or id.empty?
+      @id = HAVE_COLOR ? Console::ANSICode.green(id) : id
+      @id_rgxp = Regexp.new(Regexp.escape(id))
+    end
   end
 
   # Iterate over all the files in the project manifest and extract
@@ -46,6 +59,7 @@ class AnnotationExtractor
   def find
     results = {}
     rgxp = %r/(#{tag}):?\s*(.*?)(?:\s*(?:-?%>|\*+\/))?$/o
+
     extensions = project.notes.extensions.dup
     exclude = if project.notes.exclude.empty? then nil
               else Regexp.new(project.notes.exclude.join('|')) end
@@ -66,8 +80,15 @@ class AnnotationExtractor
     lineno = 0
     result = File.readlines(file).inject([]) do |list, line|
       lineno += 1
-      next list unless line =~ pattern
-      list << Annotation.new(lineno, $1, $2)
+      next list unless m = pattern.match(line)
+      next list << Annotation.new(lineno, m[1], m[2]) unless id
+
+      text = m[2]
+      if text =~ @id_rgxp
+        text.gsub!(@id_rgxp, id)
+        list << Annotation.new(lineno, m[1], text)
+      end
+      list
     end
     result.empty? ? {} : { file => result }
   end

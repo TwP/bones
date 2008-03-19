@@ -3,8 +3,14 @@
 * 1 major enhancement
   - Reworked the PROJ open struct to use nested open struct
     objects
-* 1 minor enhancement
+* 3 minor enhancement
   - Selectable project skeleton when creating a new project
+  - Added an empty 'prereqs' task to several of the namespaces
+      (can be used for running code before any of the
+       tasks in that namespace are invoked)
+  - Extra refinement on notes
+      rake notes TwP       #=> all notes for TwP
+      rake notes:todo TwP  #=> all todos for TwP
 
 == 1.3.5 / 2008-02-27
 

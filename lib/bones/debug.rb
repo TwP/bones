@@ -26,9 +26,9 @@ module Debug
     h = ostruct.instance_variable_get(:@table)
     h.keys.map {|k| k.to_s}.sort.each do |k|
       sio.truncate 0
-      val = h[k.to_sym]
-      next if val.instance_of?(Gem::Specification)
+      next if k =~ %r/^_/o
 
+      val = h[k.to_sym]
       if val.instance_of?(OpenStruct)
         self.show(val, prefix + k + '.')
       else

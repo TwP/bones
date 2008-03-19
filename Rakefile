@@ -46,8 +46,9 @@ ANN
 
 task :default => 'spec:run'
 task 'gem:package' => 'manifest:assert'
-task(:titlize) {PROJ.name = 'Mr Bones'}
-task 'ann:announcement' => :titlize
+task 'ann:prereqs' do
+  PROJ.name = 'Mr Bones'
+end
 
 depend_on 'rake'
 
