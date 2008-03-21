@@ -83,7 +83,7 @@ namespace :gem do
 
   desc 'Install the gem'
   task :install => [:clobber, :package] do
-    sh "#{SUDO} #{GEM} install pkg/#{PROJ.gem._spec.full_name}"
+    sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{PROJ.gem._spec.full_name}"
   end
 
   desc 'Uninstall the gem'
