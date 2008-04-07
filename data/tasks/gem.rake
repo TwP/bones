@@ -1,4 +1,4 @@
-# $Id: gem.rake 584 2008-04-07 19:46:38Z tim_pease $
+# $Id$
 
 require 'rake/gempackagetask'
 
