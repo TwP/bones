@@ -130,6 +130,7 @@ def quiet( &block )
 ensure
   STDOUT.reopen io.first
   STDERR.reopen io.last
+  $stdout, $stderr = STDOUT, STDERR
 end
 
 DIFF = if WIN32 then 'diff.exe'
