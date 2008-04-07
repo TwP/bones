@@ -13,8 +13,8 @@ gem dependency required).
 == VERSION 2.0.0 CHANGES:
 
 Version 2.0.0 of Mr Bones introduces backwards incompatibilities. Here is
-what you need to update in order for your current projects work with this
-latest release.
+what you need to update in order for your current projects to work with
+this latest release.
 
 Perform an update the tasks in your project directory:
 
@@ -76,7 +76,7 @@ names on the left and new names on the right).
   ann_paragraphs        => ann.paragraphs
   ann_email             => ann.email     
 
-And of course, each name should be pre-pended with PROJ in your Rakefile.
+And of course, each name should be prepended with PROJ in your Rakefile.
 
 == FEATURES:
 

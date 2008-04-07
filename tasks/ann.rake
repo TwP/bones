@@ -12,7 +12,7 @@ namespace :ann do
   # A prerequisites task that all other tasks depend upon
   task :prereqs
 
-  file PROJ.ann.file => :prereqs do
+  file PROJ.ann.file do
     ann = PROJ.ann
     puts "Generating #{ann.file}"
     File.open(ann.file,'w') do |fd|
@@ -38,10 +38,10 @@ namespace :ann do
   end
 
   desc "Create an announcement file"
-  task :announcement => PROJ.ann.file
+  task :announcement => ['ann:prereqs', PROJ.ann.file]
 
   desc "Send an email announcement"
-  task :email => PROJ.ann.file do
+  task :email => ['ann:prereqs', PROJ.ann.file] do
     ann = PROJ.ann
     from = ann.email[:from] || PROJ.email
     to   = Array(ann.email[:to])

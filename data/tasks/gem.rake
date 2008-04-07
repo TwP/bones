@@ -1,4 +1,4 @@
-# $Id$
+# $Id: gem.rake 584 2008-04-07 19:46:38Z tim_pease $
 
 require 'rake/gempackagetask'
 
@@ -79,9 +79,9 @@ namespace :gem do
     end
 
   desc "Build the gem file #{gem_file}"
-  task :package => "#{pkg.package_dir}/#{gem_file}"
+  task :package => ['gem:prereqs', "#{pkg.package_dir}/#{gem_file}"]
 
-  file "#{pkg.package_dir}/#{gem_file}" => ['gem:prereqs', pkg.package_dir] + PROJ.gem._spec.files do
+  file "#{pkg.package_dir}/#{gem_file}" => [pkg.package_dir] + PROJ.gem._spec.files do
     when_writing("Creating GEM") {
       Gem::Builder.new(PROJ.gem._spec).build
       verbose(true) {
