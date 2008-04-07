@@ -1,6 +1,6 @@
 # $Id$
 
-if PROJ.rubyforge.name && HAVE_RUBYFORGE
+if PROJ.rubyforge.name.valid? && HAVE_RUBYFORGE
 
 require 'rubyforge'
 require 'rake/contrib/sshpublisher'

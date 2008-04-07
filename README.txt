@@ -10,7 +10,75 @@ ease the management and deployment of your source code. Mr Bones is not
 viral -- all the code your project needs is included in the skeleton (no
 gem dependency required).
 
-== FEATURES/PROBLEMS:
+== VERSION 2.0.0 CHANGES:
+
+Version 2.0.0 of Mr Bones introduces backwards incompatibilities. Here is
+what you need to update in order for your current projects work with this
+latest release.
+
+Perform an update the tasks in your project directory:
+
+  bones -u your/project/directory
+
+The following .rake files have been renamed in Mr Bones 2.0.0 (the old
+name is on the left and the new name is on the right). You will need to
+delete the old version and use only the new version.
+
+  doc.rake          => rdoc.rake
+  annotations.rake  => notes.rake
+
+The PROJ openstruct has been amended to contain a collection of nested
+openstructs. This will affect any settings you might have in the
+top-level Rakefile for your project. Here is the translation key (old
+names on the left and new names on the right).
+
+  rubyforge_name        => rubyforge.name
+
+  specs                 => spec.files
+  spec_opts             => spec.opts
+
+  tests                 => test.files
+  test_file             => test.file
+  test_opts             => test.opts
+
+  rcov_dir              => rcov.dir
+  rcov_opts             => rcov.opts
+  rcov_threshold        => rcov.threshold
+  rcov_threshold_exact  => rcov.threshold_exact
+
+  rdoc_opts             => rdoc.opts
+  rdoc_include          => rdoc.include
+  rdoc_exclude          => rdoc.exclude
+  rdoc_main             => rdoc.main
+  rdoc_dir              => rdoc.dir
+  rdoc_remote_dir       => rdoc.remote_dir
+
+  dependencies          => gem.dependencies
+  executables           => gem.executables
+  extensions            => gem.extensions
+  files                 => gem.files
+  need_tar              => gem.need_tar
+  need_zip              => gem.need_zip
+  post_install_message  => gem.extras['post_install_message']
+
+  annotation_exclude    => notes.exclude
+  annotation_extensions => notes.extensions
+  annotation_tags       => notes.tags      
+
+  svn                   => svn.path
+  svn_root              => svn.root
+  svn_trunk             => svn.trunk
+  svn_tags              => svn.tags
+  svn_branches          => svn.branches
+
+  ann_file              => ann.file
+  ann_text              => ann.text
+  ann_paragraphs        => ann.paragraphs
+  ann_email             => ann.email     
+
+And of course, each name should be pre-pended with PROJ in your Rakefile.
+
+== FEATURES:
 
 Mr Bones provides the following rake tasks:
 

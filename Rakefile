@@ -24,7 +24,8 @@ PROJ.spec.opts << '--color'
 PROJ.ann.email[:server] = 'smtp.gmail.com'
 PROJ.ann.email[:port] = 587
 
-PROJ.gem.post_install_message = <<-MSG
+PROJ.gem.extras[:required_rubygems_version] = '>= 1.1.0'
+PROJ.gem.extras[:post_install_message] = <<-MSG
 --------------------------
  Keep rattlin' dem bones!
 --------------------------
@@ -41,7 +42,7 @@ The number of left-handed men is double that of left-handed women.
 Blessings,
 TwP
 
-#{PROJ.gem.post_install_message}
+#{PROJ.gem.extras[:post_install_message]}
 ANN
 
 task :default => 'spec:run'

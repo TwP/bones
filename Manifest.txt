@@ -13,7 +13,6 @@ data/spec/NAME_spec.rb.erb
 data/spec/spec_helper.rb.erb
 data/tasks/ann.rake
 data/tasks/bones.rake
-data/tasks/changes.txt
 data/tasks/gem.rake
 data/tasks/manifest.rake
 data/tasks/notes.rake

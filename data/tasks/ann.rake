@@ -18,7 +18,7 @@ namespace :ann do
     File.open(ann.file,'w') do |fd|
       fd.puts("#{PROJ.name} version #{PROJ.version}")
       fd.puts("    by #{Array(PROJ.authors).first}") if PROJ.authors
-      fd.puts("    #{PROJ.url}") if PROJ.url
+      fd.puts("    #{PROJ.url}") if PROJ.url.valid?
       fd.puts("    (the \"#{PROJ.release_name}\" release)") if PROJ.release_name
       fd.puts
       fd.puts("== DESCRIPTION")
