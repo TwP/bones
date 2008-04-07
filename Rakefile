@@ -10,7 +10,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Gadzooks!!'
+PROJ.release_name = 'Yellow Rubber Galoshes'
 
 PROJ.rubyforge.name = 'codeforpeople'
 
