@@ -47,8 +47,8 @@ class AnnotationExtractor
     @id = @id_rgxp = nil
 
     unless id.nil? or id.empty?
-      @id = HAVE_COLOR ? Console::ANSICode.green(id) : id
-      @id_rgxp = Regexp.new(Regexp.escape(id))
+      @id = id
+      @id_rgxp = Regexp.new(Regexp.escape(id), Regexp::IGNORECASE)
     end
   end
 
@@ -85,7 +85,7 @@ class AnnotationExtractor
 
       text = m[2]
       if text =~ @id_rgxp
-        text.gsub!(@id_rgxp, id)
+        text.gsub!(@id_rgxp) {|str| Console::ANSICode.green(str)} if HAVE_COLOR
         list << Annotation.new(lineno, m[1], text)
       end
       list
