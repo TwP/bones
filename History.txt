@@ -1,4 +1,6 @@
-== 2.0.0 / 2008-03-
+== 2.0.1 / 2008-04-
+
+== 2.0.0 / 2008-04-07
 
 * 2 major enhancements
   - Reworked the PROJ open struct to use nested open struct
