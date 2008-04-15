@@ -30,7 +30,7 @@ PROJ.gem.extras[:post_install_message] = <<-MSG
 --------------------------
 MSG
 
-PROJ.ann.paragraphs = %w[install synopsis features requirements].unshift('version 2.0.0 changes')
+PROJ.ann.paragraphs = %w[install synopsis features requirements]
 PROJ.ann.text = <<-ANN
 == FUN FACT
 
