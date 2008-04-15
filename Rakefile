@@ -10,7 +10,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Pygmy Orchestra'
+PROJ.release_name = 'Happy Tax Day'
 
 PROJ.rubyforge.name = 'codeforpeople'
 
@@ -24,7 +24,6 @@ PROJ.spec.opts << '--color'
 PROJ.ann.email[:server] = 'smtp.gmail.com'
 PROJ.ann.email[:port] = 587
 
-PROJ.gem.extras[:required_rubygems_version] = '>= 1.1.0'
 PROJ.gem.extras[:post_install_message] = <<-MSG
 --------------------------
  Keep rattlin' dem bones!

@@ -1,4 +1,8 @@
-== 2.0.1 / 2008-04-
+== 2.0.1 / 2008-04-15
+
+* 1 minor enchancement
+  - Now compatible with RubyGems versions earlier than 1.1.0
+    (should work back to 0.9.4)
 
 == 2.0.0 / 2008-04-07
 

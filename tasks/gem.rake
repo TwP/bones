@@ -92,14 +92,17 @@ namespace :gem do
 
   desc 'Install the gem'
   task :install => [:clobber, :package] do
-    sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{PROJ.gem._spec.full_name}"
+    sh "#{SUDO} #{GEM} install --local pkg/#{PROJ.gem._spec.full_name}"
+
+    # use this version of the command for rubygems > 1.0.0
+    #sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{PROJ.gem._spec.full_name}"
   end
 
   desc 'Uninstall the gem'
   task :uninstall do
     installed_list = Gem.source_index.find_name(PROJ.name)
     if installed_list and installed_list.collect { |s| s.version.to_s}.include?(PROJ.version) then
-      sh "#{SUDO} #{GEM} uninstall -v '#{PROJ.version}' -I -x #{PROJ.name}"
+      sh "#{SUDO} #{GEM} uninstall --version '#{PROJ.version}' --ignore-dependencies --executables #{PROJ.name}"
     end
   end
 
