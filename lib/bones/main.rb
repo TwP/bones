@@ -115,16 +115,19 @@ class Main
       files_to_copy.each {|fn| cp fn}
 
       pwd = File.expand_path(FileUtils.pwd)
-      begin
-        FileUtils.cd output_dir
-        system "rake manifest:create 2>&1 > #{::Bones::DEV_NULL}"
-        msg = "created '#{name}'"
-        msg << " in directory '#{output_dir}'" if name != output_dir
-        msg << "\nnow you need to fix these files"
-        STDOUT.puts msg
-        system "rake notes"
-      ensure
-        FileUtils.cd pwd
+      msg = "created '#{name}'"
+      msg << " in directory '#{output_dir}'" if name != output_dir
+      STDOUT.puts msg
+
+      if test(?f, File.join(output_dir, 'Rakefile'))
+        begin
+          FileUtils.cd output_dir
+          system "rake manifest:create 2>&1 > #{::Bones::DEV_NULL}"
+          STDOUT.puts "now you need to fix these files"
+          system "rake notes"
+        ensure
+          FileUtils.cd pwd
+        end
       end
     rescue Exception => err
       FileUtils.rm_rf output_dir

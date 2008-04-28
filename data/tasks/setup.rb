@@ -18,7 +18,7 @@ PROJ = OpenStruct.new(
   :email => nil,
   :url => "\000",
   :version => ENV['VERSION'] || '0.0.0',
-  :exclude => %w(tmp$ bak$ ~$ CVS .svn/ ^pkg/),
+  :exclude => %w(tmp$ bak$ ~$ CVS \.svn/ \.git/ ^pkg/),
   :release_name => ENV['RELEASE'],
 
   # System Defaults
@@ -58,7 +58,7 @@ PROJ = OpenStruct.new(
 
   # File Annotations
   :notes => OpenStruct.new(
-    :exclude => %w(^tasks/setup.rb$),
+    :exclude => %w(^tasks/setup\.rb$),
     :extensions => %w(.txt .rb .erb) << '',
     :tags => %w(FIXME OPTIMIZE TODO)
   ),
@@ -74,8 +74,8 @@ PROJ = OpenStruct.new(
   # Rdoc
   :rdoc => OpenStruct.new(
     :opts => [],
-    :include => %w(^lib/ ^bin/ ^ext/ .txt$),
-    :exclude => %w(extconf.rb$),
+    :include => %w(^lib/ ^bin/ ^ext/ \.txt$),
+    :exclude => %w(extconf\.rb$),
     :main => nil,
     :dir => 'doc',
     :remote_dir => nil
