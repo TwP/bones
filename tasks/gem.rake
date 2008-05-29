@@ -109,6 +109,11 @@ namespace :gem do
   desc 'Reinstall the gem'
   task :reinstall => [:uninstall, :install]
 
+  desc 'Cleanup the gem'
+  task :cleanup do
+    sh "#{SUDO} #{GEM} cleanup #{PROJ.gem._spec.name}"
+  end
+
 end  # namespace :gem
 
 desc 'Alias to gem:package'
