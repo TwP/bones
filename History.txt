@@ -3,8 +3,9 @@
 * 2 minor enhancements
   - Added a gem cleanup rake task
   - Tasks to support Git projects
-* 1 bug fix
+* 2 bug fixes
   - Check for Rakefile when creating a new project
+  - Failed dependency resolution when not using fully qualified task names
 
 == 2.0.1 / 2008-04-15
 
