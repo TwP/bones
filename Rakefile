@@ -10,7 +10,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Happy Tax Day'
+PROJ.release_name = 'Haughty Hen'
 
 PROJ.rubyforge.name = 'codeforpeople'
 
@@ -34,7 +34,8 @@ PROJ.ann.paragraphs = %w[install synopsis features requirements]
 PROJ.ann.text = <<-ANN
 == FUN FACT
 
-The number of left-handed men is double that of left-handed women.
+XML is much like violence --
+if it's not solving your problem then you are not using enough of it.
 
 == POST SCRIPT
 

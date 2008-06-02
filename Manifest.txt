@@ -14,6 +14,7 @@ data/spec/spec_helper.rb.erb
 data/tasks/ann.rake
 data/tasks/bones.rake
 data/tasks/gem.rake
+data/tasks/git.rake
 data/tasks/manifest.rake
 data/tasks/notes.rake
 data/tasks/post_load.rake
@@ -32,6 +33,7 @@ lib/bones/smtp_tls.rb
 tasks/ann.rake
 tasks/bones.rake
 tasks/gem.rake
+tasks/git.rake
 tasks/manifest.rake
 tasks/notes.rake
 tasks/post_load.rake
@@ -39,5 +41,4 @@ tasks/rdoc.rake
 tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
-tasks/svn.rake
 tasks/test.rake

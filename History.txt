@@ -1,7 +1,8 @@
-== 2.0.2 / 2008-05-
+== 2.0.2 / 2008-06-02
 
-* 1 minor enhancement
+* 2 minor enhancements
   - Added a gem cleanup rake task
+  - Tasks to support Git projects
 * 1 bug fix
   - Check for Rakefile when creating a new project
 

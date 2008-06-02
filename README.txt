@@ -100,6 +100,8 @@ Mr Bones provides the following rake tasks:
   gem:release       # Package and upload to RubyForge
   gem:repackage     # Force a rebuild of the package files
   gem:uninstall     # Uninstall the gem
+  git:create_tag    # Create a new tag in the Git repository
+  git:show_tags     # Show tags from the Git repository
   manifest          # Alias to manifest:check
   manifest:check    # Verify the manifest
   manifest:create   # Create a new manifest
