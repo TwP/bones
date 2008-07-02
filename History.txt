@@ -1,3 +1,9 @@
+== 2.0.3 / 2008-07-02
+
+* 1 bug fix
+  - Fixed the rubyforge tasks to be compatible with the
+    rubyforge 1.0.0 gem
+
 == 2.0.2 / 2008-06-02
 
 * 2 minor enhancements
