@@ -1,3 +1,8 @@
+== 2.0.4 / 2008-09-
+
+* 1 minor enhancement
+  - revmoved SVN $Id$ turds
+
 == 2.0.3 / 2008-07-02
 
 * 1 bug fix

@@ -1,4 +1,3 @@
-# $Id$
 
 if HAVE_SPEC_RAKE_SPECTASK
 require 'spec/rake/verify_rcov'

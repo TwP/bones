@@ -1,4 +1,3 @@
-# $Id$
 
 $:.unshift('lib')
 

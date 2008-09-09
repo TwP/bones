@@ -1,4 +1,3 @@
-# $Id$
 
 # This code enables SMTPTLS authentication requireed for sending mail
 # via the gmail servers. I found this code via a blog entry from James
