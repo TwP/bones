@@ -1,7 +1,9 @@
-== 2.0.4 / 2008-09-
+== 2.0.4 / 2008-10-
 
 * 1 minor enhancement
   - revmoved SVN $Id$ turds
+* 1 bug fix
+  - changed the namespacing for the facets ANSICode class
 
 == 2.0.3 / 2008-07-02
 
