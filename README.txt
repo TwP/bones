@@ -10,6 +10,14 @@ ease the management and deployment of your source code. Mr Bones is not
 viral -- all the code your project needs is included in the skeleton (no
 gem dependency required).
 
+== VERSION 2.1.0 CHANGES:
+
+Version 2.1.0 of Mr Bones allows your projects to use the rake tasks found
+in the Mr Bones gem but still remain independent from Mr Bones when
+deployed. This is accomplished by copying the rake tasks into your project
+only when it is packaged into a gem (or zip file or tarball).
+
+
 == VERSION 2.0.0 CHANGES:
 
 Version 2.0.0 of Mr Bones introduces backwards incompatibilities. Here is
@@ -129,12 +137,7 @@ To create a new "Get Fuzzy" project:
 
   bones get_fuzzy
 
-If a new release of Mr Bones comes out with better features the "Get Fuzzy"
-project will need to be updated:
-
-  bones --update get_fuzzy
-
-And if you ever get confused about what Mr Bones can do:
+If you ever get confused about what Mr Bones can do:
 
   bones --help
 
@@ -160,7 +163,12 @@ rake files. These files are quite generic, and their functionality is
 controlled by options configured in the top-level Rakefile. Take a look at
 the Rakefile for the Mr Bones gem itself:
 
-  load 'tasks/setup.rb'
+  begin
+    require 'bones'
+    Bones.setup
+  rescue LoadError
+    load 'tasks/setup.rb'
+  end
 
   ensure_in_path 'lib'
   require 'bones'

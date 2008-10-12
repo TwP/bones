@@ -1,5 +1,8 @@
-== 2.0.4 / 2008-10-
+== 2.1.0 / 2008-10-
 
+* 1 major enhancement
+  - tasks can be used from the bones gem without having to create a
+    "tasks" folder in each project you create
 * 1 minor enhancement
   - revmoved SVN $Id$ turds
 * 1 bug fix

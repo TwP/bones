@@ -1,4 +1,5 @@
 
+if test(?e, PROJ.test.file) or not PROJ.test.files.to_a.empty?
 require 'rake/testtask'
 
 namespace :test do
@@ -33,5 +34,7 @@ desc 'Alias to test:run'
 task :test => 'test:run'
 
 task :clobber => 'test:clobber_rcov' if HAVE_RCOV
+
+end
 
 # EOF

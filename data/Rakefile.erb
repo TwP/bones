@@ -2,7 +2,12 @@
 # configured in this Rakefile. The .rake files in the tasks directory
 # are where the options are used.
 
-load 'tasks/setup.rb'
+begin
+  require 'bones'
+  Bones.setup
+rescue LoadError
+  load 'tasks/setup.rb'
+end
 
 ensure_in_path 'lib'
 require '<%= name %>'
@@ -13,6 +18,7 @@ PROJ.name = '<%= name %>'
 PROJ.authors = 'FIXME (who is writing this software)'
 PROJ.email = 'FIXME (your e-mail)'
 PROJ.url = 'FIXME (project homepage)'
+PROJ.version = <%= classname %>::VERSION
 PROJ.rubyforge.name = '<%= name %>'
 
 PROJ.spec.opts << '--color'

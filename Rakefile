@@ -1,8 +1,12 @@
 
 $:.unshift('lib')
 
-load 'tasks/setup.rb'
-require 'bones'
+begin
+  require 'bones'
+  Bones.setup
+rescue LoadError
+  load 'tasks/setup.rb'
+end
 
 PROJ.name = 'bones'
 PROJ.authors = 'Tim Pease'

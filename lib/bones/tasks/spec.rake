@@ -1,5 +1,5 @@
 
-if HAVE_SPEC_RAKE_SPECTASK
+if HAVE_SPEC_RAKE_SPECTASK and not PROJ.spec.files.to_a.empty?
 require 'spec/rake/verify_rcov'
 
 namespace :spec do
