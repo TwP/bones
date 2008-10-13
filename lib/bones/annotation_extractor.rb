@@ -84,7 +84,7 @@ class AnnotationExtractor
 
       text = m[2]
       if text =~ @id_rgxp
-        text.gsub!(@id_rgxp) {|str| Console::ANSICode.green(str)} if HAVE_COLOR
+        text.gsub!(@id_rgxp) {|str| ANSICode.green(str)} if HAVE_COLOR
         list << Annotation.new(lineno, m[1], text)
       end
       list
