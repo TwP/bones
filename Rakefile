@@ -9,7 +9,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Haughty Hen'
+PROJ.release_name = 'Palimpsest'
 PROJ.ruby_opts = %w[-W0]
 
 PROJ.rubyforge.name = 'codeforpeople'
@@ -34,8 +34,7 @@ PROJ.ann.paragraphs = %w[install synopsis features requirements]
 PROJ.ann.text = <<-ANN
 == FUN FACT
 
-XML is much like violence --
-if it's not solving your problem then you are not using enough of it.
+A hen will lay one egg every 24 to 48 hours.
 
 == POST SCRIPT
 

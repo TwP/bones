@@ -1,10 +1,11 @@
-== 2.1.0 / 2008-10-
+== 2.1.0 / 2008-10-15
 
 * 1 major enhancement
   - tasks can be used from the bones gem without having to create a
     "tasks" folder in each project you create
-* 1 minor enhancement
+* 2 minor enhancements
   - revmoved SVN $Id$ turds
+  - Mr Bones is now included by default as a development dependency
 * 1 bug fix
   - changed the namespacing for the facets ANSICode class
 

@@ -12,79 +12,30 @@ gem dependency required).
 
 == VERSION 2.1.0 CHANGES:
 
+With my Mr Bones projects, I found myself constantly updating the tasks as new
+versions of Mr Bones were released. This quickly became annoying. Why not use
+the tasks from the Mr Bones gem and only copy those tasks to my own projects
+when they are packaged and released? That is the goal of this release of Mr
+Bones.
+
 Version 2.1.0 of Mr Bones allows your projects to use the rake tasks found
 in the Mr Bones gem but still remain independent from Mr Bones when
 deployed. This is accomplished by copying the rake tasks into your project
 only when it is packaged into a gem (or zip file or tarball).
 
+You still have the option of copy the tasks to your local project when it is
+created. Or you can add tasks to your project at a later time.
 
-== VERSION 2.0.0 CHANGES:
+So, if you have an exsiting project and you want to use the Mr Bones tasks,
+simply delete your "tasks" folder and put the following at the top of your
+Rakefile:
 
-Version 2.0.0 of Mr Bones introduces backwards incompatibilities. Here is
-what you need to update in order for your current projects to work with
-this latest release.
-
-Perform an update the tasks in your project directory:
-
-  bones -u your/project/directory
-
-The following .rake files have been renamed in Mr Bones 2.0.0 (the old
-name is on the left and the new name is on the right). You will need to
-delete the old version and use only the new version.
-
-  doc.rake          => rdoc.rake
-  annotations.rake  => notes.rake
-
-The PROJ openstruct has been amended to contain a collection of nested
-openstructs. This will affect any settings you might have in the
-top-level Rakefile for your project. Here is the translation key (old
-names on the left and new names on the right).
-
-  rubyforge_name        => rubyforge.name
-
-  specs                 => spec.files
-  spec_opts             => spec.opts
-
-  tests                 => test.files
-  test_file             => test.file
-  test_opts             => test.opts
-
-  rcov_dir              => rcov.dir
-  rcov_opts             => rcov.opts
-  rcov_threshold        => rcov.threshold
-  rcov_threshold_exact  => rcov.threshold_exact
-
-  rdoc_opts             => rdoc.opts
-  rdoc_include          => rdoc.include
-  rdoc_exclude          => rdoc.exclude
-  rdoc_main             => rdoc.main
-  rdoc_dir              => rdoc.dir
-  rdoc_remote_dir       => rdoc.remote_dir
-
-  dependencies          => gem.dependencies
-  executables           => gem.executables
-  extensions            => gem.extensions
-  files                 => gem.files
-  need_tar              => gem.need_tar
-  need_zip              => gem.need_zip
-  post_install_message  => gem.extras['post_install_message']
-
-  annotation_exclude    => notes.exclude
-  annotation_extensions => notes.extensions
-  annotation_tags       => notes.tags      
-
-  svn                   => svn.path
-  svn_root              => svn.root
-  svn_trunk             => svn.trunk
-  svn_tags              => svn.tags
-  svn_branches          => svn.branches
-
-  ann_file              => ann.file
-  ann_text              => ann.text
-  ann_paragraphs        => ann.paragraphs
-  ann_email             => ann.email     
-
-And of course, each name should be prepended with PROJ in your Rakefile.
+  begin
+    require 'bones'
+    Bones.setup
+  rescue LoadError
+    load 'tasks/setup.rb'   # this line should already be there
+  end
 
 == FEATURES:
 
@@ -102,9 +53,11 @@ Mr Bones provides the following rake tasks:
   doc:rerdoc        # Force a rebuild of the RDOC files
   doc:ri            # Generate ri locally for testing
   gem               # Alias to gem:package
+  gem:cleanup       # Cleanup the gem
   gem:debug         # Show information about the gem
   gem:install       # Install the gem
-  gem:package       # Build the gem file bones-1.3.4.gem
+  gem:package       # Build all the packages
+  gem:reinstall     # Reinstall the gem
   gem:release       # Package and upload to RubyForge
   gem:repackage     # Force a rebuild of the package files
   gem:uninstall     # Uninstall the gem
@@ -122,8 +75,6 @@ Mr Bones provides the following rake tasks:
   spec:run          # Run all specs with basic output
   spec:specdoc      # Run all specs with text output
   spec:verify       # Verify that rcov coverage is at least 90.0%
-  svn:create_tag    # Create a new tag in the SVN repository
-  svn:show_tags     # Show tags from the SVN repository
   test              # Alias to test:run
   test:rcov         # Run rcov on the unit tests
   test:run          # Run tests for run
@@ -218,7 +169,7 @@ Rakefile to declare the dependency. If you do not specify a version, the
 most current version number for the installed gem is used.
 
   depend_on 'logging'
-  depend_on 'rake', '0.7.3'
+  depend_on 'rake', '0.8.2'
 
 === Freezing a Skeleton
 
@@ -234,27 +185,30 @@ Typical uses of this feature would be to fill in user specific data like the
 author, e-mail address, etc. You can also add more default code to the skeleton
 project or your own ".rake" task files.
 
-==== Updating a Frozen Skeleton
+You can have multiple skeletons with different names. Your projects can be
+instantiated from any of these skeletons. Just supply a name when freezing:
 
-Just like a regular project, a frozen skeleton can be updated if a newer
-version of Mr Bones comes out with better features. Updating a frozen skeleton
-will only modify the tasks. All other files in the skeleton remain untouched.
+  bones --freeze foo
 
-  bones --freeze
+You can instantiate a project from the "foo" skeleton:
 
-The freeze command is used to update the skeleton tasks to the latest Mr Bones
-tasks. A copy of the current tasks are made in an "archive" directory in the
-".mrbones" directory. To revert back to the archive version, you will need to
-manually rename "archive" to "data" in the ".mrbones" directory.
+  bones --skeleton foo get_fuzzy
+
+The default skeleton name is "data". If no skeleton name is provided, then this
+is the skeleton that will be used.
 
 ==== Unfreezing a Skeleton
 
 Unfreezing a skeleton will remove your customized project skeleton from the
 ".mrbones" directory. The default Mr Bones project skeleton will be used
-instead. A copy of your custom skeleton is made in the "archive" directory of
+instead. A copy of your custom skeleton is stored in an archive directory of
 the ".mrbones" directory before it is removed.
 
   bones --unfreeze
+
+You can unfreeze named skeletons, too:
+
+  bones --unfreeze foo
 
 ==== Custom Modifications
 
@@ -318,3 +272,72 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+== VERSION 2.0.0 CHANGES:
+
+Version 2.0.0 of Mr Bones introduces backwards incompatibilities. Here is
+what you need to update in order for your current projects to work with
+this latest release.
+
+Perform an update the tasks in your project directory:
+
+  bones -u your/project/directory
+
+The following .rake files have been renamed in Mr Bones 2.0.0 (the old
+name is on the left and the new name is on the right). You will need to
+delete the old version and use only the new version.
+
+  doc.rake          => rdoc.rake
+  annotations.rake  => notes.rake
+
+The PROJ openstruct has been amended to contain a collection of nested
+openstructs. This will affect any settings you might have in the
+top-level Rakefile for your project. Here is the translation key (old
+names on the left and new names on the right).
+
+  rubyforge_name        => rubyforge.name
+
+  specs                 => spec.files
+  spec_opts             => spec.opts
+
+  tests                 => test.files
+  test_file             => test.file
+  test_opts             => test.opts
+
+  rcov_dir              => rcov.dir
+  rcov_opts             => rcov.opts
+  rcov_threshold        => rcov.threshold
+  rcov_threshold_exact  => rcov.threshold_exact
+
+  rdoc_opts             => rdoc.opts
+  rdoc_include          => rdoc.include
+  rdoc_exclude          => rdoc.exclude
+  rdoc_main             => rdoc.main
+  rdoc_dir              => rdoc.dir
+  rdoc_remote_dir       => rdoc.remote_dir
+
+  dependencies          => gem.dependencies
+  executables           => gem.executables
+  extensions            => gem.extensions
+  files                 => gem.files
+  need_tar              => gem.need_tar
+  need_zip              => gem.need_zip
+  post_install_message  => gem.extras['post_install_message']
+
+  annotation_exclude    => notes.exclude
+  annotation_extensions => notes.extensions
+  annotation_tags       => notes.tags      
+
+  svn                   => svn.path
+  svn_root              => svn.root
+  svn_trunk             => svn.trunk
+  svn_tags              => svn.tags
+  svn_branches          => svn.branches
+
+  ann_file              => ann.file
+  ann_text              => ann.text
+  ann_paragraphs        => ann.paragraphs
+  ann_email             => ann.email     
+
+And of course, each name should be prepended with PROJ in your Rakefile.
