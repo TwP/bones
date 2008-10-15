@@ -51,6 +51,8 @@ task 'ann:prereqs' do
   PROJ.name = 'Mr Bones'
 end
 
+PROJ.gem.development_dependencies.clear
+
 depend_on 'rake'
 
 # EOF

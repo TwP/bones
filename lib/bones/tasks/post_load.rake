@@ -9,7 +9,8 @@ PROJ.exclude << ["^#{Regexp.escape(PROJ.ann.file)}$",
 
 flatten_arrays = lambda do |this,os|
     os.instance_variable_get(:@table).each do |key,val|
-      next if key == :dependencies
+      next if key == :dependencies \
+           or key == :development_dependencies
       case val
       when Array; val.flatten!
       when OpenStruct; this.call(this,val)

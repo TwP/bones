@@ -105,6 +105,10 @@ namespace :gem do
       s.add_dependency(*dep)
     end
 
+    PROJ.gem.development_dependencies.each do |dep|
+      s.add_development_dependency(*dep)
+    end
+
     s.files = PROJ.gem.files
     s.executables = PROJ.gem.executables.map {|fn| File.basename(fn)}
     s.extensions = PROJ.gem.files.grep %r/extconf\.rb$/
