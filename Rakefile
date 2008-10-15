@@ -23,6 +23,7 @@ PROJ.spec.opts << '--color'
 
 PROJ.ann.email[:server] = 'smtp.gmail.com'
 PROJ.ann.email[:port] = 587
+PROJ.ann.email[:from] = 'Tim Pease'
 
 PROJ.gem.extras[:post_install_message] = <<-MSG
 --------------------------
