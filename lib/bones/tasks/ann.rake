@@ -42,7 +42,7 @@ namespace :ann do
   desc "Send an email announcement"
   task :email => ['ann:prereqs', PROJ.ann.file] do
     ann = PROJ.ann
-    from = ann.email[:from] || PROJ.email
+    from = ann.email[:from] || Array(PROJ.authors).first || PROJ.email
     to   = Array(ann.email[:to])
 
     ### build a mail header for RFC 822
