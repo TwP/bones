@@ -30,3 +30,10 @@ lib/bones/tasks/setup.rb
 lib/bones/tasks/spec.rake
 lib/bones/tasks/svn.rake
 lib/bones/tasks/test.rake
+spec/bones/main_spec.rb
+spec/bones_spec.rb
+spec/data/data/README.txt
+spec/data/data/Rakefile
+spec/data/foo/README.txt
+spec/data/foo/Rakefile
+spec/spec_helper.rb

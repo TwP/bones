@@ -1,12 +1,8 @@
 
 $:.unshift('lib')
 
-begin
-  require 'bones'
-  Bones.setup
-rescue LoadError
-  load 'tasks/setup.rb'
-end
+require 'bones'
+Bones.setup
 
 PROJ.name = 'bones'
 PROJ.authors = 'Tim Pease'
@@ -14,6 +10,7 @@ PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
 PROJ.release_name = 'Haughty Hen'
+PROJ.ruby_opts = %w[-W0]
 
 PROJ.rubyforge.name = 'codeforpeople'
 
@@ -48,7 +45,7 @@ TwP
 #{PROJ.gem.extras[:post_install_message]}
 ANN
 
-task :default => 'spec:run'
+task :default => 'spec:specdoc'
 task 'gem:package' => 'manifest:assert'
 task 'ann:prereqs' do
   PROJ.name = 'Mr Bones'

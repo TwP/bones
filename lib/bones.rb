@@ -55,7 +55,6 @@ module Bones
 
 end  # module Bones
 
-
-Bones.require_all_libs_relative_to __FILE__
+Bones.require_all_libs_relative_to(__FILE__)
 
 # EOF

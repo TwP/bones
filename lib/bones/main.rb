@@ -6,108 +6,50 @@ require 'erb'
 module Bones
 class Main
 
-  attr_writer :with_tasks
-  attr_accessor :name, :data, :verbose, :output_dir
+  attr_reader :options
 
   # Create a new instance of Main, and run the +bones+ application given
   # the command line _args_.
   #
   def self.run( args )
     bones = self.new
-    bones.parse args
-
-    if bones.update? then bones.update
-    else bones.create end
+    bones.parse(args)
+    bones.run
   end
 
-  # Parse the command line arguments and store the values for later use by
-  # the +create+ and +update+ methods.
+  # Create a new main instance using _io_ for standard output and _err_ for
+  # error messages.
   #
-  def parse( args )
-    self.data = File.join(mrbones_dir, 'data')
-    self.data = ::Bones.path('data') unless test(?d, data)
-    self.verbose = false
-    self.with_tasks = false
-    do_freeze = false
-
-    opts = OptionParser.new
-    opts.banner << ' project_name'
-
-    opts.separator ''
-    opts.on('-v', '--verbose',
-            'enable verbose output') {self.verbose = true}
-    opts.on('-d', '--directory DIRECTORY', String,
-            'project directory to create',
-            '(defaults to project_name)') {|dir| self.output_dir = dir}
-    opts.on('-s', '--skeleton NAME', String,
-            'project skeleton to use') do |name|
-        path = File.join(mrbones_dir, name)
-        if test(?d, path)
-          self.data = path 
-        elsif test(?d, name)
-          self.data = name
-        else
-          STDOUT.puts "    unknown skeleton '#{name}'"
-          exit
-        end
-      end
-    opts.on('--with-tasks',
-            'copy rake tasks to the project folder') {self.with_tasks = true}
-
-    opts.separator ''
-    opts.on('--freeze', 'freeze the project skeleton') {do_freeze = true}
-    opts.on('--unfreeze', 'use the standard project skeleton') {unfreeze; exit}
-    opts.on('-i', '--info',
-            'report on the project skeleton being used') do
-      STDOUT.puts "the project skeleton will be copied from"
-      STDOUT.write "    "
-      STDOUT.puts data
-      exit
-    end
-
-    opts.separator ''
-    opts.separator 'common options:'
-
-    opts.on_tail( '-h', '--help', 'show this message' ) do
-      STDOUT.puts opts
-      exit
-    end
-
-    opts.on_tail( '--version', 'show version' ) do
-      STDOUT.puts "Mr Bones #{::Bones::VERSION}"
-      exit
-    end
-
-    # parse the command line arguments
-    opts.parse! args
-    self.name = args.empty? ? nil : args.join('_')
-
-    if do_freeze
-      freeze
-      exit
-    end
-
-    if name.nil?
-      STDOUT.puts opts
-      ::Kernel.abort
-    end
-
-    self.output_dir = name if output_dir.nil?
-    nil
+  def initialize( io = STDOUT, err = STDERR )
+    @io = io
+    @err = err
+    @options = {
+      :skeleton_dir => File.join(mrbones_dir, 'data'),
+      :with_tasks => false,
+      :verbose => false,
+      :name => nil,
+      :output_dir => nil,
+      :action => nil
+    }
+    @options[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
   end
 
-  # Returns +true+ if we are updating an already existing project. Returns
-  # +false+ if we are creating a new project.
+  # The output directory where files will be written.
   #
-  def update?
-    test(?e, output_dir) and @with_tasks
+  def output_dir
+    options[:output_dir]
   end
 
-  # Returns +true+ if we are going to copy the Mr Bones tasks into the
-  # destination directory. Normally this will return +false+.
+  # The directory where the project skeleton is located.
   #
-  def with_tasks?
-    @with_tasks
+  def skeleton_dir
+    options[:skeleton_dir]
+  end
+
+  # The project name from the command line.
+  #
+  def name
+    options[:name]
   end
 
   # Returns the project name but converted to be usable as a Ruby class
@@ -115,6 +57,110 @@ class Main
   #
   def classname
     name.tr('-','_').split('_').map {|x| x.capitalize}.join
+  end
+
+  # Returns +true+ if we are updating an already existing project. Returns
+  # +false+ if we are creating a new project.
+  #
+  def update?
+    test(?e, output_dir) and with_tasks?
+  end
+
+  # Returns +true+ if we are going to copy the Mr Bones tasks into the
+  # destination directory. Normally this will return +false+.
+  #
+  def with_tasks?
+    options[:with_tasks]
+  end
+
+  # Returns +true+ if the user has requested verbose messages.
+  #
+  def verbose?
+    options[:verbose]
+  end
+
+  # Parse the command line arguments and store the values for later use by
+  # the +create+ and +update+ methods.
+  #
+  def parse( args )
+    opts = OptionParser.new
+    opts.banner << ' project_name'
+
+    opts.separator ''
+    opts.on('-v', '--verbose', 'enable verbose output') {
+      options[:verbose] = true
+    }
+    opts.on('-d', '--directory DIRECTORY', String,
+            'project directory to create', '(defaults to project_name)') {|dir|
+      options[:output_dir] = dir
+    }
+    opts.on('-s', '--skeleton NAME', String,
+            'project skeleton to use') do |skeleton_name|
+        path = File.join(mrbones_dir, skeleton_name)
+        if test(?d, path)
+          options[:skeleton_dir] = path 
+        elsif test(?d, skeleton_name)
+          options[:skeleton_dir] = skeleton_name
+        else
+          @io.puts "    unknown skeleton '#{skeleton_name}'"
+          exit
+        end
+      end
+    opts.on('--with-tasks', 'copy rake tasks to the project folder') {
+      options[:with_tasks] = true
+    }
+
+    opts.separator ''
+    opts.on('--freeze', 'freeze the project skeleton') {
+      options[:action] = :freeze
+    }
+    opts.on('--unfreeze', 'use the standard project skeleton') {
+      options[:action] = :unfreeze
+    }
+    opts.on('-i', '--info', 'report on the project skeleton being used') {
+      options[:action] = :info
+    }
+
+    opts.separator ''
+    opts.separator 'common options:'
+    opts.on_tail( '-h', '--help', 'show this message' ) {
+      @io.puts opts
+      exit
+    }
+    opts.on_tail( '--version', 'show version' ) {
+      @io.puts "Mr Bones #{::Bones::VERSION}"
+      exit
+    }
+
+    # parse the command line arguments
+    opts.parse! args
+    options[:name] = args.empty? ? nil : args.join('_')
+
+    if options[:action].nil? and name.nil?
+      @io.puts opts
+      ::Kernel.abort
+    end
+
+    options[:output_dir] = name if output_dir.nil?
+    nil
+  end
+
+  # Run the main application.
+  #
+  def run
+    case options[:action]
+    when :freeze
+      freeze
+    when :unfreeze
+      unfreeze
+    when :info
+      @io.puts "the project skeleton will be copied from"
+      @io.write "    "
+      @io.puts skeleton_dir
+    else
+      if update? then update
+      else create end
+    end
   end
 
   # Create a new project from the bones/data project template.
@@ -125,27 +171,18 @@ class Main
 
     begin
       files_to_copy.each {|fn| cp fn}
-
-      if with_tasks?
-        Dir.glob(::Bones.path(%w[lib bones tasks *])).sort.each do |src|
-          dst = File.join(output_dir, 'tasks', File.basename(src))
-
-          STDOUT.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose
-          FileUtils.mkdir_p(File.dirname(dst))
-          FileUtils.cp(src, dst)
-        end
-      end
+      copy_tasks(File.join(output_dir, 'tasks')) if with_tasks?
 
       pwd = File.expand_path(FileUtils.pwd)
       msg = "created '#{name}'"
       msg << " in directory '#{output_dir}'" if name != output_dir
-      STDOUT.puts msg
+      @io.puts msg
 
       if test(?f, File.join(output_dir, 'Rakefile'))
         begin
           FileUtils.cd output_dir
           system "rake manifest:create 2>&1 > #{::Bones::DEV_NULL}"
-          STDOUT.puts "now you need to fix these files"
+          @io.puts "now you need to fix these files"
           system "rake notes"
         ensure
           FileUtils.cd pwd
@@ -177,17 +214,11 @@ class Main
       FileUtils.cp fn, archive_dir
     end
 
-    Dir.glob(::Bones.path(%w[lib bones tasks *])).sort.each do |src|
-      dst = File.join(task_dir, File.basename(src))
-
-      STDOUT.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose
-      FileUtils.mkdir_p(File.dirname(dst))
-      FileUtils.cp(src, dst)
-    end
+    copy_tasks(task_dir)
 
     msg = "updated tasks for '#{name}'"
     msg << " in directory '#{output_dir}'" if name != output_dir
-    STDOUT.puts msg
+    @io.puts msg
   end
 
   # Freeze the project skeleton to the current Mr Bones gem. If the project
@@ -198,43 +229,27 @@ class Main
   # Bones skeleton will be copied to the user's data directory.
   #
   def freeze
-    self.data = ::Bones.path('data')
-    data_dir = File.join(mrbones_dir, 'data')
-    archive_dir = File.join(mrbones_dir, 'archive')
+    options[:skeleton_dir] = ::Bones.path('data')
+    options[:name]         = 'data' if name.nil?
+    options[:output_dir]   = File.join(mrbones_dir, name)
 
-    if test(?d, data_dir)
-      STDOUT.puts "archiving #{data_dir}" if verbose
-      FileUtils.rm_rf(archive_dir)
-      FileUtils.mkdir(archive_dir)
-      FileUtils.cp_r(File.join(data_dir, '.'), archive_dir)
-      FileUtils.rm_rf(data_dir)
-    else
-      FileUtils.mkdir_p(data_dir)
-    end
+    archive(output_dir, "#{output_dir}.archive")
+    FileUtils.mkdir_p(output_dir)
 
     files_to_copy.each do |file|
-      src = File.join(data, file)
-      dst = File.join(data_dir, file)
+      src = File.join(skeleton_dir, file)
+      dst = File.join(output_dir, file)
 
-      STDOUT.puts "freezing #{dst}" if verbose
+      @io.puts "freezing #{dst}" if verbose?
       FileUtils.mkdir_p(File.dirname(dst))
       FileUtils.cp(src, dst)
     end
 
-    # Copy all the rake tasks if asked to do so by the user
-    if with_tasks?
-      Dir.glob(::Bones.path(%w[lib bones tasks *])).sort.each do |src|
-        dst = File.join(data_dir, 'tasks', File.basename(src))
-
-        STDOUT.puts "freezing #{dst}" if verbose
-        FileUtils.mkdir_p(File.dirname(dst))
-        FileUtils.cp(src, dst)
-      end
-    end
+    copy_tasks(File.join(output_dir, 'tasks'), 'freezing') if with_tasks?
 
     File.open(frozen_version_file, 'w') {|fd| fd.puts ::Bones::VERSION}
 
-    STDOUT.puts "project skeleton has been frozen " <<
+    @io.puts "project skeleton has been frozen " <<
                   "to Mr Bones #{::Bones::VERSION}"
   end
 
@@ -243,20 +258,14 @@ class Main
   # one exists.
   #
   def unfreeze
-    data_dir = File.join(mrbones_dir, 'data')
-    archive_dir = File.join(mrbones_dir, 'archive')
+    options[:name]       = 'data' if name.nil?
+    options[:output_dir] = File.join(mrbones_dir, name)
 
-    if test(?d, data_dir)
-      STDOUT.puts "archiving #{data_dir}" if verbose
-      FileUtils.rm_rf(archive_dir)
-      FileUtils.mkdir(archive_dir)
-      FileUtils.cp_r(File.join(data_dir, '.'), archive_dir)
-      FileUtils.rm_rf(data_dir)
-
-      STDOUT.puts "project skeleton has been unfrozen"
-      STDOUT.puts "(default Mr Bones #{::Bones::VERSION} skeleton will be used)"
+    if archive(output_dir, "#{output_dir}.archive")
+      @io.puts "project skeleton has been unfrozen"
+      @io.puts "(default Mr Bones #{::Bones::VERSION} skeleton will be used)"
     else
-      STDOUT.puts "project skeleton is not frozen (no action taken)"
+      @io.puts "project skeleton is not frozen (no action taken)"
     end
     FileUtils.rm_f frozen_version_file
   end
@@ -265,10 +274,10 @@ class Main
   # the new project directory
   #
   def files_to_copy
-    rgxp = %r/\A#{data}\/?/o
+    rgxp = %r/\A#{skeleton_dir}\/?/o
     exclude = %r/tmp$|bak$|~$|CVS|\.svn/o
 
-    ary = Dir.glob(File.join(data, '**', '*')).map do |filename|
+    ary = Dir.glob(File.join(skeleton_dir, '**', '*')).map do |filename|
       next if exclude =~ filename
       next if test(?d, filename)
       filename.sub rgxp, ''
@@ -279,9 +288,6 @@ class Main
     ary
   end
 
-
-  private
-
   # Copy a file from the Bones prototype project location to the user
   # specified project location. A message will be displayed to the screen
   # indicating that the file is being created.
@@ -290,9 +296,9 @@ class Main
     dir = File.dirname(file).sub('NAME', name)
     dir = (dir == '.' ? output_dir : File.join(output_dir, dir))
     dst = File.join(dir,  File.basename(file, '.erb').sub('NAME', name))
-    src = File.join(data, file)
+    src = File.join(skeleton_dir, file)
 
-    STDOUT.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose
+    @io.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose?
     FileUtils.mkdir_p(dir)
 
     if '.erb' == File.extname(file)
@@ -305,10 +311,50 @@ class Main
     FileUtils.chmod(File.stat(src).mode, dst)
   end
 
+  # Archive the contents of the _from_ directory into the _to_ directory.
+  # The _to_ directory will be deleted if it currently exists. After the
+  # copy the _from_ directory will be deleted.
+  #
+  # Returns +true+ if the directory was archived. Returns +false+ if the
+  # directory was not archived.
+  #
+  def archive( from, to )
+    if test(?d, from)
+      @io.puts "archiving #{from}" if verbose?
+      FileUtils.rm_rf(to)
+      FileUtils.mkdir(to)
+      FileUtils.cp_r(File.join(from, '.'), to)
+      FileUtils.rm_rf(from)
+      true
+    else
+      false
+    end
+  end
+
+  # Copy the Mr Bones tasks into the _to_ directory. If we are in verbose
+  # mode, then a message will be displayed to the user. This message can be
+  # passed in as the _msg_ argument. The current file being copied is
+  # appened to the end of the message.
+  #
+  def copy_tasks( to, msg = nil )
+    Dir.glob(::Bones.path(%w[lib bones tasks *])).sort.each do |src|
+      dst = File.join(to, File.basename(src))
+
+      if msg
+        @io.puts "#{msg} #{dst}" if verbose?
+      else
+        @io.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose?
+      end
+
+      FileUtils.mkdir_p(File.dirname(dst))
+      FileUtils.cp(src, dst)
+    end
+  end
+
   # Prints an abort _msg_ to the screen and then exits the Ruby interpreter.
   #
   def abort( msg )
-    STDERR.puts msg
+    @err.puts msg
     exit 1
   end
 
