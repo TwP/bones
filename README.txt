@@ -102,6 +102,9 @@ following gems installed you will not get all that Mr Bones has to offer.
 * rspec - if that's the way you roll
 * facets - for pretty colors
 
+Actually, you will need at least version 1.2.0 of rubygems installed to use
+Mr Bones.
+
 == INSTALL:
 
 * sudo gem install bones
