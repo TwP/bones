@@ -1,7 +1,8 @@
-== 2.1.1 / 2008-10-
+== 2.1.1 / 2008-12-
 
-* 1 bug fix
+* 2 bug fixes
   - default "from" field when e-mailing announcements
+  - fixed SMTP check_auth_args arity [Avdi Grimm]
 
 == 2.1.0 / 2008-10-15
 

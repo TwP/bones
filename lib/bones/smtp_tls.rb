@@ -13,7 +13,14 @@ Net::SMTP.class_eval do
   private
   def do_start(helodomain, user, secret, authtype)
     raise IOError, 'SMTP session already started' if @started
-    check_auth_args(user, secret) if user or secret
+
+    if user or secret
+      if 3 == self.method(:check_auth_args).arity
+        check_auth_args(user, secret, authtype)
+      else
+        check_auth_args(user, secret)
+      end
+    end
 
     sock = timeout(@open_timeout) { TCPSocket.open(@address, @port) }
     @socket = Net::InternetMessageIO.new(sock)
