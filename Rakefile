@@ -11,13 +11,13 @@ PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
 PROJ.release_name = 'Palimpsest'
 PROJ.ruby_opts = %w[-W0]
+PROJ.readme_file = 'README.rdoc'
 
 PROJ.rubyforge.name = 'codeforpeople'
 
 PROJ.rdoc.remote_dir = 'bones'
 PROJ.rdoc.exclude << '^data/'
 PROJ.notes.exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
-PROJ.svn.path = 'bones'
 
 PROJ.spec.opts << '--color'
 

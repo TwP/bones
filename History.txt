@@ -1,5 +1,8 @@
 == 2.1.1 / 2008-12-
 
+* 1 minor enhancement
+  - added '.rdoc' to the list of file extensions for rdoc and
+    notes takss [Avdi Grimm]
 * 2 bug fixes
   - default "from" field when e-mailing announcements
   - fixed SMTP check_auth_args arity [Avdi Grimm]
