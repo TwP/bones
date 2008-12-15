@@ -9,7 +9,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Palimpsest'
+PROJ.release_name = 'Proximal Phalanges'
 PROJ.ruby_opts = %w[-W0]
 PROJ.readme_file = 'README.rdoc'
 
@@ -35,7 +35,7 @@ PROJ.ann.paragraphs = %w[install synopsis features requirements]
 PROJ.ann.text = <<-ANN
 == FUN FACT
 
-A hen will lay one egg every 24 to 48 hours.
+A typical adult human skeleton commonly consists of 206, 208 or more bones depending on the method used in counting.
 
 == POST SCRIPT
 

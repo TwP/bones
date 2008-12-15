@@ -1,4 +1,4 @@
-== 2.1.1 / 2008-12-
+== 2.1.1 / 2008-12-15
 
 * 1 minor enhancement
   - added '.rdoc' to the list of file extensions for rdoc and
