@@ -218,10 +218,8 @@ You can unfreeze named skeletons, too:
 Mr Bones will perform a limited set of substitutions on the files in the
 skeleton when it generates a new project. ERB is used to insert the project
 name and the derived class name into template files. The file must end in an
-".erb" suffix for ERB substitutions to take place. The ".erb" suffix is
-stripped from the file during project generation. Therefore, your ERB files
-should have two suffixes -- the ".erb" suffix that will be stripped, and the
-suffix you want the resulting project file to have.
+".bns" suffix for ERB substitutions to take place. The ".bns" suffix is
+stripped from the file during project generation.
 
 Only two values can be substituted into files using ERB -- the project name and
 the derived class name.

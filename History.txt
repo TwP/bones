@@ -1,3 +1,9 @@
+== 2.2.0 / 2008-12-
+
+* 1 minor enhancement
+  - Mr Bones erb translation is now applied to files with a
+    '.bns' extension instead of an '.erb' extension
+
 == 2.1.1 / 2008-12-15
 
 * 1 minor enhancement

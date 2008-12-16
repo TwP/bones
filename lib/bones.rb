@@ -2,7 +2,7 @@
 module Bones
 
   # :stopdoc:
-  VERSION = '2.1.1'
+  VERSION = '2.2.0'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   WIN32 = %r/win32/ =~ RUBY_PLATFORM
   DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'
@@ -32,6 +32,8 @@ module Bones
     Dir.glob(search_me).sort.each {|rb| require rb}
   end
 
+  # call-seq:
+  #    Bones.setup
   #
   #
   def self.setup

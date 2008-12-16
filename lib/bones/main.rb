@@ -295,13 +295,13 @@ class Main
   def cp( file )
     dir = File.dirname(file).sub('NAME', name)
     dir = (dir == '.' ? output_dir : File.join(output_dir, dir))
-    dst = File.join(dir,  File.basename(file, '.erb').sub('NAME', name))
+    dst = File.join(dir,  File.basename(file, '.bns').sub('NAME', name))
     src = File.join(skeleton_dir, file)
 
     @io.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose?
     FileUtils.mkdir_p(dir)
 
-    if '.erb' == File.extname(file)
+    if '.bns' == File.extname(file)
       txt = ERB.new(File.read(src), nil, '-').result(binding)
       File.open(dst, 'w') {|fd| fd.write(txt)}
     else
