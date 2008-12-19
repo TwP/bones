@@ -147,6 +147,17 @@ describe Bones::Main do
       @main.name.should be_nil
       @main.options[:action].should == :info
     end
+
+    it 'parses the repository flag' do
+      @main.parse %w[--freeze --repository git://github.com/TwP/bones.git]
+      @main.repository.should == 'git://github.com/TwP/bones.git'
+      @main.options[:action].should == :freeze
+
+      @main = Bones::Main.new
+      @main.parse %w[--freeze -r http://example.com/projects/sts/svn/trunk]
+      @main.repository.should == 'http://example.com/projects/sts/svn/trunk'
+      @main.options[:action].should == :freeze
+    end
   end
 
   # ------------------------------------------------------------------------

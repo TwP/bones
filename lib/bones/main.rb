@@ -52,6 +52,14 @@ class Main
     options[:name]
   end
 
+  # A git or svn repository URL from the command line.
+  #
+  def repository
+    return options[:repository] if options.has_key? :repository
+    return IO.read(skeleton_dir).strip if skeleton_dir and test(?f, skeleton_dir)
+    nil
+  end
+
   # Returns the project name but converted to be usable as a Ruby class
   # name.
   #
@@ -97,9 +105,9 @@ class Main
     opts.on('-s', '--skeleton NAME', String,
             'project skeleton to use') do |skeleton_name|
         path = File.join(mrbones_dir, skeleton_name)
-        if test(?d, path)
+        if test(?e, path)
           options[:skeleton_dir] = path 
-        elsif test(?d, skeleton_name)
+        elsif test(?e, skeleton_name)
           options[:skeleton_dir] = skeleton_name
         else
           @io.puts "    unknown skeleton '#{skeleton_name}'"
@@ -116,6 +124,10 @@ class Main
     }
     opts.on('--unfreeze', 'use the standard project skeleton') {
       options[:action] = :unfreeze
+    }
+    opts.on('-r', '--repository URL', String,
+            'svn or git repository path') { |repository|
+      options[:repository] = repository
     }
     opts.on('-i', '--info', 'report on the project skeleton being used') {
       options[:action] = :info
@@ -168,6 +180,7 @@ class Main
   def create
     # see if the directory already exists
     abort "'#{output_dir}' already exists" if test ?e, output_dir
+    return create_from_repository if repository
 
     begin
       files_to_copy.each {|fn| cp fn}
@@ -194,6 +207,12 @@ class Main
       msg << " in directory '#{output_dir}'" if name != output_dir
       abort msg
     end
+  end
+
+  #
+  #
+  def create_from_repository
+    @io.puts "creating from #{repository}"
   end
   
   # Archive any existing tasks in the project's tasks folder, and then
@@ -234,8 +253,9 @@ class Main
     options[:output_dir]   = File.join(mrbones_dir, name)
 
     archive(output_dir, "#{output_dir}.archive")
-    FileUtils.mkdir_p(output_dir)
+    return freeze_to_repository if repository
 
+    FileUtils.mkdir_p(output_dir)
     files_to_copy.each do |file|
       src = File.join(skeleton_dir, file)
       dst = File.join(output_dir, file)
@@ -251,6 +271,16 @@ class Main
 
     @io.puts "project skeleton has been frozen " <<
                   "to Mr Bones #{::Bones::VERSION}"
+  end
+
+  # Freeze the project skeleton to the git or svn repository that the user
+  # passed in on the command line. This essentially creates an alias to the
+  # reposiory using the name passed in on the command line.
+  #
+  def freeze_to_repository
+    File.open(output_dir, 'w') {|fd| fd.puts repository}
+    @io.puts "project skeleton has been frozen " <<
+                  "to #{repository.inspect}"
   end
 
   # Unfreeze the project skeleton. The default Mr Bones skeleton will be
@@ -324,6 +354,10 @@ class Main
       FileUtils.rm_rf(to)
       FileUtils.mkdir(to)
       FileUtils.cp_r(File.join(from, '.'), to)
+      FileUtils.rm_rf(from)
+      true
+    elsif test(?f, from)
+      @io.puts "removing #{from}" if verbose?
       FileUtils.rm_rf(from)
       true
     else
