@@ -4,11 +4,11 @@ require 'optparse'
 require 'erb'
 
 module Bones
-class Main
+class App
 
   attr_reader :options
 
-  # Create a new instance of Main, and run the +bones+ application given
+  # Create a new instance of App, and run the +bones+ application given
   # the command line _args_.
   #
   def self.run( args )
@@ -408,7 +408,9 @@ class Main
     File.join(mrbones_dir, 'version.txt')
   end
 
-end  # class Main
+end  # class App
 end  # module Bones
+
+Bones.require_all_libs_relative_to(__FILE__)
 
 # EOF

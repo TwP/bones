@@ -2,6 +2,6 @@
 
 require File.expand_path(
     File.join(File.dirname(__FILE__), '..', 'lib', 'bones'))
-Bones::Main.run ARGV
+Bones::App.run ARGV
 
 # EOF

@@ -2,10 +2,10 @@
 require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. spec_helper]))
 
-describe Bones::Main do
+describe Bones::App do
 
   before :each do
-    @main = Bones::Main.new
+    @main = Bones::App.new
     @skeleton_dir = File.join(@main.mrbones_dir, 'data')
     @skeleton_dir = Bones.path('data') unless test(?e, @skeleton_dir)
   end
@@ -73,7 +73,7 @@ describe Bones::Main do
       @main.name.should == 'foo-bar'
       @main.verbose?.should == true
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.parse %w[--verbose foo-bar]
       @main.name.should == 'foo-bar'
       @main.verbose?.should == true
@@ -84,7 +84,7 @@ describe Bones::Main do
       @main.name.should == 'foo-bar'
       @main.output_dir.should == 'blah'
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.parse %w[--directory blah foo-bar]
       @main.name.should == 'foo-bar'
       @main.output_dir.should == 'blah'
@@ -95,7 +95,7 @@ describe Bones::Main do
       @main.name.should == 'foo-bar'
       @main.output_dir.should == 'blah'
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.parse %w[--directory blah foo-bar]
       @main.name.should == 'foo-bar'
       @main.output_dir.should == 'blah'
@@ -107,7 +107,7 @@ describe Bones::Main do
       @main.name.should == 'foo-bar'
       @main.skeleton_dir.should == Bones.path(%w[spec data data])
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.stub!(:mrbones_dir).and_return(Bones.path(%w[spec data]))
       @main.parse %w[--skeleton foo foo-bar]
       @main.name.should == 'foo-bar'
@@ -125,7 +125,7 @@ describe Bones::Main do
       @main.name.should be_nil
       @main.options[:action].should == :freeze
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.parse %w[--freeze foo-bar]
       @main.name.should == 'foo-bar'
       @main.options[:action].should == :freeze
@@ -142,7 +142,7 @@ describe Bones::Main do
       @main.name.should be_nil
       @main.options[:action].should == :info
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.parse %w[-i]
       @main.name.should be_nil
       @main.options[:action].should == :info
@@ -153,7 +153,7 @@ describe Bones::Main do
       @main.repository.should == 'git://github.com/TwP/bones.git'
       @main.options[:action].should == :freeze
 
-      @main = Bones::Main.new
+      @main = Bones::App.new
       @main.parse %w[--freeze -r http://example.com/projects/sts/svn/trunk]
       @main.repository.should == 'http://example.com/projects/sts/svn/trunk'
       @main.options[:action].should == :freeze
@@ -163,6 +163,6 @@ describe Bones::Main do
   # ------------------------------------------------------------------------
   #describe 'when archiving tasks'
 
-end  # describe Bones::Main
+end  # describe Bones::App
 
 # EOF
