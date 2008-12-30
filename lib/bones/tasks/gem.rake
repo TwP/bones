@@ -1,4 +1,3 @@
-
 require 'find'
 require 'rake/packagetask'
 require 'rubygems/user_interaction'
@@ -155,6 +154,13 @@ namespace :gem do
   desc 'Show information about the gem'
   task :debug => 'gem:prereqs' do
     puts PROJ.gem._spec.to_ruby
+  end
+
+  desc 'Write the gemspec '
+  task :spec => 'gem:prereqs' do
+    File.open("#{PROJ.name}.gemspec", 'w') do |f|
+      f.write PROJ.gem._spec.to_ruby
+    end
   end
 
   desc 'Install the gem'
