@@ -1,0 +1,5 @@
+module <%= classname %>
+  def self.<%= name %>
+    p 'just a test'
+  end
+end
