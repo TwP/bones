@@ -26,18 +26,16 @@ class App
   def run( args )
     cmd_str = args.shift
     cmd = case cmd_str
-      when 'create'
-        CreateCommand.new(@out, @err)
-      when 'update'
-        UpdateCommand.new(@out, @err)
-      when 'freeze'
-        FreezeCommand.new(@out, @err)
-      when 'unfreeze'
-      when 'info'
+      when 'create';    CreateCommand.new(@out, @err)
+      when 'update';    UpdateCommand.new(@out, @err)
+      when 'freeze';    FreezeCommand.new(@out, @err)
+      when 'unfreeze';  UnfreezeCommand.new(@out, @err)
+      when 'info';      InfoCommand.new(@out, @err)
       when nil, '-h', '--help'
         help
       when '-v', '--version'
-        @out.puts "Mr Bones #{::Bones::VERSION}"; nil
+        @out.puts "Mr Bones #{::Bones::VERSION}"
+        nil
       else
         raise "Unknown command #{cmd_str.inspect}"
       end
@@ -50,6 +48,8 @@ class App
     exit 1
   end
 
+  # Show the toplevel Mr Bones help message.
+  #
   def help
     @out.puts <<-MSG
 

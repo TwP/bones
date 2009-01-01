@@ -43,11 +43,12 @@ class FileManager
   #
   #
   def archive_destination
-    return unless test(?e, destination)
+    return false unless test(?e, destination)
 
     @out.puts "archiving #{destination}" if verbose?
     FileUtils.rm_rf(archive)
     FileUtils.mv(destination, archive)
+    true
   end
 
   #
