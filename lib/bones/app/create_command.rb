@@ -48,7 +48,13 @@ class CreateCommand < Command
     std_opts = standard_options
 
     opts = OptionParser.new
-    opts.banner = 'Usage: bones create [options] project_name'
+    opts.banner = 'Usage: bones create [options] <project_name>'
+
+    opts.separator ''
+    opts.separator "  Create a new project from a Mr Bones project skeleton. The skeleton can"
+    opts.separator "  be the default project skeleton from the Mr Bones gem or one of the named"
+    opts.separator "  skeletons found in the '~/.mrbones/' folder. A git or svn repository can"
+    opts.separator "  be used as the skeleton if the '--repository' flag is given."
 
     opts.separator ''
     opts.on(*std_opts[:directory])

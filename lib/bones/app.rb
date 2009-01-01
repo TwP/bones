@@ -29,7 +29,9 @@ class App
       when 'create'
         CreateCommand.new(@out, @err)
       when 'update'
+        UpdateCommand.new(@out, @err)
       when 'freeze'
+        FreezeCommand.new(@out, @err)
       when 'unfreeze'
       when 'info'
       when nil, '-h', '--help'
