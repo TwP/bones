@@ -12,6 +12,7 @@ PROJ.version = Bones::VERSION
 PROJ.release_name = 'Distal Phalanges'
 PROJ.ruby_opts = %w[-W0]
 PROJ.readme_file = 'README.rdoc'
+PROJ.exclude << 'bones.gemspec'
 
 PROJ.rubyforge.name = 'codeforpeople'
 
