@@ -1,8 +1,11 @@
-== 2.2.0 / 2008-12-
+== 2.2.0 / 2009-01-01
 
-* 1 minor enhancement
+* 4 minor enhancements
+  - projects can be instantiated from git or svn repositories
+  - added a task to generate a project gemspec for use on github [Sandro Turriate]
   - Mr Bones erb translation is now applied to files with a
     '.bns' extension instead of an '.erb' extension
+  - refactored the main bones application
 
 == 2.1.1 / 2008-12-15
 

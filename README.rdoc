@@ -60,6 +60,7 @@ Mr Bones provides the following rake tasks:
   gem:reinstall     # Reinstall the gem
   gem:release       # Package and upload to RubyForge
   gem:repackage     # Force a rebuild of the package files
+  gem:spec          # Write the gemspec
   gem:uninstall     # Uninstall the gem
   git:create_tag    # Create a new tag in the Git repository
   git:show_tags     # Show tags from the Git repository
@@ -86,7 +87,7 @@ directory. Add your own tasks there when you need more functionality.
 
 To create a new "Get Fuzzy" project:
 
-  bones get_fuzzy
+  bones create get_fuzzy
 
 If you ever get confused about what Mr Bones can do:
 
@@ -182,7 +183,7 @@ copied to the ".mrbones" directory in your home directory. From there, the
 skeleton can be modified however you like (add new files and tasks, add new
 directories, etc).
 
-  bones --freeze
+  bones freeze
 
 Typical uses of this feature would be to fill in user specific data like the
 author, e-mail address, etc. You can also add more default code to the skeleton
@@ -191,11 +192,11 @@ project or your own ".rake" task files.
 You can have multiple skeletons with different names. Your projects can be
 instantiated from any of these skeletons. Just supply a name when freezing:
 
-  bones --freeze foo
+  bones freeze foo
 
 You can instantiate a project from the "foo" skeleton:
 
-  bones --skeleton foo get_fuzzy
+  bones create --skeleton foo get_fuzzy
 
 The default skeleton name is "data". If no skeleton name is provided, then this
 is the skeleton that will be used.
@@ -207,11 +208,36 @@ Unfreezing a skeleton will remove your customized project skeleton from the
 instead. A copy of your custom skeleton is stored in an archive directory of
 the ".mrbones" directory before it is removed.
 
-  bones --unfreeze
+  bones unfreeze
 
 You can unfreeze named skeletons, too:
 
-  bones --unfreeze foo
+  bones unfreeze foo
+
+==== Repository Skeletons
+
+You can instantiate a new project from a git or svn repository. For example,
+if you would like to use the "bort" rails template from github, you can type
+in the following:
+
+  bones create --repository git://github.com/fudgestudios/bort.git foo
+
+Typing in the full path to the repository each time is tedious. You can
+create an alias by freezing the repository and giving it an easy to remember
+name.
+
+  bones freeze --repository git://github.com/fudgestudios/bort.git bort
+
+This does not checkout a copy of the repository; it give us an easy to use
+alias when we want to create a new proejct based on the repository. The
+following command will use our new alias to instantiate a new project called
+"foo":
+
+  bones create --skeleton bort foo
+
+If the repository contains '.bns' files they will be filtered through the
+ERb templating system. All the custom modifications described in the next
+section apply to repository based skeletons as well.
 
 ==== Custom Modifications
 
