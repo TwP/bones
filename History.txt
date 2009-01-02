@@ -6,6 +6,9 @@
   - Mr Bones erb translation is now applied to files with a
     '.bns' extension instead of an '.erb' extension
   - refactored the main bones application
+* 1 bugfix
+  - Mr Bones tasks are only added to the gemspec when a package
+    is being built
 
 == 2.1.1 / 2008-12-15
 
