@@ -1,7 +1,7 @@
 # The list of files that should be ignored by Mr Bones.
 # Lines that start with '#' are comments.
 #
-# A .gitignore file can be used instead by setting that as the ignore
+# A .gitignore file can be used instead by setting it as the ignore
 # file in your Rakefile:
 #
 #   PROJ.ignore_file = '.gitignore'

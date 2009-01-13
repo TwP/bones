@@ -42,8 +42,8 @@ describe Bones::App::FileManager do
     ary.length.should == 9
 
     ary.should == %w[
+      .bnsignore
       History.txt.bns
-      Manifest.txt
       README.txt.bns
       Rakefile.bns
       bin/NAME.bns
