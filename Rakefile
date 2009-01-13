@@ -12,6 +12,7 @@ PROJ.version = Bones::VERSION
 PROJ.release_name = 'Distal Phalanges'
 PROJ.ruby_opts = %w[-W0]
 PROJ.readme_file = 'README.rdoc'
+PROJ.ignore_file = '.gitignore'
 PROJ.exclude << 'bones.gemspec'
 
 PROJ.rubyforge.name = 'codeforpeople'
@@ -47,7 +48,6 @@ TwP
 ANN
 
 task :default => 'spec:specdoc'
-task 'gem:package' => 'manifest:assert'
 task 'ann:prereqs' do
   PROJ.name = 'Mr Bones'
 end

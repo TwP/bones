@@ -1,3 +1,8 @@
+== 2.3.0 / 2009-01-
+
+* 1 minor enhancement
+  - removed the need for a Manifest.txt file
+
 == 2.2.0 / 2009-01-01
 
 * 4 minor enhancements

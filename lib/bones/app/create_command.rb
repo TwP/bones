@@ -29,7 +29,6 @@ class CreateCommand < Command
       if test(?f, File.join(output_dir, 'Rakefile'))
         begin
           FileUtils.cd output_dir
-          system "rake manifest:create 2>&1 > #{::Bones::DEV_NULL}"
           @out.puts "Now you need to fix these files"
           system "rake notes"
         ensure

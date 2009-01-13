@@ -51,9 +51,8 @@ class AnnotationExtractor
     end
   end
 
-  # Iterate over all the files in the project manifest and extract
-  # annotations from the those files. Returns the results as a hash for
-  # display.
+  # Iterate over all the files in the project and extract annotations from
+  # the those files. Returns the results as a hash for display.
   #
   def find
     results = {}

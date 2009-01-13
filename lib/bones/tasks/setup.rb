@@ -4,6 +4,7 @@ require 'rake'
 require 'rake/clean'
 require 'fileutils'
 require 'ostruct'
+require 'find'
 
 class OpenStruct; undef :gem; end
 
@@ -27,8 +28,8 @@ PROJ = OpenStruct.new(
   :ruby_opts => %w(-w),
   :libs => [],
   :history_file => 'History.txt',
-  :manifest_file => 'Manifest.txt',
   :readme_file => 'README.txt',
+  :ignore_file => '.bnsignore',
 
   # Announce
   :ann => OpenStruct.new(
@@ -254,9 +255,25 @@ end
 # Scans the current working directory and creates a list of files that are
 # candidates to be in the manifest.
 #
-def manifest_files
+def manifest
   files = []
-  exclude = Regexp.new(PROJ.exclude.join('|'))
+  exclude = PROJ.exclude.dup
+  comment = %r/^\s*#/
+ 
+  # process the ignore file and add the items there to the exclude list
+  if test(?f, PROJ.ignore_file)
+    ary = File.readlines(PROJ.ignore_file).map do |line|
+      next if line =~ comment
+      line.chomp.strip
+    end
+    ary.compact!
+    ary.delete ''
+    exclude.concat ary
+  end
+
+  # generate a regular expression from the exclude list
+  exclude = Regexp.new(exclude.join('|'))
+
   Find.find '.' do |path|
     path.sub! %r/^(\.\/|\/)/o, ''
     next unless test ?f, path
