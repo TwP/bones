@@ -10,33 +10,6 @@ ease the management and deployment of your source code. Mr Bones is not
 viral -- all the code your project needs is included in the skeleton (no
 gem dependency required).
 
-== VERSION 2.1.0 CHANGES:
-
-With my Mr Bones projects, I found myself constantly updating the tasks as new
-versions of Mr Bones were released. This quickly became annoying. Why not use
-the tasks from the Mr Bones gem and only copy those tasks to my own projects
-when they are packaged and released? That is the goal of this release of Mr
-Bones.
-
-Version 2.1.0 of Mr Bones allows your projects to use the rake tasks found
-in the Mr Bones gem but still remain independent from Mr Bones when
-deployed. This is accomplished by copying the rake tasks into your project
-only when it is packaged into a gem (or zip file or tarball).
-
-You still have the option of copy the tasks to your local project when it is
-created. Or you can add tasks to your project at a later time.
-
-So, if you have an exsiting project and you want to use the Mr Bones tasks,
-simply delete your "tasks" folder and put the following at the top of your
-Rakefile:
-
-  begin
-    require 'bones'
-    Bones.setup
-  rescue LoadError
-    load 'tasks/setup.rb'   # this line should already be there
-  end
-
 == FEATURES:
 
 Mr Bones provides the following rake tasks:
@@ -64,9 +37,6 @@ Mr Bones provides the following rake tasks:
   gem:uninstall     # Uninstall the gem
   git:create_tag    # Create a new tag in the Git repository
   git:show_tags     # Show tags from the Git repository
-  manifest          # Alias to manifest:check
-  manifest:check    # Verify the manifest
-  manifest:create   # Create a new manifest
   notes             # Enumerate all annotations
   notes:fixme       # Enumerate all FIXME annotations
   notes:optimize    # Enumerate all OPTIMIZE annotations
@@ -76,6 +46,8 @@ Mr Bones provides the following rake tasks:
   spec:run          # Run all specs with basic output
   spec:specdoc      # Run all specs with text output
   spec:verify       # Verify that rcov coverage is at least 90.0%
+  svn:create_tag    # Create a new tag in the SVN repository
+  svn:show_tags     # Show tags from the SVN repository
   test              # Alias to test:run
   test:rcov         # Run rcov on the unit tests
   test:run          # Run tests for run
@@ -368,3 +340,31 @@ names on the left and new names on the right).
   ann_email             => ann.email     
 
 And of course, each name should be prepended with PROJ in your Rakefile.
+
+== VERSION 2.1.0 CHANGES:
+
+With my Mr Bones projects, I found myself constantly updating the tasks as new
+versions of Mr Bones were released. This quickly became annoying. Why not use
+the tasks from the Mr Bones gem and only copy those tasks to my own projects
+when they are packaged and released? That is the goal of this release of Mr
+Bones.
+
+Version 2.1.0 of Mr Bones allows your projects to use the rake tasks found
+in the Mr Bones gem but still remain independent from Mr Bones when
+deployed. This is accomplished by copying the rake tasks into your project
+only when it is packaged into a gem (or zip file or tarball).
+
+You still have the option of copy the tasks to your local project when it is
+created. Or you can add tasks to your project at a later time.
+
+So, if you have an exsiting project and you want to use the Mr Bones tasks,
+simply delete your "tasks" folder and put the following at the top of your
+Rakefile:
+
+  begin
+    require 'bones'
+    Bones.setup
+  rescue LoadError
+    load 'tasks/setup.rb'   # this line should already be there
+  end
+
