@@ -9,7 +9,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Distal Phalanges'
+PROJ.release_name = 'Calcaneus'
 PROJ.ruby_opts = %w[-W0]
 PROJ.readme_file = 'README.rdoc'
 PROJ.ignore_file = '.gitignore'
@@ -37,7 +37,7 @@ PROJ.ann.paragraphs = %w[install synopsis features requirements]
 PROJ.ann.text = <<-ANN
 == FUN FACT
 
-"Tom Sawyer" was the first novel written on a typewriter.
+Twenty-five percent of a human's bones are in its feet.
 
 == POST SCRIPT
 

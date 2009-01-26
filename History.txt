@@ -1,4 +1,4 @@
-== 2.3.0 / 2009-01-
+== 2.3.0 / 2009-01-25
 
 * 1 minor enhancement
   - removed the need for a Manifest.txt file
