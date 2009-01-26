@@ -5,4 +5,5 @@
 # *.[oa]
 # *~
 announcement.txt
-pkg
+doc/
+pkg/
