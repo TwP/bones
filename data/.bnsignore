@@ -11,6 +11,6 @@
 # *.[oa]
 # *~
 announcement.txt
-coverage/
-doc/
-pkg/
+coverage
+doc
+pkg

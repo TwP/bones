@@ -1,3 +1,8 @@
+== 2.3.1 / 2009-01-28
+
+* 1 bug fix
+  - glob patterns were not being handled correctly in the .bnsignore file
+
 == 2.3.0 / 2009-01-25
 
 * 1 minor enhancement

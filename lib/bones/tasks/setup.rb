@@ -262,12 +262,15 @@ def manifest
  
   # process the ignore file and add the items there to the exclude list
   if test(?f, PROJ.ignore_file)
-    ary = File.readlines(PROJ.ignore_file).map do |line|
+    ary = []
+    File.readlines(PROJ.ignore_file).each do |line|
       next if line =~ comment
       line.chomp.strip
+      next if line.nil? or line.empty?
+
+      glob = line =~ %r/\*\./ ? File.join('**', line) : line
+      Dir.glob(glob).each {|fn| ary << "^#{Regexp.escape(fn)}"}
     end
-    ary.compact!
-    ary.delete ''
     exclude.concat ary
   end
 
