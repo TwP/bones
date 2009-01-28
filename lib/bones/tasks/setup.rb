@@ -265,7 +265,8 @@ def manifest
     ary = []
     File.readlines(PROJ.ignore_file).each do |line|
       next if line =~ comment
-      line.chomp.strip
+      line.chomp!
+      line.strip!
       next if line.nil? or line.empty?
 
       glob = line =~ %r/\*\./ ? File.join('**', line) : line
