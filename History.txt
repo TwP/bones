@@ -1,3 +1,11 @@
+== 2.4.0 / 2009-02-
+
+* 1 minor enhancement
+  - ruby 1.9 compatability
+
+* 1 bug fix
+  - directory creation error when freezing a repository
+
 == 2.3.1 / 2009-01-28
 
 * 1 bug fix
