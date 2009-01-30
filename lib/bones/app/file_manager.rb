@@ -124,14 +124,13 @@ class FileManager
     obj = Object.new
     class << obj
       alias :__binding__ :binding
-      instance_methods.each do |m|
-        undef_method m unless m[%r/^__/]
+      instance_methods.each {|m| undef_method m unless m[%r/^(__|object_id)/]}
+      def binding(name)
+        classname = name.tr('-','_').split('_').map {|x| x.capitalize}.join
+        __binding__
       end
-      attr_accessor :name, :classname
     end
-    obj.name = name
-    obj.classname = name.tr('-','_').split('_').map {|x| x.capitalize}.join
-    obj.__send__(:__binding__)
+    obj.binding name
   end
 
   # Returns a list of the files to copy from the source directory to
