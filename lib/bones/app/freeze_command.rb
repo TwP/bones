@@ -59,6 +59,7 @@ class FreezeCommand < Command
   # reposiory using the name passed in on the command line.
   #
   def freeze_to_repository
+    FileUtils.mkdir_p(File.dirname(output_dir))
     File.open(output_dir, 'w') {|fd| fd.puts repository}
     @out.puts "Project skeleton #{name.inspect} " <<
               "has been frozen to #{repository.inspect}"
