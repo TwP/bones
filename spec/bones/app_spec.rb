@@ -15,7 +15,7 @@ describe Bones::App do
   end
 
   before :each do
-    @runner = Runner.new
+    @runner = ::Runner.new
     @app = Bones::App.new(@out, @err)
 
     Bones::App::CreateCommand.stub!(:new).

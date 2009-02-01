@@ -1,8 +1,7 @@
-== 2.4.0 / 2009-02-
+== 2.4.0 / 2009-02-01
 
 * 1 minor enhancement
   - ruby 1.9 compatability
-
 * 1 bug fix
   - directory creation error when freezing a repository
 
