@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bones}
-  s.version = "2.3.0"
+  s.version = "2.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tim Pease"]
-  s.date = %q{2009-01-28}
+  s.date = %q{2009-02-01}
   s.default_executable = %q{bones}
   s.description = %q{Mr Bones is a handy tool that builds a skeleton for your new Ruby projects. The skeleton contains some starter code and a collection of rake tasks to ease the management and deployment of your source code. Mr Bones is not viral -- all the code your project needs is included in the skeleton (no gem dependency required).}
   s.email = %q{tim.pease@gmail.com}
