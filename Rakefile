@@ -9,7 +9,7 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://codeforpeople.rubyforge.org/bones'
 PROJ.version = Bones::VERSION
-PROJ.release_name = 'Calcaneus'
+PROJ.release_name = 'Zygomatic'
 PROJ.ruby_opts = %w[-W0]
 PROJ.readme_file = 'README.rdoc'
 PROJ.ignore_file = '.gitignore'
@@ -34,18 +34,7 @@ PROJ.gem.extras[:post_install_message] = <<-MSG
 MSG
 
 PROJ.ann.paragraphs = %w[install synopsis features requirements]
-PROJ.ann.text = <<-ANN
-== FUN FACT
-
-Twenty-five percent of a human's bones are in its feet.
-
-== POST SCRIPT
-
-Blessings,
-TwP
-
-#{PROJ.gem.extras[:post_install_message]}
-ANN
+PROJ.ann.text = PROJ.gem.extras[:post_install_message]
 
 task :default => 'spec:specdoc'
 task 'ann:prereqs' do
