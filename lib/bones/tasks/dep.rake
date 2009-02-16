@@ -16,7 +16,7 @@ namespace :dep do
       next unless opts[:alias]
 
       cmd = "gem install "
-      cmd << "--version '#{opts[:version].join(' ')}' " if opts.has_key?(:version)
+      cmd << "--version '#{opts[:version].join(' ')}' " unless opts[:version].empty?
       cmd << "--source #{opts[:source]} " if opts.has_key?(:source)
       cmd << opts[:alias]
       File.open(extconf, 'a+') {|fd| fd.puts "system \"#{cmd}\""}
@@ -30,9 +30,20 @@ namespace :dep do
     in_directory(File.dirname(extconf)) {ruby 'extconf.rb'}
   end
 
-
   desc 'Show information about non-rubyforge dependencies'
   task :debug => 'gem:prereqs' do
+    puts
+    PROJ.gem.dependencies.each do |dep|
+      name, opts = dep
+      next unless opts[:alias]
+
+      str = "  #{name}"
+      str << " [#{opts[:version].join(', ')}]" unless opts[:version].empty?
+      puts str
+      puts "      alias:   #{opts[:alias]}"
+      puts "      source:  #{opts[:source]}" if opts.has_key?(:source)
+      puts
+    end
   end
 
   task :clobber do
