@@ -104,7 +104,9 @@ namespace :gem do
     s.description = PROJ.description
 
     PROJ.gem.dependencies.each do |dep|
-      s.add_dependency(*dep)
+      name, opts = dep
+      next if opts.has_key? :alias
+      s.add_dependency(name, *opts[:version])
     end
 
     PROJ.gem.development_dependencies.each do |dep|

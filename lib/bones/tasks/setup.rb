@@ -208,14 +208,26 @@ end
 # optional gem _version_ can be given. If omitted, the newest gem version
 # will be used.
 #
-def depend_on( name, version = nil )
-  spec = Gem.source_index.find_name(name).last
-  version = spec.version.to_s if version.nil? and !spec.nil?
+def depend_on( name, *args )
+  opts = Hash === args.last ? args.pop : {}
+  args.flatten!
+  version =
+      case args.length
+      when 0; opts[:version]
+      when 1; args.first
+      else args end
 
-  PROJ.gem.dependencies << case version
-    when nil; [name]
-    when %r/^\d/; [name, ">= #{version}"]
-    else [name, version] end
+  spec = Gem.source_index.find_name(name).last
+  version =
+      case version
+      when nil; spec.nil? ? [] : [">= #{spec.version}"]
+      when %r/^\d/; [">= #{version}"]
+      when String; [version]
+      when Array; version
+      else raise "unrecognized gem version: #{version.inspect}" end
+
+  opts[:version] = version
+  PROJ.gem.dependencies << [name, opts]
 end
 
 # Adds the given arguments to the include path if they are not already there
