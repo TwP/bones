@@ -1,11 +1,17 @@
 
+require 'rbconfig'
+
 module Bones
 
   # :stopdoc:
-  VERSION = '2.4.0'
+  VERSION = '2.4.1'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-  WIN32 = %r/win32/ =~ RUBY_PLATFORM
-  DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'
+  HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
+  DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
+
+  # Ruby Interpreter location - taken from Rake source code
+  RUBY = File.join(Config::CONFIG['bindir'],
+                   Config::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
   # :startdoc:
 
   # Returns the path for Mr Bones. If any arguments are given,
@@ -48,7 +54,7 @@ module Bones
     load bones_setup
 
     rakefiles = Dir.glob(File.join(Dir.pwd, %w[tasks *.rake])).sort
-    import(*rakefiles)
+    import(*rakefiles) unless rakefiles.empty?
   end
 
   # TODO: fix file lists for Test::Unit and RSpec

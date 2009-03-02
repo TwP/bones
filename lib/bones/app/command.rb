@@ -81,8 +81,7 @@ class Command
   def mrbones_dir
     return @mrbones_dir if defined? @mrbones_dir
 
-    path = (::Bones::WIN32 ? ENV['HOMEPATH'].tr("\\", "/") : ENV['HOME'])
-    path = File.join(path, '.mrbones')
+    path = File.join(::Bones::HOME, '.mrbones')
     @mrbones_dir = File.expand_path(path)
   end
 

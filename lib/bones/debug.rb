@@ -24,6 +24,7 @@ module Debug
 
     h = ostruct.instance_variable_get(:@table)
     h.keys.map {|k| k.to_s}.sort.each do |k|
+      sio.seek 0
       sio.truncate 0
       next if k =~ %r/^_/o
 

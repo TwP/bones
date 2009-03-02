@@ -30,7 +30,7 @@ class CreateCommand < Command
         begin
           FileUtils.cd output_dir
           @out.puts "Now you need to fix these files"
-          system "rake notes"
+          system "#{::Bones::RUBY} -S rake notes"
         ensure
           FileUtils.cd pwd
         end
