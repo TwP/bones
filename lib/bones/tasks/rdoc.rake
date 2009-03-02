@@ -19,10 +19,11 @@ namespace :doc do
             end
     rd.rdoc_files.push(*files)
 
-    title = "#{PROJ.name}-#{PROJ.version} Documentation"
-
+    name    = PROJ.name
     rf_name = PROJ.rubyforge.name
-    title = "#{rf_name}'s " + title if rf_name.valid? and rf_name != title
+
+    title = "#{name}-#{PROJ.version} Documentation"
+    title = "#{rf_name}'s " + title if rf_name.valid? and rf_name != name
 
     rd.options << "-t #{title}"
     rd.options.concat(rdoc.opts)
