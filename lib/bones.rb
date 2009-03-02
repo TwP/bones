@@ -4,7 +4,7 @@ require 'rbconfig'
 module Bones
 
   # :stopdoc:
-  VERSION = '2.4.1'
+  VERSION = '2.4.2'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
   DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
