@@ -36,21 +36,18 @@ describe Bones::App::FileManager do
   end
 
   it "should return a list of files to copy" do
-    @fm.source = Bones.path 'data'
+    @fm.source = Bones.path %w[spec data data]
 
     ary = @fm._files_to_copy
-    ary.length.should == 9
+    ary.length.should == 6
 
     ary.should == %w[
       .bnsignore
-      History.txt.bns
+      History
+      NAME/NAME.rb.bns
       README.txt.bns
       Rakefile.bns
-      bin/NAME.bns
       lib/NAME.rb.bns
-      spec/NAME_spec.rb.bns
-      spec/spec_helper.rb.bns
-      test/test_NAME.rb
     ]
   end
 

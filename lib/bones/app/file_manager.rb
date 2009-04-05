@@ -140,7 +140,7 @@ class FileManager
     rgxp = %r/\A#{source}\/?/
     exclude = %r/tmp$|bak$|~$|CVS|\.svn/
 
-    ary = Dir.glob(File.join(source, '**', '*.*'), File::FNM_DOTMATCH).map do |filename|
+    ary = Dir.glob(File.join(source, '**', '*'), File::FNM_DOTMATCH).map do |filename|
       next if exclude =~ filename
       next if test(?d, filename)
       filename.sub rgxp, ''

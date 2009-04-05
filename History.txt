@@ -1,3 +1,8 @@
+== 2.5.0 / 2009-04-
+
+* 1 bug fix
+  - files without extensions are picked up when generating a new project
+
 == 2.4.2 / 2009-03-02
 
 * 2 bug fixes
