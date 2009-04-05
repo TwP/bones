@@ -1,5 +1,7 @@
-== 2.5.0 / 2009-04-
+== 2.5.0 / 2009-04-05
 
+* 1 minor enhancement
+  - added support for ZenTest autotest
 * 1 bug fix
   - files without extensions are picked up when generating a new project
 
