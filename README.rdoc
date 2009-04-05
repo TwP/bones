@@ -17,6 +17,7 @@ Mr Bones provides the following rake tasks:
   ann               # Alias to ann:announcement
   ann:announcement  # Create an announcement file
   ann:email         # Send an email announcement
+  autotest          # Run the autotest loop
   bones:debug       # Show the PROJ open struct
   clean             # Remove any temporary products.
   clobber           # Remove any generated file.
