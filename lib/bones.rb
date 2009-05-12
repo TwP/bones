@@ -4,7 +4,7 @@ require 'rbconfig'
 module Bones
 
   # :stopdoc:
-  VERSION = '2.5.0'
+  VERSION = '2.5.1'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
   DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
@@ -54,7 +54,7 @@ module Bones
     load bones_setup
 
     rakefiles = Dir.glob(File.join(Dir.pwd, %w[tasks *.rake])).sort
-    import(*rakefiles) unless rakefiles.empty?
+    rakefiles.each {|fn| Rake.application.add_import(fn)}
   end
 
   # TODO: fix file lists for Test::Unit and RSpec
