@@ -1,5 +1,7 @@
 
 require 'rbconfig'
+require 'little-plugger'
+require 'loquacious'
 
 module Bones
 
@@ -12,6 +14,8 @@ module Bones
   # Ruby Interpreter location - taken from Rake source code
   RUBY = File.join(Config::CONFIG['bindir'],
                    Config::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
+
+  module Plugins; end
   # :startdoc:
 
   # Returns the path for Mr Bones. If any arguments are given,
