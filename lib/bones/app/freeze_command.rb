@@ -1,6 +1,5 @@
 
-module Bones
-class App
+module Bones::App
 
 class FreezeCommand < Command
 
@@ -19,7 +18,6 @@ class FreezeCommand < Command
     return freeze_to_repository if repository
 
     fm.copy
-    copy_tasks(File.join(output_dir, 'tasks')) if with_tasks?
 
     @out.puts "Project skeleton #{name.inspect} " <<
               "has been frozen to Mr Bones #{::Bones::VERSION}"
@@ -39,7 +37,6 @@ class FreezeCommand < Command
 
     opts.separator ''
     opts.on(*std_opts[:repository])
-    opts.on(*std_opts[:with_tasks])
 
     opts.separator ''
     opts.separator '  Common Options:'
@@ -67,7 +64,6 @@ class FreezeCommand < Command
 
 
 end  # class FreezeCommand
-end  # class App
-end  # module Bones
+end  # module Bones::App
 
 # EOF

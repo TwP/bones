@@ -1,8 +1,5 @@
 
-require 'fileutils'
-
-module Bones
-class App
+module Bones::App
 
 class FileManager
 
@@ -169,7 +166,6 @@ class FileManager
   end
 
 end  # class FileManager
-end  # class App
-end  # module Bones
+end  # module Bones::App
 
 # EOF

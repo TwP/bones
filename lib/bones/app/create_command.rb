@@ -1,6 +1,5 @@
 
-module Bones
-class App
+module Bones::App
 
 class CreateCommand < Command
 
@@ -18,7 +17,6 @@ class CreateCommand < Command
 
     begin
       fm.copy
-      copy_tasks(File.join(output_dir, 'tasks')) if with_tasks?
       fm.finalize name
 
       pwd = File.expand_path(FileUtils.pwd)
@@ -43,44 +41,7 @@ class CreateCommand < Command
     end
   end
 
-  def parse( args )
-    std_opts = standard_options
-
-    opts = OptionParser.new
-    opts.banner = 'Usage: bones create [options] <project_name>'
-
-    opts.separator ''
-    opts.separator "  Create a new project from a Mr Bones project skeleton. The skeleton can"
-    opts.separator "  be the default project skeleton from the Mr Bones gem or one of the named"
-    opts.separator "  skeletons found in the '~/.mrbones/' folder. A git or svn repository can"
-    opts.separator "  be used as the skeleton if the '--repository' flag is given."
-
-    opts.separator ''
-    opts.on(*std_opts[:directory])
-    opts.on(*std_opts[:skeleton])
-    opts.on(*std_opts[:repository])
-    opts.on(*std_opts[:with_tasks])
-
-    opts.separator ''
-    opts.separator '  Common Options:'
-    opts.on_tail( '-h', '--help', 'show this message' ) {
-      @out.puts opts
-      exit
-    }
-
-    # parse the command line arguments
-    opts.parse! args
-    options[:name] = args.empty? ? nil : args.join('_')
-
-    if name.nil?
-      @out.puts opts
-      exit 1
-    end
-    options[:output_dir] = name if output_dir.nil?
-  end
-
 end  # class CreateCommand
-end  # class App
-end  # module Bones
+end  # module Bones::App
 
 # EOF

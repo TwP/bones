@@ -1,6 +1,5 @@
 
-module Bones
-class App
+module Bones::App
 
 class InfoCommand < Command
 
@@ -52,7 +51,6 @@ class InfoCommand < Command
   end
 
 end  # class InfoCommand
-end  # class App
-end  # module Bones
+end  # module Bones::App
 
 # EOF

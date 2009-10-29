@@ -2,12 +2,13 @@
 require 'pp'
 require 'stringio'
 
-module Bones
+# TODO: this will go away and be replaced by a loquacious
+#       iterator / help object
 
 # Helper module that will pretty print OpenStruct objects. It is used mainly
 # for debugging the Mr Bones project open struct.
 #
-module Debug
+module Bones::Debug
 
   # :stopdoc:
   KEY_LENGTH = 20
@@ -66,7 +67,6 @@ module Debug
     end
   end
 
-end  # module Debug
-end  # module Bones
+end  # module Bones::Debug
 
 # EOF

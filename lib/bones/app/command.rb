@@ -1,22 +1,14 @@
 
-module Bones
-class App
+module Bones::App
 
 class Command
 
   attr_reader :options
 
-  def initialize( out = STDOUT, err = STDERR )
+  def initialize( params, out = STDOUT, err = STDERR )
     @out = out
     @err = err
-    @options = {
-      :skeleton_dir => File.join(mrbones_dir, 'data'),
-      :with_tasks => false,
-      :verbose => false,
-      :name => nil,
-      :output_dir => nil
-    }
-    @options[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
+    normalize params
   end
 
   def run( args )
@@ -49,40 +41,39 @@ class Command
     nil
   end
 
-  # Returns +true+ if we are going to copy the Mr Bones tasks into the
-  # destination directory. Normally this will return +false+.
-  #
-  def with_tasks?
-    options[:with_tasks]
-  end
-
-  #
-  #
-  def copy_tasks( to )
-    fm = FileManager.new(
-      :source => ::Bones.path(%w[lib bones tasks]),
-      :destination => to,
-      :stdout => @out,
-      :stderr => @err,
-      :verbose => verbose?
-    )
-    fm.archive_destination
-    fm.copy
-  end
-
   # Returns +true+ if the user has requested verbose messages.
   #
   def verbose?
     options[:verbose]
   end
 
-  # Returns the .bones resource directory in the user's home directory.
+  # Returns the .mrbones resource directory in the user's home directory.
   #
   def mrbones_dir
     return @mrbones_dir if defined? @mrbones_dir
 
     path = File.join(::Bones::HOME, '.mrbones')
     @mrbones_dir = File.expand_path(path)
+  end
+
+  def normalize( params )
+    p = params.to_options
+    @options = {
+      :skeleton_dir => File.join(mrbones_dir, 'data'),
+      :verbose => false,
+      :name => nil,
+      :output_dir => nil
+    }
+    @options[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
+    @options[:output_dir] ||= @options[:name]
+
+    {
+      :name         => p['project_name'],
+      :verbose      => p['verbose'] ? true : false,
+      :output_dir   => p['directory'],
+      :skeleton_dir => p['skeleton'],
+      :repository   => p['repository']
+    }
   end
 
   #
@@ -110,10 +101,6 @@ class Command
               raise ArgumentError, "Unknown skeleton '#{value}'"
             end
           }],
-      :with_tasks => ['--with-tasks', 'copy rake tasks to the project folder',
-          lambda {
-            options[:with_tasks] = true
-          }],
       :repository => ['-r', '--repository URL', String,
           'svn or git repository path', 
           lambda { |value|
@@ -123,7 +110,6 @@ class Command
   end
 
 end  # class Command
-end  # class App
-end  # module Bones
+end  # module Bones::App
 
 # EOF

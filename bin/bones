@@ -1,7 +1,13 @@
 #!/usr/bin/env ruby
 
-require File.expand_path(
-    File.join(File.dirname(__FILE__), '..', 'lib', 'bones'))
-Bones::App.run ARGV
+root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+
+begin
+  require File.join(root, %w[lib bones])
+rescue LoadError
+  require 'bones'
+end
+
+Kernel.load Bones.libpath(%w[bones app.rb])
 
 # EOF
