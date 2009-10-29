@@ -3,9 +3,7 @@ module Bones::App
 
 class InfoCommand < Command
 
-  def run( args )
-    parse args
-
+  def run
     skeleton_dir = File.join(mrbones_dir, 'data')
     skeleton_dir = ::Bones.path('data') unless test(?d, skeleton_dir)
 
@@ -28,26 +26,6 @@ class InfoCommand < Command
 
     @out.puts msg
     @out.puts
-  end
-
-  def parse( args )
-    std_opts = standard_options
-
-    opts = OptionParser.new
-    opts.banner = 'Usage: bones info'
-
-    opts.separator ''
-    opts.separator '  Shows information about available skeletons'
-
-    opts.separator ''
-    opts.separator '  Common Options:'
-    opts.on_tail( '-h', '--help', 'show this message' ) {
-      @out.puts opts
-      exit
-    }
-
-    # parse the command line arguments
-    opts.parse! args
   end
 
 end  # class InfoCommand

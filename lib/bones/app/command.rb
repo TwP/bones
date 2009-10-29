@@ -3,15 +3,25 @@ module Bones::App
 
 class Command
 
+  # Run the current command using the given Main _params_ table.
+  #
+  def self.run( params )
+    new(params).run
+  end
+
   attr_reader :options
 
+  #
+  #
   def initialize( params, out = STDOUT, err = STDERR )
     @out = out
     @err = err
     normalize params
   end
 
-  def run( args )
+  # Implemented by subclasses.
+  #
+  def run
     raise NotImplementedError
   end
 
@@ -56,57 +66,34 @@ class Command
     @mrbones_dir = File.expand_path(path)
   end
 
+  # Take the Main _params_ and convert them into an options hash usable by the
+  # command objects.
+  #
   def normalize( params )
     p = params.to_options
     @options = {
-      :skeleton_dir => File.join(mrbones_dir, 'data'),
-      :verbose => false,
-      :name => nil,
-      :output_dir => nil
+      :name         => p['project_name'] || p['skeleton_name'],
+      :verbose      => p['verbose'] ? true : false,
+      :repository   => p['repository'],
+      :output_dir   => p['directory'],
+      :skeleton_dir => nil
     }
+
+    if value = p['skeleton']
+      path = File.join(mrbones_dir, value)
+      if test(?e, path)
+        @options[:skeleton_dir] = path
+      elsif test(?e, value)
+        @options[:skeleton_dir] = value
+      else
+        raise ArgumentError, "Unknown skeleton '#{value}'"
+      end
+    else
+      @options[:skeleton_dir] = File.join(mrbones_dir, 'data')
+    end
+
     @options[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
     @options[:output_dir] ||= @options[:name]
-
-    {
-      :name         => p['project_name'],
-      :verbose      => p['verbose'] ? true : false,
-      :output_dir   => p['directory'],
-      :skeleton_dir => p['skeleton'],
-      :repository   => p['repository']
-    }
-  end
-
-  #
-  #
-  def standard_options
-    {
-      :verbose => ['-v', '--verbose', 'enable verbose output',
-          lambda {
-            options[:verbose] = true
-          }],
-      :directory => ['-d', '--directory DIRECTORY', String,
-          'project directory to create', '(defaults to project_name)',
-          lambda { |value|
-            options[:output_dir] = value
-          }],
-      :skeleton => ['-s', '--skeleton NAME', String,
-          'project skeleton to use',
-          lambda { |value|
-            path = File.join(mrbones_dir, value)
-            if test(?e, path)
-              options[:skeleton_dir] = path 
-            elsif test(?e, value)
-              options[:skeleton_dir] = value
-            else
-              raise ArgumentError, "Unknown skeleton '#{value}'"
-            end
-          }],
-      :repository => ['-r', '--repository URL', String,
-          'svn or git repository path', 
-          lambda { |value|
-            options[:repository] = value
-          }]
-    }
   end
 
 end  # class Command

@@ -3,9 +3,7 @@ module Bones::App
 
 class CreateCommand < Command
 
-  def run( args )
-    parse args
-
+  def run
     fm = FileManager.new(
       :source => repository || skeleton_dir,
       :destination => output_dir,
