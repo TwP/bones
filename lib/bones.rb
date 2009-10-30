@@ -38,29 +38,12 @@ module Bones
     args.empty? ? LIBPATH : File.join(LIBPATH, args.flatten)
   end
 
-  #
+  # call-seq:
+  #    Bones.config
+  #    Bones.config { block }
   #
   def self.config( &block )
     Loquacious.configuration_for('Bones', &block)
-  end
-
-  # call-seq:
-  #    Bones.setup
-  #
-  #
-  def self.setup
-    local_setup = File.join(Dir.pwd, %w[tasks setup.rb])
-
-    if test(?e, local_setup)
-      load local_setup
-      return
-    end
-
-    bones_setup = ::Bones.path %w[lib bones tasks setup.rb]
-    load bones_setup
-
-    rakefiles = Dir.glob(File.join(Dir.pwd, %w[tasks *.rake])).sort
-    rakefiles.each {|fn| Rake.application.add_import(fn)}
   end
 
 end  # module Bones
@@ -71,6 +54,7 @@ begin
   require 'bones/helpers'
   require 'bones/gem_package_task'
   require 'bones/annotation_extractor'
+  require 'bones/smtp_tls'
 
   Bones.config {}
 ensure
@@ -78,6 +62,12 @@ ensure
 end
 
 module Kernel
+  # call-seq:
+  #    Bones { block }
+  #
+  # Configure Mr Bones using the given _block_ of code. If a block is not
+  # given, the Bones module is returned.
+  #
   def Bones( &block )
 
     # we absolutely have to have the bones plugin
@@ -99,17 +89,11 @@ module Kernel
 
     # config.exclude << "^#{Regexp.escape(config.rcov.dir)}/"
 
-    # TODO do we really need to do this step ??
-    # Loquacious::Configuration::Iterator.new(config).each { |node|
-    #   next if node.config? \
-    #        or node.name.match %r/(dependencies|development_dependencies)$/
-
-    #   val = node.obj
-    #   val.flatten! if val.instance_of? Array
-    # }
-
     plugins.each { |plugin| plugin.post_load if plugin.respond_to? :post_load }
     plugins.each { |plugin| plugin.define_tasks if plugin.respond_to? :define_tasks }
+
+    rakefiles = Dir.glob(File.join(Dir.pwd, %w[tasks *.rake])).sort
+    rakefiles.each {|fn| Rake.application.add_import(fn)}
   end
 end
 

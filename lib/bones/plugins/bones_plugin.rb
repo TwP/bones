@@ -182,6 +182,16 @@ module Bones::Plugins::BonesPlugin
         help.show atr, :descriptions => true, :values => true
       end
 
+      desc 'Show the available Mr Bones configuration options'
+      task :options do |t|
+        atr = if t.application.top_level_tasks.length == 2
+          t.application.top_level_tasks.pop
+        end
+
+        help = Loquacious.help_for('Bones', :colorize => true)
+        help.show atr, :descriptions => false, :values => false
+      end
+
     end  # namespace :bones
   end
 
