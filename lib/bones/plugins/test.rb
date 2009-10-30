@@ -9,10 +9,22 @@ module Bones::Plugins::Test
 
   def initialize_test
     ::Bones.config {
+      desc 'Configuration settings for the Ruby test framework.'
       test {
-        files  FileList['test/**/test_*.rb']
-        file   'test/all.rb'
-        opts   []
+        files FileList['test/**/test_*.rb'], :desc => <<-__
+          The list of test files to run. This defaults to all the ruby fines
+          in the 'test' directory that start with 'test_' as their filename.
+        __
+
+        file 'test/all.rb', :desc => <<-__
+          In fashion at one time was the concept of an encompassing test file
+          that would run all ruby tests for your project. You can specify that
+          file here. If the file does not exist this setting will be ignored.
+        __
+
+        opts [], :desc => <<-__
+          Extra ruby options to be used when running tests.
+        __
       }
     }
   end

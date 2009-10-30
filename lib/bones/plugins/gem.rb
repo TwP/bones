@@ -31,6 +31,7 @@ module Bones::Plugins::Gem
 
   def initialize_gem
     ::Bones.config {
+      desc 'Configuration settings for gem packaging.'
       gem {
         desc <<-__
           Array of gem dependencies.
@@ -105,6 +106,7 @@ module Bones::Plugins::Gem
 
     config.gem.files ||= manifest
     config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
+    config.gem.development_dependencies << ['bones', ">= #{Bones::VERSION}"]
   end
 
   def define_tasks

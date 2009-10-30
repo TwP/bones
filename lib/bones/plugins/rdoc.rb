@@ -7,13 +7,37 @@ module Bones::Plugins::Rdoc
 
   def initialize_rdoc
     ::Bones.config { 
+      desc 'Configuration settings for rdoc and ri'
       rdoc {
+
+        desc 'Array of rdoc options to use when generating documentation.'
         opts  []
+
+        desc <<-__
+          An array of patterns that will be used to find the files for which
+          documentation should be generated. This is an array of strings that
+          will be converted in regular expressions.
+        __
         include  %w(^lib/ ^bin/ ^ext/ \.txt$ \.rdoc$)
+
+        desc <<-__
+          An array of patterns that will be used to exclude files from rdoc
+          processing. This is an array of strings that will be converted in
+          regular expressions.
+        __
         exclude  %w(extconf\.rb$)
+
+        desc <<-__
+          The main rdoc file for the project. This defaults to the project's
+          README file.
+        __
         main  nil
+
+        desc 'Output directory for generated documentation.'
         dir  'doc'
-        remote_dir  nil
+
+        # TODO move this into a publish plugin (rubyforge, gemcutter, rdoc.info)
+        #remote_dir  nil
       }
     }
   end
