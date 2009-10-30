@@ -97,9 +97,7 @@ module Kernel
     }
     instance_eval_method.call(&block)
 
-    # config.exclude << ["^#{Regexp.escape(config.ann.file)}$",
-    #                    "^#{Regexp.escape(config.rcov.dir)}/"]
-    #
+    # config.exclude << "^#{Regexp.escape(config.rcov.dir)}/"
 
     # TODO do we really need to do this step ??
     # Loquacious::Configuration::Iterator.new(config).each { |node|

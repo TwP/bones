@@ -137,6 +137,9 @@ module Bones::Plugins::BonesPlugin
         support colors.
       __
       colorize  true
+
+      desc 'When set to true gem commands will be run using sudo.'
+      enable_sudo  false
     }
   end
 
@@ -147,6 +150,12 @@ module Bones::Plugins::BonesPlugin
     config.changes     ||= paragraphs_of(config.history_file, 0..1).join("\n\n")
     config.description ||= paragraphs_of(config.readme_file, 'description').join("\n\n")
     config.summary     ||= config.description.split('.').first
+
+    if config.libs.empty?
+      %w(lib ext).each { |dir| config.libs << dir if test ?d, dir }
+    end
+
+    SUDO.replace('') unless config.enable_sudo
   end
 
   def define_tasks

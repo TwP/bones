@@ -105,19 +105,4 @@ class Object
   end
 end
 
-# This is merely a convenience method to remove methods from the Loquacious
-# Configuration class. Rake adds lots of crap to the Kernel module, and this
-# interferes with the configuration system.
-#
-def Loquacious.remove( *args )
-  args.each { |name|
-    name = name.to_s.delete('=')
-    code = <<-__
-      undef_method :#{name} rescue nil
-      undef_method :#{name}= rescue nil
-    __
-    Loquacious::Configuration.module_eval code
-    Loquacious::Configuration::DSL.module_eval code
-  }
-end
-
+# EOF
