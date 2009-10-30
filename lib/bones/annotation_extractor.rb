@@ -1,19 +1,10 @@
 
-begin
-  require 'facets/ansicode'
-  HAVE_COLOR = true
-rescue LoadError
-  HAVE_COLOR = false
-end
-
-module Bones
-
 # A helper class used to find and display any annotations in a collection of
 # project files.
 #
-class AnnotationExtractor
+class Bones::AnnotationExtractor
 
-  class Annotation < Struct.new(:line, :tag, :text)
+  Annotation = Struct.new(:line, :tag, :text) {
     # Returns a string representation of the annotation. If the
     # <tt>:tag</tt> parameter is given as +true+, then the annotation tag
     # will be included in the string.
@@ -23,25 +14,25 @@ class AnnotationExtractor
       s << "[#{tag}] " if opts[:tag]
       s << text
     end
-  end
+  }
 
-  # Enumerate all the annoations for the given _project_ and _tag_. This
+  # Enumerate all the annoations for the given _config_ and _tag_. This
   # will search for all athe annotations and display them on standard
   # output.
   #
-  def self.enumerate( project, tag, id = nil, opts = {} )
-    extractor = new(project, tag, id)
+  def self.enumerate( config, tag, id = nil, opts = {} )
+    extractor = new(config, tag, id)
     extractor.display(extractor.find, opts)
   end
 
-  attr_reader :tag, :project, :id
+  attr_reader :tag, :config, :id
 
-  # Creates a new annotation extractor configured to use the _project_ open
+  # Creates a new annotation extractor configured to use the _config_ open
   # strcut and to search for the given _tag_ (which can be more than one tag
   # via a regular expression 'or' operation -- i.e. THIS|THAT|OTHER)
   #
-  def initialize( project, tag, id) 
-    @project = project
+  def initialize( config, tag, id) 
+    @config = config
     @tag = tag
     @id = @id_rgxp = nil
 
@@ -58,11 +49,11 @@ class AnnotationExtractor
     results = {}
     rgxp = %r/(#{tag}):?\s*(.*?)(?:\s*(?:-?%>|\*+\/))?$/o
 
-    extensions = project.notes.extensions.dup
-    exclude = if project.notes.exclude.empty? then nil
-              else Regexp.new(project.notes.exclude.join('|')) end
+    extensions = config.notes.extensions.dup
+    exclude = if config.notes.exclude.empty? then nil
+              else Regexp.new(config.notes.exclude.join('|')) end
 
-    project.gem.files.each do |fn|
+    config.gem.files.each do |fn|
       next if exclude && exclude =~ fn
       next unless extensions.include? File.extname(fn)
       results.update(extract_annotations_from(fn, rgxp))
@@ -83,7 +74,7 @@ class AnnotationExtractor
 
       text = m[2]
       if text =~ @id_rgxp
-        text.gsub!(@id_rgxp) {|str| ANSICode.green(str)} if HAVE_COLOR
+        text.gsub!(@id_rgxp) {|str| ::Bones::Colors.green(str)} if config.colorize
         list << Annotation.new(lineno, m[1], text)
       end
       list
@@ -105,7 +96,6 @@ class AnnotationExtractor
     end
   end
 
-end  # class AnnotationExtractor
-end  # module Bones
+end  # class Bones::AnnotationExtractor
 
 # EOF

@@ -140,7 +140,6 @@ not given then the default skeleton is removed.
 
 BEGIN {
   require 'main'
-  require 'fileutils'
   require 'erb'
 
   module Bones::App; end
