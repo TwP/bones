@@ -3,6 +3,12 @@ module Bones::Plugins::BonesPlugin
   include ::Bones::Helpers
   extend self
 
+  module Syntax
+    def enable_sudo
+      use_sudo true
+    end
+  end
+
   def initialize_bones_plugin
     ::Bones.config {
       # ==== Project Defaults
@@ -138,8 +144,15 @@ module Bones::Plugins::BonesPlugin
       __
       colorize  true
 
-      desc 'When set to true gem commands will be run using sudo.'
-      enable_sudo  false
+      desc <<-__
+        When set to true gem commands will be run using sudo. A convenience
+        method is provided to enable sudo for gem commands
+        |
+        |  enable_sudo
+        |
+        This is equivalent to 'use_sudo true', but it reads a little nicer.
+      __
+      use_sudo  false
     }
   end
 
@@ -155,7 +168,7 @@ module Bones::Plugins::BonesPlugin
       %w(lib ext).each { |dir| config.libs << dir if test ?d, dir }
     end
 
-    ::Bones::Helpers::SUDO.replace('') unless config.enable_sudo
+    ::Bones::Helpers::SUDO.replace('') unless config.use_sudo
   end
 
   def define_tasks

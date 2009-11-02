@@ -8,8 +8,9 @@ module Bones::Plugins::Gem
     # optional gem _version_ can be given. If omitted, the newest gem version
     # will be used.
     #
-    def depend_on( name, version = nil, opts = {} )
-      version ||= opts[:version]
+    def depend_on( name, *args )
+      opts = Hash === args.last ? args.pop : {}
+      version = args.first || opts[:version]
       development = opts.key?(:development) ? opts[:development] : opts.key?(:dev) ? opts[:dev] : false
 
       spec = Gem.source_index.find_name(name).last

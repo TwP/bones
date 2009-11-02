@@ -12,13 +12,15 @@ Bones {
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'
 
-  depend_on 'little-plugger'
-  depend_on 'loquacious'
-  depend_on 'main'
-  depend_on 'rake'
+  depend_on  'rake'
+  depend_on  'main'
+  depend_on  'little-plugger'
+  depend_on  'loquacious'
+
+  depend_on  'rspec', :development => true
 
   use_gmail
-  enable_sudo true
+  enable_sudo
 }
 
 =begin

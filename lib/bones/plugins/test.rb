@@ -28,6 +28,7 @@ module Bones::Plugins::Test
   end
 
   def post_load
+    config = ::Bones.config
     have?(:test) {
       Kernel.test(?e, config.test.file) or not config.test.files.to_a.empty?
     }
