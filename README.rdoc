@@ -6,24 +6,30 @@ Mr Bones
 
 Mr Bones is a handy tool that builds a skeleton for your new Ruby projects.
 The skeleton contains some starter code and a collection of rake tasks to
-ease the management and deployment of your source code. Mr Bones is not
-viral -- all the code your project needs is included in the skeleton (no
-gem dependency required).
+ease the management and deployment of your source code. A new git repository
+can be initialized by Mr Bones when you create a project; also, Mr Bones can
+create a new GitHub repository for your code and configure push/pull master
+branch tracking for simple push/pull functionality.
 
 == FEATURES:
+
+Plugin system for using rake tasks.
+GitHub integration.
+Choose your own project skeleton.
+- support for svn / git repos as skeletons.
 
 Mr Bones provides the following rake tasks:
 
   ann               # Alias to ann:announcement
   ann:announcement  # Create an announcement file
   ann:email         # Send an email announcement
-  autotest          # Run the autotest loop
-  bones:debug       # Show the PROJ open struct
+  bones:debug       # Show the current Mr Bones configuration
+  bones:help        # Show descriptions for the various Mr Bones configuration options
+  bones:options     # Show the available Mr Bones configuration options
   clean             # Remove any temporary products.
   clobber           # Remove any generated file.
   doc               # Alias to doc:rdoc
   doc:rdoc          # Build the rdoc HTML Files
-  doc:release       # Publish RDoc to RubyForge
   doc:rerdoc        # Force a rebuild of the RDOC files
   doc:ri            # Generate ri locally for testing
   gem               # Alias to gem:package
@@ -32,29 +38,19 @@ Mr Bones provides the following rake tasks:
   gem:install       # Install the gem
   gem:package       # Build all the packages
   gem:reinstall     # Reinstall the gem
-  gem:release       # Package and upload to RubyForge
   gem:repackage     # Force a rebuild of the package files
   gem:spec          # Write the gemspec
   gem:uninstall     # Uninstall the gem
-  git:create_tag    # Create a new tag in the Git repository
-  git:show_tags     # Show tags from the Git repository
+  git:create_tag    # Create a new tag in the git repository
+  git:delete_tag    # Delete a tag from the git repository
+  git:tags          # Show tags from the git repository
   notes             # Enumerate all annotations
   notes:fixme       # Enumerate all FIXME annotations
   notes:optimize    # Enumerate all OPTIMIZE annotations
   notes:todo        # Enumerate all TODO annotations
-  spec              # Alias to spec:run
-  spec:rcov         # Run all specs with RCov
-  spec:run          # Run all specs with basic output
-  spec:specdoc      # Run all specs with text output
-  spec:verify       # Verify that rcov coverage is at least 90.0%
-  svn:create_tag    # Create a new tag in the SVN repository
-  svn:show_tags     # Show tags from the SVN repository
   test              # Alias to test:run
   test:rcov         # Run rcov on the unit tests
   test:run          # Run tests for run
-
-The rake tasks in the Mr Bones framework can be found in the "tasks"
-directory. Add your own tasks there when you need more functionality.
 
 == SYNOPSIS:
 
@@ -81,7 +77,7 @@ Mr Bones.
 
 == INSTALL:
 
-* sudo gem install bones
+* gem install bones
 
 == MANUAL:
 
@@ -93,15 +89,17 @@ the Rakefile for the Mr Bones gem itself:
 
   begin
     require 'bones'
-    Bones.setup
   rescue LoadError
-    load 'tasks/setup.rb'
+    abort '### Please install the "bones" gem ###'
   end
 
   ensure_in_path 'lib'
   require 'bones'
 
   task :default => 'spec:run'
+
+  Bones {
+  }
 
   PROJ.name = 'bones'
   PROJ.authors = 'Tim Pease'
@@ -252,7 +250,7 @@ Howard for letting me squat in the codeforpeople rubyforge project.
 == LICENSE:
 
 MIT License
-Copyright (c) 2007 - 2008
+Copyright (c) 2007 - 2009
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -272,100 +270,4 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-== VERSION 2.0.0 CHANGES:
-
-Version 2.0.0 of Mr Bones introduces backwards incompatibilities. Here is
-what you need to update in order for your current projects to work with
-this latest release.
-
-Perform an update the tasks in your project directory:
-
-  bones -u your/project/directory
-
-The following .rake files have been renamed in Mr Bones 2.0.0 (the old
-name is on the left and the new name is on the right). You will need to
-delete the old version and use only the new version.
-
-  doc.rake          => rdoc.rake
-  annotations.rake  => notes.rake
-
-The PROJ openstruct has been amended to contain a collection of nested
-openstructs. This will affect any settings you might have in the
-top-level Rakefile for your project. Here is the translation key (old
-names on the left and new names on the right).
-
-  rubyforge_name        => rubyforge.name
-
-  specs                 => spec.files
-  spec_opts             => spec.opts
-
-  tests                 => test.files
-  test_file             => test.file
-  test_opts             => test.opts
-
-  rcov_dir              => rcov.dir
-  rcov_opts             => rcov.opts
-  rcov_threshold        => rcov.threshold
-  rcov_threshold_exact  => rcov.threshold_exact
-
-  rdoc_opts             => rdoc.opts
-  rdoc_include          => rdoc.include
-  rdoc_exclude          => rdoc.exclude
-  rdoc_main             => rdoc.main
-  rdoc_dir              => rdoc.dir
-  rdoc_remote_dir       => rdoc.remote_dir
-
-  dependencies          => gem.dependencies
-  executables           => gem.executables
-  extensions            => gem.extensions
-  files                 => gem.files
-  need_tar              => gem.need_tar
-  need_zip              => gem.need_zip
-  post_install_message  => gem.extras['post_install_message']
-
-  annotation_exclude    => notes.exclude
-  annotation_extensions => notes.extensions
-  annotation_tags       => notes.tags      
-
-  svn                   => svn.path
-  svn_root              => svn.root
-  svn_trunk             => svn.trunk
-  svn_tags              => svn.tags
-  svn_branches          => svn.branches
-
-  ann_file              => ann.file
-  ann_text              => ann.text
-  ann_paragraphs        => ann.paragraphs
-  ann_email             => ann.email     
-
-And of course, each name should be prepended with PROJ in your Rakefile.
-
-== VERSION 2.1.0 CHANGES:
-
-With my Mr Bones projects, I found myself constantly updating the tasks as new
-versions of Mr Bones were released. This quickly became annoying. Why not use
-the tasks from the Mr Bones gem and only copy those tasks to my own projects
-when they are packaged and released? That is the goal of this release of Mr
-Bones.
-
-Version 2.1.0 of Mr Bones allows your projects to use the rake tasks found
-in the Mr Bones gem but still remain independent from Mr Bones when
-deployed. This is accomplished by copying the rake tasks into your project
-only when it is packaged into a gem (or zip file or tarball).
-
-You still have the option of copy the tasks to your local project when it is
-created. Or you can add tasks to your project at a later time.
-
-So, if you have an exsiting project and you want to use the Mr Bones tasks,
-simply delete your "tasks" folder and put the following at the top of your
-Rakefile:
-
-  begin
-    require 'bones'
-    Bones.setup
-  rescue LoadError
-    load 'tasks/setup.rb'   # this line should already be there
-  end
 

@@ -2,7 +2,7 @@
 begin
   require 'bones'
 rescue LoadError
-  raise '### Please install the "bones" gem ###'
+  abort '### Please install the "bones" gem ###'
 end
 
 ensure_in_path 'lib'
