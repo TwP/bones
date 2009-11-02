@@ -27,9 +27,15 @@ module Bones::Plugins::Test
     }
   end
 
+  def post_load
+    have?(:test) {
+      Kernel.test(?e, config.test.file) or not config.test.files.to_a.empty?
+    }
+  end
+
   def define_tasks
     config = ::Bones.config
-    return unless Kernel.test(?e, config.test.file) or not config.test.files.to_a.empty?
+    return unless have? :test
 
     namespace :test do
 

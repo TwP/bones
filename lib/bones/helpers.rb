@@ -9,10 +9,8 @@ module Bones::Helpers
   GEM  = "#{RUBY} -S gem"
   HAVE_SVN = (Dir.entries(Dir.pwd).include?('.svn') and
               system("svn --version 2>&1 > #{DEV_NULL}"))
-  HAVE_GIT = (Dir.entries(Dir.pwd).include?('.git') and
-              system("git --version 2>&1 > #{DEV_NULL}"))
 
-  HAVE = Hash.new
+  HAVE = Hash.new(false)
 
   def have?( key, &block )
     return HAVE[key] if block.nil?

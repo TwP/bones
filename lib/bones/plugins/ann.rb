@@ -1,7 +1,4 @@
 
-require 'net/smtp'
-require 'time'
-
 module Bones::Plugins::Ann
   include ::Bones::Helpers
   extend self

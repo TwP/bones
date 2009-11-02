@@ -9,6 +9,7 @@
 begin
   require "openssl"
   require "net/smtp"
+  require 'time'
 
   Net::SMTP.class_eval do
     private
