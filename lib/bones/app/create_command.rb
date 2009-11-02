@@ -70,7 +70,7 @@ class CreateCommand < Command
         when %r/^\s*email\s+/
           line.replace "  email  '#{email}'" unless email.nil? or line !~ %r/FIXME/
         when %r/^\s*url\s+/
-          break unless github?
+          next unless github?
           url = github_url
           line.replace "  url  '#{url}'" unless url.nil? or line !~ %r/FIXME/
         when %r/^\s*\}\s*$/
