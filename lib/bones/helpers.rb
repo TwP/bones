@@ -1,22 +1,23 @@
 
 module Bones::Helpers
+
   DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
-  RUBY = ::Bones::RUBY
-
-  DIFF = if system("gdiff '#{__FILE__}' '#{__FILE__}' > #{DEV_NULL} 2>&1") then 'gdiff'
-         else 'diff' end unless defined? DIFF
-
   SUDO = if system("which sudo > #{DEV_NULL} 2>&1") then 'sudo'
          else '' end unless defined? SUDO
-
   RCOV = "#{RUBY} -S rcov"
   RDOC = "#{RUBY} -S rdoc"
   GEM  = "#{RUBY} -S gem"
-
   HAVE_SVN = (Dir.entries(Dir.pwd).include?('.svn') and
               system("svn --version 2>&1 > #{DEV_NULL}"))
   HAVE_GIT = (Dir.entries(Dir.pwd).include?('.git') and
               system("git --version 2>&1 > #{DEV_NULL}"))
+
+  HAVE = Hash.new
+
+  def have?( key, &block )
+    return HAVE[key] if block.nil?
+    HAVE[key] = block.call
+  end
 
   def quiet( &block )
     io = [STDOUT.dup, STDERR.dup]
@@ -59,15 +60,6 @@ module Bones::Helpers
     result.values_at(*paragraphs)
   end
 
-  # Adds the given arguments to the include path if they are not already there
-  #
-  def ensure_in_path( *args )
-    args.each do |path|
-      path = File.expand_path(path)
-      $:.unshift(path) if test(?d, path) and not $:.include?(path)
-    end
-  end
-
   # Find a rake task using the task name and remove any description text. This
   # will prevent the task from being displayed in the list of available tasks.
   #
@@ -76,20 +68,6 @@ module Bones::Helpers
       task = Rake.application.tasks.find {|t| t.name == task_name}
       next if task.nil?
       task.instance_variable_set :@comment, nil
-    end
-  end
-
-  # Change working directories to _dir_, call the _block_ of code, and then
-  # change back to the original working directory (the current directory when
-  # this method was called).
-  #
-  def in_directory( dir, &block )
-    curdir = pwd
-    begin
-      cd dir
-      return block.call
-    ensure
-      cd curdir
     end
   end
 
@@ -102,6 +80,15 @@ class Object
   def valid?
     return !(self.empty? or self == "\000") if self.respond_to?(:to_str)
     return false
+  end
+
+  # Adds the given arguments to the include path if they are not already there
+  #
+  def ensure_in_path( *args )
+    args.each do |path|
+      path = File.expand_path(path)
+      $:.unshift(path) if test(?d, path) and not $:.include?(path)
+    end
   end
 end
 

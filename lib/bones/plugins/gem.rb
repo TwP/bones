@@ -1,7 +1,4 @@
 
-# stupid rubygems putting the gem command in the kernel <grrrrr>
-Loquacious.remove :gem
-
 module Bones::Plugins::Gem
   include ::Bones::Helpers
   extend self

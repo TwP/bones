@@ -6,7 +6,7 @@ module Bones::Plugins::Rdoc
   extend self
 
   def initialize_rdoc
-    ::Bones.config { 
+    ::Bones.config {
       desc 'Configuration settings for rdoc and ri'
       rdoc {
 

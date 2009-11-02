@@ -3,6 +3,8 @@ module Bones::App
 
 class FileManager
 
+  Error = Class.new(StandardError)
+
   attr_accessor :source, :destination, :archive, :verbose
   alias :verbose? :verbose
 
@@ -75,12 +77,12 @@ class FileManager
   def _checkout( repotype )
     case repotype
     when :git
-      system('git-clone', source, destination)
+      Git.clone source, destination
       FileUtils.rm_rf(File.join(destination, '.git'))
     when :svn
       system('svn', 'export', source, destination)
     else
-      raise "unknown repository type '#{repotype}'"
+      raise Error, "Unknown repository type '#{repotype}'."
     end
   end
 

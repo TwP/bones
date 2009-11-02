@@ -2,8 +2,6 @@
 require 'net/smtp'
 require 'time'
 
-Loquacious.remove :file
-
 module Bones::Plugins::Ann
   include ::Bones::Helpers
   extend self

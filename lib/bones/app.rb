@@ -64,12 +64,25 @@ be used as the skeleton if the '--repository' flag is given.
       description 'svn or git repository path.'
     }
 
+    option('git') {
+      description 'Initialize a git repository for the project.'
+    }
+
+    option('github') {
+      argument :optional
+      description 'Create a new GitHub project. You can provide an optional project description. The --git option is implied when the --github option is present.'
+    }
+
     option('v', 'verbose') {
       description 'Enable verbose output.'
     }
 
     def run
       Bones::App::CreateCommand.run params
+
+    rescue Bones::App::CreateCommand::Error, Git::GitExecuteError => err
+      $stderr.puts err.message
+      abort
     end
   end
 
@@ -141,6 +154,8 @@ not given then the default skeleton is removed.
 BEGIN {
   require 'main'
   require 'erb'
+  require 'net/http'
+  require 'uri'
 
   module Bones::App; end
 

@@ -7,6 +7,7 @@ require 'find'
 require 'rbconfig'
 require 'little-plugger'
 require 'loquacious'
+require 'git'
 
 module Bones
   extend LittlePlugger
@@ -57,6 +58,7 @@ begin
   require 'bones/smtp_tls'
 
   Bones.config {}
+  Loquacious.remove :gem, :file, :test
 ensure
   $LOAD_PATH.shift
 end

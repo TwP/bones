@@ -70,16 +70,16 @@ class Command
   # command objects.
   #
   def normalize( params )
-    p = params.to_options
+    @params = params.to_options
     @options = {
-      :name         => p['project_name'] || p['skeleton_name'],
-      :verbose      => p['verbose'] ? true : false,
-      :repository   => p['repository'],
-      :output_dir   => p['directory'],
+      :name         => @params['project_name'] || @params['skeleton_name'],
+      :verbose      => @params['verbose'] ? true : false,
+      :repository   => @params['repository'],
+      :output_dir   => @params['directory'],
       :skeleton_dir => nil
     }
 
-    if value = p['skeleton']
+    if value = @params['skeleton']
       path = File.join(mrbones_dir, value)
       if test(?e, path)
         @options[:skeleton_dir] = path
@@ -94,6 +94,16 @@ class Command
 
     @options[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
     @options[:output_dir] ||= @options[:name]
+  end
+
+  # Run a block of code in the given directory.
+  #
+  def in_directory( dir )
+    pwd = File.expand_path(FileUtils.pwd)
+    FileUtils.cd dir
+    yield
+  ensure
+    FileUtils.cd pwd
   end
 
 end  # class Command

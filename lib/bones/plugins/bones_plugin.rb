@@ -155,7 +155,7 @@ module Bones::Plugins::BonesPlugin
       %w(lib ext).each { |dir| config.libs << dir if test ?d, dir }
     end
 
-    SUDO.replace('') unless config.enable_sudo
+    ::Bones::Helpers::SUDO.replace('') unless config.enable_sudo
   end
 
   def define_tasks

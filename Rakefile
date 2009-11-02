@@ -1,6 +1,5 @@
 
 $:.unshift('lib')
-
 require 'bones'
 
 Bones {
@@ -19,6 +18,7 @@ Bones {
   depend_on 'rake'
 
   use_gmail
+  enable_sudo true
 }
 
 =begin

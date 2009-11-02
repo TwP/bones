@@ -1,30 +1,21 @@
-# Look in the tasks/setup.rb file for the various options that can be
-# configured in this Rakefile. The .rake files in the tasks directory
-# are where the options are used.
 
 begin
   require 'bones'
-  Bones.setup
 rescue LoadError
-  begin
-    load 'tasks/setup.rb'
-  rescue LoadError
-    raise RuntimeError, '### please install the "bones" gem ###'
-  end
+  raise '### Please install the "bones" gem ###'
 end
 
 ensure_in_path 'lib'
 require '<%= name %>'
 
-task :default => 'spec:run'
+task :default => 'test:run'
 
-PROJ.name = '<%= name %>'
-PROJ.authors = 'FIXME (who is writing this software)'
-PROJ.email = 'FIXME (your e-mail)'
-PROJ.url = 'FIXME (project homepage)'
-PROJ.version = <%= classname %>::VERSION
-PROJ.rubyforge.name = '<%= name %>'
-
-PROJ.spec.opts << '--color'
+Bones {
+  name  '<%= name %>'
+  authors  'FIXME (who is writing this software)'
+  email  'FIXME (your e-mail)'
+  url  'FIXME (project homepage)'
+  version  <%= classname %>::VERSION
+}
 
 # EOF
