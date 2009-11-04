@@ -14,47 +14,27 @@ Bones {
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'
 
+  spec.opts << '--color'
+  notes.exclude %w[^README\.rdoc$ ^data/]
+  gem.extras[:post_install_message] = <<-MSG
+--------------------------
+ Keep rattlin' dem bones!
+--------------------------
+  MSG
+
+  ann.paragraphs = %w[install synopsis features requirements]
+  ann.text = gem.extras[:post_install_message]
+
+  use_gmail
+  enable_sudo
+
   depend_on  'rake'
   depend_on  'main'
   depend_on  'little-plugger'
   depend_on  'loquacious'
+  depend_on  'git'
 
+  gem.development_dependencies.clear
   depend_on  'rspec', :development => true
-
-  use_gmail
-  enable_sudo
+  depend_on  'bones-extras', :development => true
 }
-
-=begin
-Bones.setup
-
-PROJ.release_name = 'Maxilla'
-
-PROJ.rubyforge.name = 'codeforpeople'
-
-PROJ.rdoc.remote_dir = 'bones'
-PROJ.rdoc.exclude << '^data/'
-PROJ.notes.exclude = %w(^README\.txt$ ^data/ ^tasks/setup.rb$)
-
-PROJ.spec.opts << '--color'
-
-PROJ.gem.extras[:post_install_message] = <<-MSG
---------------------------
- Keep rattlin' dem bones!
---------------------------
-MSG
-
-PROJ.ann.paragraphs = %w[install synopsis features requirements]
-PROJ.ann.text = PROJ.gem.extras[:post_install_message]
-
-task :default => 'spec:specdoc'
-task 'ann:prereqs' do
-  PROJ.name = 'Mr Bones'
-end
-
-PROJ.gem.development_dependencies.clear
-
-depend_on 'rake'
-=end
-
-# EOF
