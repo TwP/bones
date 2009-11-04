@@ -1,5 +1,6 @@
 
 module Bones::Plugins::Notes
+  include ::Bones::Helpers
   extend self
 
   def initialize_notes
@@ -10,6 +11,8 @@ module Bones::Plugins::Notes
         tags  %w(FIXME OPTIMIZE TODO)
       }
     }
+
+    have?(:notes) { true }
   end
 
   def define_tasks

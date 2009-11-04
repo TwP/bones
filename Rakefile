@@ -2,6 +2,8 @@
 $:.unshift('lib')
 require 'bones'
 
+task :default => 'spec:run'
+
 Bones {
   name         'bones'
   authors      'Tim Pease'

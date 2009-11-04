@@ -97,6 +97,8 @@ module Bones::Plugins::Gem
         extras  Hash.new
       }
     }
+
+    have?(:gem) { true }
   end
 
   def post_load
@@ -105,13 +107,17 @@ module Bones::Plugins::Gem
     config.gem.files ||= manifest
     config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
     config.gem.development_dependencies << ['bones', ">= #{Bones::VERSION}"]
+
+    have?(:gemcutter) {
+      Gem.searcher.instance_variable_get(:@gemspecs).
+      map {|gs| gs.name}.include? 'gemcutter'
+    }
   end
 
   def define_tasks
     config = ::Bones.config
 
     namespace :gem do
-
       config.gem._spec = Gem::Specification.new do |s|
         s.name = config.name
         s.version = config.version
@@ -139,23 +145,27 @@ module Bones::Plugins::Gem
         dirs = Dir["{#{config.libs.join(',')}}"]
         s.require_paths = dirs unless dirs.empty?
 
-        incl = Regexp.new(config.rdoc.include.join('|'))
-        excl = config.rdoc.exclude.dup.concat %w[\.rb$ ^(\.\/|\/)?ext]
-        excl = Regexp.new(excl.join('|'))
-        rdoc_files = config.gem.files.find_all do |fn|
-                       case fn
-                       when excl; false
-                       when incl; true
-                       else false end
-                     end
-        s.rdoc_options = config.rdoc.opts + ['--main', config.rdoc.main]
-        s.extra_rdoc_files = rdoc_files
-        s.has_rdoc = true
+        if config.rdoc
+          incl = Regexp.new(config.rdoc.include.join('|'))
+          excl = config.rdoc.exclude.dup.concat %w[\.rb$ ^(\.\/|\/)?ext]
+          excl = Regexp.new(excl.join('|'))
+          rdoc_files = config.gem.files.find_all do |fn|
+                         case fn
+                         when excl; false
+                         when incl; true
+                         else false end
+                       end
+          s.rdoc_options = config.rdoc.opts + ['--main', config.rdoc.main]
+          s.extra_rdoc_files = rdoc_files
+          s.has_rdoc = true
+        end
 
-        if test ?f, config.test.file
-          s.test_file = config.test.file
-        else
-          s.test_files = config.test.files.to_a
+        if config.test
+          if test ?f, config.test.file
+            s.test_file = config.test.file
+          else
+            s.test_files = config.test.files.to_a
+          end
         end
 
         # Do any extra stuff the user wants
@@ -169,9 +179,21 @@ module Bones::Plugins::Gem
         end
       end  # Gem::Specification.new
 
-      Bones::GemPackageTask.new(config.gem._spec) do |pkg|
+      ::Bones::GemPackageTask.new(config.gem._spec) do |pkg|
         pkg.need_tar = config.gem.need_tar
         pkg.need_zip = config.gem.need_zip
+      end
+
+      if have? :gemcutter
+        desc 'Package and upload to Gemcutter'
+        task :release => [:clobber, 'gem'] do |t|
+          v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
+          abort "Versions don't match #{v} vs #{config.version}" if v != config.version
+
+          Dir.glob("pkg/#{config.gem._spec.full_name}*.gem").each { |fn|
+            sh "#{GEM} push #{fn}"
+          }
+        end
       end
 
       desc 'Show information about the gem'

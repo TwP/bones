@@ -87,6 +87,8 @@ module Bones::Plugins::Ann
         }
       }
     }
+
+    have?(:ann) { true }
   end
 
   def post_load

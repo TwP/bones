@@ -35,11 +35,10 @@ module Bones::Plugins::Rdoc
 
         desc 'Output directory for generated documentation.'
         dir  'doc'
-
-        # TODO move this into a publish plugin (rubyforge, gemcutter, rdoc.info)
-        #remote_dir  nil
       }
     }
+
+    have?(:rdoc) { true }
   end
 
   def post_load
