@@ -9,10 +9,15 @@ describe Bones do
   end
 
   it "finds things releative to 'root'" do
-    Bones.path(%w[lib bones debug]).
-        should == File.join(@root_dir, %w[lib bones debug])
-  end 
-    
+    Bones.path(%w[lib bones helpers]).
+        should == File.join(@root_dir, %w[lib bones helpers])
+  end
+
+  it "finds things releative to 'lib'" do
+    Bones.libpath(%w[bones helpers]).
+        should == File.join(@root_dir, %w[lib bones helpers])
+  end
+
 end  # describe Bones
 
 # EOF
