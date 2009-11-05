@@ -1,8 +1,8 @@
 
 module Bones::App
-class CreateCommand < Command
+class Create < Command
 
-  def self.initialize_create_command
+  def self.initialize_create
     synopsis 'bones create [options] <project_name>'
 
     description <<-__
@@ -71,7 +71,7 @@ be used as the skeleton if the '--repository' flag is given.
     raise Error, msg
   end
 
-end  # class CreateCommand
+end  # class Create
 end  # module Bones::App
 
 # EOF

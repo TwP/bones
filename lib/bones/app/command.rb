@@ -130,7 +130,7 @@ class Bones::App::Command
           lambda { config[:verbose] = true }],
 
       :directory => ['-d', '--directory DIRECTORY', String,
-          'Project directory to create (defaults to project_name).',
+          'Project directory to create.',  '(defaults to project_name)',
           lambda { |value| config[:output_dir] = value }],
 
       :skeleton => ['-s', '--skeleton NAME', String,

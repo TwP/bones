@@ -36,12 +36,12 @@ module Bones::App
     #
     def run( args )
       plugins = ::Bones::App.plugins
-      commands = plugins.keys.map! {|k| k.to_s.split('_').first}
+      commands = plugins.keys.map! {|k| k.to_s}
 
       cmd_str = args.shift
       cmd = case cmd_str
         when *commands
-          key = (cmd_str + '_command').to_sym
+          key = cmd_str.to_sym
           plugins[key].new @opts
         when nil, '-h', '--help'
           help

@@ -1,7 +1,11 @@
 
 module Bones::App
+class Info < Command
 
-class InfoCommand < Command
+  def self.initialize_info
+    synopsis 'bones info'
+    description 'Shows information about available skeletons.'
+  end
 
   def run
     skeleton_dir = File.join(mrbones_dir, 'data')
@@ -24,11 +28,11 @@ class InfoCommand < Command
       end
     end
 
-    @out.puts msg
-    @out.puts
+    stdout.puts msg
+    stdout.puts
   end
 
-end  # class InfoCommand
+end  # class Info
 end  # module Bones::App
 
 # EOF
