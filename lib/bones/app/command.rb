@@ -1,52 +1,49 @@
 
-module Bones::App
+class Bones::App::Command
 
-class Command
+  attr_reader :stdout
+  attr_reader :stderr
+  attr_reader :config
 
-  # Run the current command using the given Main _params_ table.
-  #
-  def self.run( params )
-    new(params).run
+  def initialize( opts = {} )
+    @stdout = opts[:stdout] || $stdout
+    @stderr = opts[:stderr] || $stderr
+
+    @config = {
+      :skeleton_dir => File.join(mrbones_dir, 'data'),
+      :verbose => false,
+      :name => nil,
+      :output_dir => nil
+    }
+    @config[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
   end
 
-  attr_reader :options
-
-  #
-  #
-  def initialize( params, out = STDOUT, err = STDERR )
-    @out = out
-    @err = err
-    normalize params
-  end
-
-  # Implemented by subclasses.
-  #
-  def run
+  def run( args )
     raise NotImplementedError
   end
 
   # The output directory where files will be written.
   #
   def output_dir
-    options[:output_dir]
+    @config[:output_dir]
   end
 
   # The directory where the project skeleton is located.
   #
   def skeleton_dir
-    options[:skeleton_dir]
+    @config[:skeleton_dir]
   end
 
   # The project name from the command line.
   #
   def name
-    options[:name]
+    @config[:name]
   end
 
   # A git or svn repository URL from the command line.
   #
   def repository
-    return options[:repository] if options.has_key? :repository
+    return @config[:repository] if @config.has_key? :repository
     return IO.read(skeleton_dir).strip if skeleton_dir and test(?f, skeleton_dir)
     nil
   end
@@ -54,46 +51,16 @@ class Command
   # Returns +true+ if the user has requested verbose messages.
   #
   def verbose?
-    options[:verbose]
+    @config[:verbose]
   end
 
-  # Returns the .mrbones resource directory in the user's home directory.
+  # Returns the '.mrbones' resource directory in the user's home directory.
   #
   def mrbones_dir
     return @mrbones_dir if defined? @mrbones_dir
 
     path = File.join(::Bones::HOME, '.mrbones')
     @mrbones_dir = File.expand_path(path)
-  end
-
-  # Take the Main _params_ and convert them into an options hash usable by the
-  # command objects.
-  #
-  def normalize( params )
-    @params = params.to_options
-    @options = {
-      :name         => @params['project_name'] || @params['skeleton_name'],
-      :verbose      => @params['verbose'] ? true : false,
-      :repository   => @params['repository'],
-      :output_dir   => @params['directory'],
-      :skeleton_dir => nil
-    }
-
-    if value = @params['skeleton']
-      path = File.join(mrbones_dir, value)
-      if test(?e, path)
-        @options[:skeleton_dir] = path
-      elsif test(?e, value)
-        @options[:skeleton_dir] = value
-      else
-        raise ArgumentError, "Unknown skeleton '#{value}'"
-      end
-    else
-      @options[:skeleton_dir] = File.join(mrbones_dir, 'data')
-    end
-
-    @options[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
-    @options[:output_dir] ||= @options[:name]
   end
 
   # Run a block of code in the given directory.
@@ -106,7 +73,109 @@ class Command
     FileUtils.cd pwd
   end
 
-end  # class Command
-end  # module Bones::App
+  #
+  #
+  def standard_options
+    Command.standard_options
+  end
+
+  #
+  #
+  def parse( args )
+    opts = OptionParser.new
+
+    opts.banner = 'NAME'
+    opts.separator "  bones v#{::Bones::VERSION}"
+    opts.separator ''
+
+    if self.class.synopsis
+      opts.separator 'SYNOPSIS'
+      self.class.synopsis.split("\n").each { |line| opts.separator "  #{line.strip}" }
+      opts.separator ''
+    end
+
+    if self.class.description
+      opts.separator 'DESCRIPTION'
+      self.class.description.split("\n").each { |line| opts.separator "  #{line.strip}" }
+      opts.separator ''
+    end
+
+    if self.class.options and not self.class.options.empty?
+      opts.separator 'PARAMETERS'
+      self.class.options.each { |option|
+        case option
+        when Array; opts.on(*option)
+        when String; opts.separator(option)
+        else opts.separator('') end
+      }
+      opts.separator ''
+    end
+
+    opts.separator '  Common Options:'
+    opts.on_tail( '-h', '--help', 'show this message' ) {
+      stdout.puts opts
+      exit
+    }
+    opts.on_tail ''
+
+    opts.parse! args
+    return opts
+  end
+
+  #
+  #
+  def self.standard_options
+    @standard_options ||= {
+      :verbose => ['-v', '--verbose', 'Enable verbose output.',
+          lambda { config[:verbose] = true }],
+
+      :directory => ['-d', '--directory DIRECTORY', String,
+          'Project directory to create (defaults to project_name).',
+          lambda { |value| config[:output_dir] = value }],
+
+      :skeleton => ['-s', '--skeleton NAME', String,
+          'Project skeleton to use.',
+          lambda { |value|
+            path = File.join(mrbones_dir, value)
+            if test(?e, value)
+              config[:skeleton_dir] = value
+            elsif test(?e, path)
+              config[:skeleton_dir] = path
+            else
+              raise ArgumentError, "Unknown skeleton '#{value}'."
+            end
+          }],
+
+      :repository => ['-r', '--repository URL', String,
+          'svn or git repository path.',
+          lambda { |value| config[:repository] = value }]
+    }
+  end
+
+  module ClassMethods
+    def synopsis( *args )
+      @synopsis = args.join("\n") unless args.empty?
+      @synopsis
+    end
+
+    def description( *args )
+      @description = args.join("\n") unless args.empty?
+      @description
+    end
+
+    def option( *args )
+      options << args.flatten
+    end
+
+    def options
+      @options ||= []
+    end
+  end
+
+  def self.inherited( other )
+    other.extend ClassMethods
+  end
+
+end  # class Bones::App::Command
 
 # EOF

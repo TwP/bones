@@ -1,175 +1,110 @@
 
-Main {
-  program 'bones'
-  version Bones::VERSION
+require 'net/http'
+require 'uri'
 
-  synopsis 'bones command [options] [arguments]'
+module Bones::App
+  extend LittlePlugger(:path => 'bones/app', :module => Bones::App)
+  disregard_plugins :error, :main, :command, :file_manager
 
-  description <<-__
-Mr Bones is a handy tool that builds a skeleton for your new Ruby
-projects. The skeleton contains some starter code and a collection of
-rake tasks to ease the management and deployment of your source code.
+  Error = Class.new(StandardError)
 
-Usage:
-  bones -h/--help
-  bones command [options] [arguments]
+  # Create a new instance of Main, and run the +bones+ application given
+  # the command line _args_.
+  #
+  def self.run( args = nil )
+    args ||= ARGV.dup.map! { |v| v.dup }
+    ::Bones::App::Main.new.run args
+  end
 
-Examples:
-  bones create new_project
-  bones freeze -r git://github.com/fudgestudios/bort.git bort
-  bones create -s bort new_rails_project
+  class Main
+    attr_reader :stdout
+    attr_reader :stderr
 
-Commands:
-  bones create          create a new project from a skeleton
-  bones freeze          create a new skeleton in ~/.mrbones/
-  bones unfreeze        remove a skeleton from ~/.mrbones/
-  bones info            show information about available skeletons
+    # Create a new Main application instance. Options can be passed to
+    # configuret he stdout and stderr IO streams (very useful for testing).
+    #
+    def initialize( opts = {} )
+      opts[:stdout] ||= $stdout
+      opts[:stderr] ||= $stderr
 
-Further Help:
-  Each command has a '--help' option that will provide detailed
-  information for that command.
-
-  http://gemcutter.org/gems/bones
-  __
-
-  def run() help!; end
-
-  # --------------------------------------------------------------------------
-  mode 'create' do
-    synopsis 'bones create [options] <project_name>'
-    description <<-__
-Create a new project from a Mr Bones project skeleton. The skeleton can
-be the default project skeleton from the Mr Bones gem or one of the named
-skeletons found in the '~/.mrbones/' folder. A git or svn repository can
-be used as the skeleton if the '--repository' flag is given.
-    __
-
-    argument('project_name') {
-      arity 1
-      description 'Name of the new Ruby project to create.'
-    }
-
-    option('d', 'directory') {
-      argument :required
-      description 'Project directory to create (defaults to project_name).'
-    }
-
-    option('s', 'skeleton') {
-      argument :required
-      description 'Project skeleton to use.'
-    }
-
-    option('r', 'repository') {
-      argument :required
-      description 'svn or git repository path.'
-    }
-
-    option('git') {
-      description 'Initialize a git repository for the project.'
-    }
-
-    option('github') {
-      argument :optional
-      description 'Create a new GitHub project. You can provide an optional project description. The --git option is implied when the --github option is present.'
-    }
-
-    option('v', 'verbose') {
-      description 'Enable verbose output.'
-    }
-
-    def run
-      Bones::App::CreateCommand.run params
-
-    rescue Bones::App::CreateCommand::Error, Git::GitExecuteError => err
-      $stderr.puts err.message
-      abort
+      @opts = opts
+      @stdout = opts[:stdout]
+      @stderr = opts[:stderr]
     end
-  end
 
-  # --------------------------------------------------------------------------
-  mode 'freeze' do
-    synopsis 'bones freeze [options] [skeleton_name]'
-    description <<-__
-Freeze the project skeleton to the current Mr Bones project skeleton.
-If a name is not given, then the default name "data" will be used.
-Optionally a git or svn repository can be frozen as the project
-skeleton.
-    __
+    # Parse the desired user command and run that command object.
+    #
+    def run( args )
+      plugins = ::Bones::App.plugins
+      commands = plugins.keys.map! {|k| k.to_s.split('_').first}
 
-    argument('skeleton_name') {
-      arity 1
-      default 'data'
-      description 'Name of the skeleton to create.'
-    }
+      cmd_str = args.shift
+      cmd = case cmd_str
+        when *commands
+          key = (cmd_str + '_command').to_sym
+          plugins[key].new @opts
+        when nil, '-h', '--help'
+          help
+        when '-v', '--version'
+          stdout.puts "Mr Bones v#{::Bones::VERSION}"
+          nil
+        else
+          raise Error, "Unknown command #{cmd_str.inspect}"
+        end
 
-    option('r', 'repository') {
-      argument :required
-      description 'svn or git repository path.'
-    }
+      if cmd
+        cmd.parse args
+        cmd.run
+      end
 
-    option('v', 'verbose') {
-      description 'Enable verbose output.'
-    }
-
-    def run
-      Bones::App::FreezeCommand.run params
+    rescue Bones::App::Error => err
+      stderr.puts "ERROR:  While executing bones ..."
+      stderr.puts "    #{err.message}"
+      exit 1
+    rescue StandardError => err
+      stderr.puts "ERROR:  While executing bones ... (#{err.class})"
+      stderr.puts "    #{err.to_s}"
+      exit 1
     end
-  end
 
-  # --------------------------------------------------------------------------
-  mode 'unfreeze' do
-    synopsis 'bones unfreeze [skeleton_name]'
-    description <<-__
-Removes the named skeleton from the '~/.mrbones/' folder. If a name is
-not given then the default skeleton is removed.
-    __
+    # Show the toplevel Mr Bones help message.
+    #
+    def help
+      stdout.puts <<-MSG
+NAME
+  bones v#{::Bones::VERSION}
 
-    argument('skeleton_name') {
-      arity 1
-      default 'data'
-      description 'Name of the skeleton to remove.'
-    }
+DESCRIPTION
+  Mr Bones is a handy tool that builds a skeleton for your new Ruby
+  projects. The skeleton contains some starter code and a collection of
+  rake tasks to ease the management and deployment of your source code.
 
-    option('v', 'verbose') {
-      description 'Enable verbose output.'
-    }
+  Usage:
+    bones -h/--help
+    bones -v/--version
+    bones command [options] [arguments]
 
-    def run
-      Bones::App::UnfreezeCommand.run params
+  Examples:
+    bones create new_project
+    bones freeze -r git://github.com/fudgestudios/bort.git bort
+    bones create -s bort new_rails_project
+
+  Commands:
+    bones create          create a new project from a skeleton
+    bones freeze          create a new skeleton in ~/.mrbones/
+    bones unfreeze        remove a skeleton from ~/.mrbones/
+    bones info            show information about available skeletons
+
+  Further Help:
+    Each command has a '--help' option that will provide detailed
+    information for that command.
+
+    http://github.com/TwP/bones
+
+      MSG
     end
-  end
 
-  # --------------------------------------------------------------------------
-  mode 'info' do
-    synopsis 'bones info'
-    description 'Shows information about available skeletons.'
-
-    def run
-      Bones::App::InfoCommand.run params
-    end
-  end
-}
-
-
-BEGIN {
-  require 'main'
-  require 'erb'
-  require 'net/http'
-  require 'uri'
-
-  module Bones::App; end
-
-  begin
-    $LOAD_PATH.unshift Bones.libpath
-    require 'bones/app/command'
-    require 'bones/app/file_manager'
-    require 'bones/app/create_command'
-    require 'bones/app/freeze_command'
-    require 'bones/app/unfreeze_command'
-    require 'bones/app/info_command'
-  ensure
-    $LOAD_PATH.shift
-  end
-}
+  end  # class Main
+end  # module Bones::App
 
 # EOF

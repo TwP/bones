@@ -8,6 +8,7 @@ rescue LoadError
   require 'bones'
 end
 
-Kernel.load Bones.libpath(%w[bones app.rb])
+Bones::App.initialize_plugins
+Bones::App.run
 
 # EOF

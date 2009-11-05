@@ -1,7 +1,7 @@
 
-module Bones::App
+require 'erb'
 
-class FileManager
+module Bones::App::FileManager
 
   Error = Class.new(StandardError)
 
@@ -167,7 +167,6 @@ class FileManager
     FileUtils.chmod(File.stat(src).mode, dst)
   end
 
-end  # class FileManager
-end  # module Bones::App
+end  # module Bones::App::FileManager
 
 # EOF
