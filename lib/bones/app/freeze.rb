@@ -5,6 +5,8 @@ class Freeze < Command
   def self.initialize_freeze
     synopsis 'bones freeze [options] [skeleton_name]'
 
+    summary 'create a new skeleton in ~/.mrbones/'
+
     description <<-__
 Freeze the project skeleton to the current Mr Bones project skeleton.
 If a name is not given, then the default name "data" will be used.

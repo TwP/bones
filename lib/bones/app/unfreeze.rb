@@ -5,6 +5,8 @@ class Unfreeze < Command
   def self.initialize_unfreeze
     synopsis 'bones unfreeze [skeleton_name]'
 
+    summary 'remove a skeleton from ~/.mrbones/'
+
     description <<-__
 Removes the named skeleton from the '~/.mrbones/' folder. If a name is
 not given then the default skeleton is removed.

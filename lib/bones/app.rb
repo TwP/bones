@@ -35,19 +35,18 @@ module Bones::App
     # Parse the desired user command and run that command object.
     #
     def run( args )
-      plugins = ::Bones::App.plugins
-      commands = plugins.keys.map! {|k| k.to_s}
+      @plugins = ::Bones::App.plugins
+      commands = @plugins.keys.map! {|k| k.to_s}
 
       cmd_str = args.shift
       cmd = case cmd_str
         when *commands
           key = cmd_str.to_sym
-          plugins[key].new @opts
+          @plugins[key].new @opts
         when nil, '-h', '--help'
           help
         when '-v', '--version'
           stdout.puts "Mr Bones v#{::Bones::VERSION}"
-          nil
         else
           raise Error, "Unknown command #{cmd_str.inspect}"
         end
@@ -70,7 +69,7 @@ module Bones::App
     # Show the toplevel Mr Bones help message.
     #
     def help
-      stdout.puts <<-MSG
+      msg = <<-MSG
 NAME
   bones v#{::Bones::VERSION}
 
@@ -90,10 +89,15 @@ DESCRIPTION
     bones create -s bort new_rails_project
 
   Commands:
-    bones create          create a new project from a skeleton
-    bones freeze          create a new skeleton in ~/.mrbones/
-    bones unfreeze        remove a skeleton from ~/.mrbones/
-    bones info            show information about available skeletons
+      MSG
+
+     fmt = lambda {|cmd| msg << "    bones %-15s %s\n" % [cmd, @plugins[cmd].summary] }
+
+     ary = [:create, :freeze, :unfreeze, :info]
+     ary.each(&fmt)
+     (@plugins.keys - ary).each(&fmt)
+
+      msg.concat <<-MSG
 
   Further Help:
     Each command has a '--help' option that will provide detailed
@@ -102,6 +106,8 @@ DESCRIPTION
     http://github.com/TwP/bones
 
       MSG
+
+    stdout.puts msg
     end
 
   end  # class Main

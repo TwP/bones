@@ -4,6 +4,7 @@ class Info < Command
 
   def self.initialize_info
     synopsis 'bones info'
+    summary 'show information about available skeletons'
     description 'Shows information about available skeletons.'
   end
 

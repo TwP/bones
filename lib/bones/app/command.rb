@@ -163,6 +163,11 @@ class Bones::App::Command
       @description
     end
 
+    def summary( *args )
+      @summary = args.join("\n") unless args.empty?
+      @summary
+    end
+
     def option( *args )
       options << args.flatten
     end
