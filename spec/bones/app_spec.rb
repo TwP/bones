@@ -12,21 +12,22 @@ describe Bones::App do
   before :all do
     @out = StringIO.new
     @err = StringIO.new
+    Bones::App.initialize_plugins
   end
 
   before :each do
     @runner = ::Runner.new
-    @app = Bones::App.new(@out, @err)
+    @runner.stub!(:parse).and_return(Hash.new)
 
-    Bones::App::CreateCommand.stub!(:new).
+    @app = Bones::App::Main.new(:stdout => @out, :stderr => @err)
+
+    Bones::App::Create.stub!(:new).
         and_return {@runner.name = :create; @runner}
-    Bones::App::UpdateCommand.stub!(:new).
-        and_return {@runner.name = :update; @runner}
-    Bones::App::FreezeCommand.stub!(:new).
+    Bones::App::Freeze.stub!(:new).
         and_return {@runner.name = :freeze; @runner}
-    Bones::App::UnfreezeCommand.stub!(:new).
+    Bones::App::Unfreeze.stub!(:new).
         and_return {@runner.name = :unfreeze; @runner}
-    Bones::App::InfoCommand.stub!(:new).
+    Bones::App::Info.stub!(:new).
         and_return {@runner.name = :info; @runner}
   end
 
@@ -38,11 +39,6 @@ describe Bones::App do
   it 'should provide a create command' do
     @app.run %w[create]
     @runner.name.should == :create
-  end
-
-  it 'should provide an update command' do
-    @app.run %w[update]
-    @runner.name.should == :update
   end
 
   it 'should provide a freeze command' do
@@ -62,34 +58,34 @@ describe Bones::App do
 
   it 'should provide a help command' do
     @app.run %w[--help]
-    @out.readline
+    4.times { @out.readline }
     @out.readline.should match(%r/^  Mr Bones is a handy tool that builds/)
     @out.clear
 
     @app.run %w[-h]
-    @out.readline
+    4.times { @out.readline }
     @out.readline.should match(%r/^  Mr Bones is a handy tool that builds/)
   end
 
   it 'should default to the help message if no command is given' do
     @app.run []
-    @out.readline
+    4.times { @out.readline }
     @out.readline.should match(%r/^  Mr Bones is a handy tool that builds/)
   end
 
   it 'should report an error for unrecognized commands' do
     lambda {@app.run %w[foo]}.should raise_error(SystemExit)
-    @err.readline.should == 'ERROR:  While executing bones ... (RuntimeError)'
+    @err.readline.should == 'ERROR:  While executing bones ...'
     @err.readline.should == '    Unknown command "foo"'
   end
 
   it 'should report a version number' do
     @app.run %w[--version]
-    @out.readline.should == "Mr Bones #{Bones::VERSION}"
+    @out.readline.should == "Mr Bones v#{Bones::VERSION}"
     @out.clear
 
     @app.run %w[-v]
-    @out.readline.should == "Mr Bones #{Bones::VERSION}"
+    @out.readline.should == "Mr Bones v#{Bones::VERSION}"
   end
 
 end  # describe Bones::App
