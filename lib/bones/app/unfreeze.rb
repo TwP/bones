@@ -17,7 +17,7 @@ not given then the default skeleton is removed.
 
   def run
     fm = FileManager.new(
-      :source => repository || ::Bones.path('data'),
+      :source => repository || ::Bones.path(DEFAULT_SKELETON),
       :destination => output_dir,
       :stdout => stdout,
       :stderr => stderr,
@@ -34,7 +34,7 @@ not given then the default skeleton is removed.
 
   def parse( args )
     opts = super args
-    config[:name] = args.empty? ? 'data' : args.join('_')
+    config[:name] = args.empty? ? DEFAULT_SKELETON : args.join('_')
     config[:output_dir] = File.join(mrbones_dir, name)
   end
 

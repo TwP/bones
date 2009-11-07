@@ -9,7 +9,7 @@ class Freeze < Command
 
     description <<-__
 Freeze the project skeleton to the current Mr Bones project skeleton.
-If a name is not given, then the default name "data" will be used.
+If a name is not given, then the default name "default" will be used.
 Optionally a git or svn repository can be frozen as the project
 skeleton.
     __
@@ -20,7 +20,7 @@ skeleton.
 
   def run
     fm = FileManager.new(
-      :source => repository || ::Bones.path('data'),
+      :source => repository || ::Bones.path(DEFAULT_SKELETON),
       :destination => output_dir,
       :stdout => stdout,
       :stderr => stderr,
@@ -38,7 +38,7 @@ skeleton.
 
   def parse( args )
     opts = super args
-    config[:name] = args.empty? ? 'data' : args.join('_')
+    config[:name] = args.empty? ? DEFAULT_SKELETON : args.join('_')
     config[:output_dir] = File.join(mrbones_dir, name)
   end
 

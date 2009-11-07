@@ -9,8 +9,8 @@ class Info < Command
   end
 
   def run
-    skeleton_dir = File.join(mrbones_dir, 'data')
-    skeleton_dir = ::Bones.path('data') unless test(?d, skeleton_dir)
+    skeleton_dir = File.join(mrbones_dir, DEFAULT_SKELETON)
+    skeleton_dir = ::Bones.path(DEFAULT_SKELETON) unless test(?d, skeleton_dir)
 
     msg  = "\n"
     msg << "The default project skeleton will be copied from:\n"
@@ -20,7 +20,7 @@ class Info < Command
     msg << "Available projects skeletons are:\n"
     Dir.glob(File.join(mrbones_dir, '*')).sort.each do |fn|
       next if fn =~ %r/\.archive$/
-      next if File.basename(fn) == 'data'
+      next if File.basename(fn) == DEFAULT_SKELETON
 
       if test(?f, fn)
         msg << fmt % [File.basename(fn), File.read(fn).strip]

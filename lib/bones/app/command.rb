@@ -1,6 +1,10 @@
 
 class Bones::App::Command
 
+  # :stopdoc:
+  DEFAULT_SKELETON = 'default'
+  # :startdoc:
+
   attr_reader :stdout
   attr_reader :stderr
   attr_reader :config
@@ -10,12 +14,12 @@ class Bones::App::Command
     @stderr = opts[:stderr] || $stderr
 
     @config = {
-      :skeleton_dir => File.join(mrbones_dir, 'data'),
+      :skeleton_dir => File.join(mrbones_dir, DEFAULT_SKELETON),
       :verbose => false,
       :name => nil,
       :output_dir => nil
     }
-    @config[:skeleton_dir] = ::Bones.path('data') unless test(?d, skeleton_dir)
+    @config[:skeleton_dir] = ::Bones.path(DEFAULT_SKELETON) unless test(?d, skeleton_dir)
   end
 
   def run( args )
