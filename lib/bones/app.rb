@@ -35,8 +35,9 @@ module Bones::App
     # Parse the desired user command and run that command object.
     #
     def run( args )
+      commands = []
       @plugins = ::Bones::App.plugins
-      commands = @plugins.keys.map! {|k| k.to_s}
+      @plugins.each { |k,v| commands << k.to_s if v < ::Bones::App::Command }
 
       cmd_str = args.shift
       cmd = case cmd_str
@@ -91,7 +92,11 @@ DESCRIPTION
   Commands:
       MSG
 
-     fmt = lambda { |cmd| msg << "    bones %-15s %s\n" % [cmd, @plugins[cmd].summary] }
+     fmt = lambda { |cmd|
+             if @plugins[cmd] < ::Bones::App::Command
+               msg << "    bones %-15s %s\n" % [cmd, @plugins[cmd].summary]
+             end
+           }
 
      ary = [:create, :freeze, :unfreeze, :info]
      ary.each(&fmt)
