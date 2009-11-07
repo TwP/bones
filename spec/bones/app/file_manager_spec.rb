@@ -17,8 +17,8 @@ describe Bones::App::FileManager do
   it "should have a configurable source" do
     @fm.source.should be_nil
 
-    @fm.source = '/home/user/.mrbones/data'
-    @fm.source.should == '/home/user/.mrbones/data'
+    @fm.source = '/home/user/.mrbones/default'
+    @fm.source.should == '/home/user/.mrbones/default'
   end
 
   it "should have a configurable destination" do
@@ -36,7 +36,7 @@ describe Bones::App::FileManager do
   end
 
   it "should return a list of files to copy" do
-    @fm.source = Bones.path %w[spec data data]
+    @fm.source = Bones.path %w[spec data default]
 
     ary = @fm._files_to_copy
     ary.length.should == 6
@@ -63,7 +63,7 @@ describe Bones::App::FileManager do
   end
 
   it "should rename files and folders containing 'NAME'" do
-    @fm.source = Bones.path(%w[spec data data])
+    @fm.source = Bones.path(%w[spec data default])
     @fm.destination = Bones.path(%w[spec data bar])
     @fm.copy
 
@@ -75,7 +75,7 @@ describe Bones::App::FileManager do
   end
 
   it "should raise an error when renaming an existing file or folder" do
-    @fm.source = Bones.path(%w[spec data data])
+    @fm.source = Bones.path(%w[spec data default])
     @fm.destination = Bones.path(%w[spec data bar])
     @fm.copy
 
@@ -84,7 +84,7 @@ describe Bones::App::FileManager do
   end
 
   it "should perform ERb templating on '.bns' files" do
-    @fm.source = Bones.path(%w[spec data data])
+    @fm.source = Bones.path(%w[spec data default])
     @fm.destination = Bones.path(%w[spec data bar])
     @fm.copy
     @fm.finalize('foo_bar')
