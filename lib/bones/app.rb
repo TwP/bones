@@ -91,7 +91,7 @@ DESCRIPTION
   Commands:
       MSG
 
-     fmt = lambda {|cmd| msg << "    bones %-15s %s\n" % [cmd, @plugins[cmd].summary] }
+     fmt = lambda { |cmd| msg << "    bones %-15s %s\n" % [cmd, @plugins[cmd].summary] }
 
      ary = [:create, :freeze, :unfreeze, :info]
      ary.each(&fmt)

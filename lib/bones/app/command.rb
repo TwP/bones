@@ -108,8 +108,11 @@ class Bones::App::Command
       opts.separator 'PARAMETERS'
       self.class.options.each { |option|
         case option
-        when Array; opts.on(*option)
-        when String; opts.separator(option)
+        when Array
+          option << method(option.pop) if option.last =~ %r/^__/
+          opts.on(*option)
+        when String
+          opts.separator("  #{option.strip}")
         else opts.separator('') end
       }
       opts.separator ''
@@ -172,8 +175,23 @@ class Bones::App::Command
       @summary
     end
 
-    def option( *args )
-      options << args.flatten
+    def option( *args, &block )
+      args.flatten!
+      block = args.pop if block.nil? and Proc === args.last
+
+      if block
+        args.each { |val|
+          next unless val.instance_of? String
+          next unless val =~ %r/^--(\w+)/
+
+          args << "__#$1"
+          define_method(args.last.to_sym, &block)
+          options << args
+          break
+        }
+      else
+        options << (args.length > 1 ? args : args.first )
+      end
     end
 
     def options

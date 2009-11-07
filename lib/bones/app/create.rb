@@ -20,12 +20,22 @@ be used as the skeleton if the '--repository' flag is given.
     option(standard_options[:verbose])
   end
 
+  def self.in_output_directory( *args )
+    @in_output_directory ||= []
+    @in_output_directory.concat(args.map {|str| str.to_sym})
+    @in_output_directory
+  end
+
   def run
     raise Error, "Output directory #{output_dir.inspect} already exists." if test ?e, output_dir
 
     copy_files
     announce
-    fixme
+
+    in_directory(output_dir) {
+      self.class.in_output_directory.each {|cmd| self.send cmd}
+      fixme
+    }
   end
 
   def parse( args )
@@ -72,11 +82,9 @@ be used as the skeleton if the '--repository' flag is given.
   end
 
   def fixme
-    in_directory(output_dir) {
-      break unless test ?f, 'Rakefile'
-      stdout.puts 'Now you need to fix these files'
-      system "#{::Bones::RUBY} -S rake notes"
-    }
+    return unless test ?f, 'Rakefile'
+    stdout.puts 'Now you need to fix these files'
+    system "#{::Bones::RUBY} -S rake notes"
   end
 
 end  # class Create
