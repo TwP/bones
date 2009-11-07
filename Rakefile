@@ -29,10 +29,8 @@ Bones {
   enable_sudo
 
   depend_on  'rake'
-  depend_on  'main'
   depend_on  'little-plugger'
   depend_on  'loquacious'
-  depend_on  'git'
 
   gem.development_dependencies.clear
   depend_on  'rspec', :development => true
