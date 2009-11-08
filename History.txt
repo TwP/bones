@@ -1,4 +1,10 @@
-== 3.0.0 / 2009-10-
+== 3.0.0 / 2009-10-07
+
+* 4 major enhancements
+  - Refactored to use a plugin system for rake tasks
+  - Now using the "loquacious" gem for helpful configuration
+  - Bones is now a required development dependency
+  - Interoperability with gemcutter.org
 
 == 2.5.1 / 2009-05-12
 
