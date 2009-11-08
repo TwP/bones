@@ -10,31 +10,26 @@ module Bones::Plugins::Rdoc
       desc 'Configuration settings for rdoc and ri'
       rdoc {
 
-        desc 'Array of rdoc options to use when generating documentation.'
-        opts  []
+        opts  [], :desc => 'Array of rdoc options to use when generating documentation.'
 
-        desc <<-__
+        include  %w(^lib/ ^bin/ ^ext/ \.txt$ \.rdoc$), :desc => <<-__
           An array of patterns that will be used to find the files for which
           documentation should be generated. This is an array of strings that
           will be converted in regular expressions.
         __
-        include  %w(^lib/ ^bin/ ^ext/ \.txt$ \.rdoc$)
 
-        desc <<-__
+        exclude  %w(extconf\.rb$), :desc => <<-__
           An array of patterns that will be used to exclude files from rdoc
           processing. This is an array of strings that will be converted in
           regular expressions.
         __
-        exclude  %w(extconf\.rb$)
 
-        desc <<-__
+        main  nil, :desc => <<-__
           The main rdoc file for the project. This defaults to the project's
           README file.
         __
-        main  nil
 
-        desc 'Output directory for generated documentation.'
-        dir  'doc'
+        dir  'doc', :desc => 'Output directory for generated documentation.'
       }
     }
 

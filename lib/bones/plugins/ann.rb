@@ -19,22 +19,19 @@ module Bones::Plugins::Ann
     ::Bones.config {
       desc 'Configuration for creating and mailing an announcement message.'
       ann {
-        desc <<-__
+        file  'announcement.txt', :desc => <<-__
           When announcing a release of your project the announcement text will
           be written to this file.
         __
-        file  'announcement.txt'
 
-        desc 'Extra text to be appended to the announcement.'
-        text  nil
+        text  nil, :desc => 'Extra text to be appended to the announcement.'
 
-        desc <<-__
+        paragraphs  Array.new, :desc => <<-__
           Array of paragraphs from the README file to include in the
           announcement. The paragraphs are identified by their heading name in
           the README, but when listed here they can be given as lowercase or
           uppercase.
         __
-        paragraphs  []
 
         desc <<-__
           Configuration for e-mailing the announcement.
@@ -50,40 +47,32 @@ module Bones::Plugins::Ann
           different then the project's e-mail address.
         __
         email {
-          desc <<-__
+          from  nil, :desc => <<-__
             The name to show on the 'from' line of the annoucement e-mail.
             This will default to the author name or the project e-mail if an
             author is not specified.
           __
-          from  nil
 
-          desc 'An array of e-mail recipients.'
-          to  %w(ruby-talk@ruby-lang.org)
+          to  %w(ruby-talk@ruby-lang.org), :desc => 'An array of e-mail recipients.'
 
-          desc 'The server used to send the announcement e-mail.'
-          server  'localhost'
+          server  'localhost', :desc => 'The server used to send the announcement e-mail.'
 
-          desc 'The server port number to connect to.'
-          port  25
+          port  25, :desc => 'The server port number to connect to.'
 
-          desc <<-__
+          domain  ENV['HOSTNAME'], :desc => <<-__
             The originating domain of the e-mail. This safely deafaults to the
             local hostname.
           __
-          domain  ENV['HOSTNAME']
 
-          desc 'The e-mail account name used to log into the e-mail server.'
-          username  nil
+          username  nil, :desc => 'The e-mail account name used to log into the e-mail server.'
 
-          desc 'The e-mail password used to log into the e-mail server.'
-          password  nil
+          password  nil, :desc => 'The e-mail password used to log into the e-mail server.'
 
-          desc <<-__
+          authtype  :plain, :desc => <<-__
             The authentication type used by the e-mail server. This should be
             one of :plain, :login, or :cram_md5. See the documentation on the
             Net::SMTP class for more information.
           __
-          authtype  :plain
         }
       }
     }

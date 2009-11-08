@@ -31,7 +31,7 @@ module Bones::Plugins::Gem
     ::Bones.config {
       desc 'Configuration settings for gem packaging.'
       gem {
-        desc <<-__
+        dependencies  Array.new, :desc => <<-__
           Array of gem dependencies.
 
           A convenience method is provided to add gem dependencies, and so you
@@ -41,9 +41,8 @@ module Bones::Plugins::Gem
           |  depend_on 'rspec', '1.2.8'    # expands to '>= 1.2.8'
           |  depend_on 'main', '~> 2.0'
         __
-        dependencies  Array.new
 
-        desc <<-__
+        development_dependencies  Array.new, :desc => <<-__
           Array of development gem dependencies.
 
           A convenience method is provided to add gem dependencies, and so you
@@ -52,49 +51,42 @@ module Bones::Plugins::Gem
           |  depend_on 'bones', :deveopment => true
           |  depend_on 'mocah', :version => '0.9.8', :development => true
         __
-        development_dependencies  Array.new
 
-        desc <<-__
+        executables  nil, :desc => <<-__
           Array of executables provided by your project. All files in the 'bin'
           folder will be included by default. However, if you are using a
           non-standard location for your executables then you will need to
           include them explicitly here as an Array.
         __
-        executables  nil
 
-        desc <<-__
+        extensions  FileList['ext/**/extconf.rb'], :desc => <<-__
           Array of gem extensions. This is the list of 'extconf.rb' files
           provided by your project. Rubygems uses this list of files to
           compile extensions when installing your gem.
         __
-        extensions  FileList['ext/**/extconf.rb']
 
-        desc <<-__
+        files  nil, :desc => <<-__
           The list of files to include when packaging up your gem. This
           defaults to all files in the current directory excluding those
           matched by the 'exclude' option and the 'ignore_file'. You can
           supply your Array of files if you desire.
         __
-        files  nil
 
-        desc <<-__
+        need_tar  true, :desc => <<-__
           When set to true a tar-gzip file will be produced along with your
           gem. The default is true.
         __
-        need_tar  true
 
-        desc <<-__
+        need_zip  false, :desc => <<-__
           When set to true a zip file will be produced along with your gem.
           The default is false.
         __
-        need_zip  false
 
-        desc <<-__
+        extras  Hash.new, :desc => <<-__
           A hash of extra Gem::Specification settings that are otherwise not
           provided for by Mr Bones. You will need to refer to the rubygems
           documentation for a complete list of specification settings.
         __
-        extras  Hash.new
       }
     }
 
