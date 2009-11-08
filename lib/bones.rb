@@ -43,10 +43,21 @@ module Bones
   #    Bones.config
   #    Bones.config { block }
   #
+  # Returns the configuration object for setting up Mr Bones options.
+  #
   def self.config( &block )
     Loquacious.configuration_for('Bones', &block)
   end
 
+  # call-seq:
+  #    Bones.help
+  #
+  # Returns a help object that can be used to show the current Mr Bones
+  # configuration and descriptions for the various configuration attributes.
+  #
+  def self.help
+    Loquacious.help_for('Bones', :colorize => config.colorize, :nesting_nodes => false)
+  end
 end  # module Bones
 
 begin
