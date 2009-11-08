@@ -73,7 +73,7 @@ module Bones::Plugins::BonesPlugin
         only when creating a release announcement.
       __
 
-      exclude  %w(tmp$ bak$ ~$ CVS \.svn/ \.git/ ^pkg/), :desc => <<-__
+      exclude  %w(tmp$ bak$ ~$ CVS \.svn/ ^\.git/ ^pkg/), :desc => <<-__
         A list of regular expression patterns that will be used to exclude
         certain files from the gem packaging process. Each pattern is given
         as a string, and they are all combined using the regular expression
