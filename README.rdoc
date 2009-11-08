@@ -53,7 +53,9 @@ common development tasks. These tasks include ...
 The provided rake tasks are configured using a "Bones" configuration block in
 the Rakefile. You can obtain a list of the available options and descriptive
 help for each option by running the various "bones" tasks (use "rake -T" to
-list the available tasks).
+list the available tasks). Although there are many configuration options, the
+vast majority of them have sensible defaults; tailor to suit your needs in the
+Bones configuration block.
 
 Mr Bones can be extended via plugins. The plugins provide new rake tasks and
 configuration options for those tasks. Other developers can release plugins to
@@ -62,6 +64,9 @@ automate the use of their libraries in a bones enabled system.
 Currently there are a "bones-git" plugin for interacting with github and git
 repositories and a "bones-extras" plugin for working with Rcov, RubyForge,
 and Rspec.
+
+There is far more information available in the Mr Bones manual.
+http://wiki.github.com/TwP/bones/manual
 
 == INSTALL:
 
