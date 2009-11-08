@@ -23,7 +23,7 @@ Bones {
 --------------------------
   MSG
 
-  ann.paragraphs = %w[install synopsis features requirements]
+  ann.paragraphs = %w[install synopsis features]
   ann.text = gem.extras[:post_install_message]
 
   use_gmail
