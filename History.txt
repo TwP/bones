@@ -1,3 +1,8 @@
+== 3.0.1 / 2009-10-
+
+* 1 bug fix
+  - Fixing the ".git" exclude pattern
+
 == 3.0.0 / 2009-10-07
 
 * 4 major enhancements
