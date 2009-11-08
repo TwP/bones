@@ -2,7 +2,8 @@
 $:.unshift('lib')
 require 'bones'
 
-task :default => 'spec:run'
+task :default => 'spec:specdoc'
+task 'gem:release' => 'spec:run'
 
 Bones {
   name         'bones'
