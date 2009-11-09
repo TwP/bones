@@ -14,6 +14,7 @@ Bones {
   ruby_opts    %w[-W0]
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'
+  rubyforge.name 'codeforpeople'
 
   spec.opts << '--color'
   notes.exclude %w[^README\.rdoc$ ^data/]
