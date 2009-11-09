@@ -46,4 +46,3 @@ end  # module <%= classname %>
 
 <%= classname %>.require_all_libs_relative_to(__FILE__)
 
-# EOF

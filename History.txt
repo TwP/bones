@@ -1,7 +1,9 @@
-== 3.0.1 / 2009-10-
+== 3.0.1 / 2009-10-08
 
-* 1 bug fix
+* 2 bug fixes
   - Fixing the ".git" exclude pattern
+  - Calling "git clone" when creating from a git repository
+    (as opposed to git-clone which is not available on all platforms)
 
 == 3.0.0 / 2009-10-07
 

@@ -9,6 +9,7 @@ ensure_in_path 'lib'
 require '<%= name %>'
 
 task :default => 'test:run'
+task 'gem:release' => 'test:run'
 
 Bones {
   name  '<%= name %>'

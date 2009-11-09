@@ -35,5 +35,6 @@ Bones {
 
   gem.development_dependencies.clear
   depend_on  'rspec', :development => true
+  depend_on  'bones-git', :development => true
   depend_on  'bones-extras', :development => true
 }

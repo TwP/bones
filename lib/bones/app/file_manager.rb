@@ -78,7 +78,7 @@ class FileManager
   def _checkout( repotype )
     case repotype
     when :git
-      Git.clone source, destination
+      system('git', 'clone', source, destination)
       FileUtils.rm_rf(File.join(destination, '.git'))
     when :svn
       system('svn', 'export', source, destination)
