@@ -77,7 +77,10 @@ module Bones::Plugins::Yard
       task :clobber_yard do
         rm_r config.yard.dir rescue nil
       end
-    end  # namespace :yard
+    end  # namespace :doc
+
+    desc 'Alias to doc:yard'
+    task :doc => 'doc:yard'
 
     task :clobber => %w(doc:clobber_yard)
   end

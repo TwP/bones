@@ -79,6 +79,11 @@ module Bones::Plugins::Rdoc
       end
     end  # namespace :doc
 
+    unless have? :yard
+      desc 'Alias to doc:rdoc'
+      task :doc => 'doc:rdoc'
+    end
+
     desc 'Remove all build products'
     task :clobber => %w(doc:clobber_rdoc doc:clobber_ri)
 
