@@ -13,7 +13,7 @@ module Bones
   extend LittlePlugger
 
   # :stopdoc:
-  VERSION = '3.1.0'
+  VERSION = '3.1.1'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   LIBPATH = File.expand_path(File.join(PATH, 'lib'))
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
@@ -88,8 +88,8 @@ module Kernel
     return ::Bones unless block
 
     config = ::Bones.config
-    extend_method = Object.new.method(:extend).unbind.bind(config)
-    instance_eval_method = Object.new.method(:instance_eval).unbind.bind(config)
+    extend_method = Object.instance_method(:extend).bind(config)
+    instance_eval_method = Object.instance_method(:instance_eval).bind(config)
 
     plugins.each { |plugin|
       ps = plugin.const_get :Syntax rescue next

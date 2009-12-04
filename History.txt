@@ -1,3 +1,8 @@
+== 3.1.1 / 2009-12-03
+
+* 1 bug fix
+  - Using "instance_method" to get a Method instance
+
 == 3.1.0 / 2009-10-21
 
 * 1 minor enhancements
