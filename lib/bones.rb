@@ -7,13 +7,12 @@ require 'find'
 require 'rbconfig'
 require 'little-plugger'
 require 'loquacious'
-require 'git'
 
 module Bones
   extend LittlePlugger
 
   # :stopdoc:
-  VERSION = '3.1.2'
+  VERSION = '3.1.3'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   LIBPATH = File.expand_path(File.join(PATH, 'lib'))
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
