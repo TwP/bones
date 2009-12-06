@@ -1,3 +1,8 @@
+== 3.1.2 / 2009-12-05
+
+* 1 minor enhancement
+  - More informative error message when gems cannot be found
+
 == 3.1.1 / 2009-12-03
 
 * 1 bug fix
