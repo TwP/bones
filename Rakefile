@@ -34,8 +34,10 @@ Bones {
   depend_on  'little-plugger'
   depend_on  'loquacious'
 
-  gem.development_dependencies.clear
   depend_on  'rspec', :development => true
   depend_on  'bones-git', :development => true
   depend_on  'bones-extras', :development => true
 }
+
+# don't want to depend on ourself
+::Bones.config.gem._spec.dependencies.delete_if {|d| d.name == 'bones'}
