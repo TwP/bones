@@ -1,3 +1,8 @@
+== 3.2.0 / 2009-12-07
+
+1 minor enhancement
+  - Reworked plugin configuration to avoid "undefined method" errors on nil
+
 == 3.1.3 / 2009-12-06
 
 1 bug fix

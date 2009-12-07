@@ -12,7 +12,7 @@ module Bones
   extend LittlePlugger
 
   # :stopdoc:
-  VERSION = '3.1.3'
+  VERSION = '3.2.0'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   LIBPATH = File.expand_path(File.join(PATH, 'lib'))
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])

@@ -4,6 +4,10 @@ module Bones::Plugins::Yard
   extend self
 
   def initialize_yard
+    ::Bones.config {
+      yard(:desc => 'Configuration settings for yard') {}
+    }
+
     require 'yard'
     require 'yard/rake/yardoc_task'
     have?(:yard) { true }
@@ -12,9 +16,7 @@ module Bones::Plugins::Yard
     Module.class_eval 'remove_method :namespace'
 
     ::Bones.config {
-      desc 'Configuration settings for yard'
       yard {
-
         opts  [], :desc => 'Array of yard options to use when generating documentation.'
 
         include  %w(^lib/ ^bin/ ^ext/ \.txt$ \.rdoc$), :desc => <<-__
