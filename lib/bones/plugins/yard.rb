@@ -12,9 +12,6 @@ module Bones::Plugins::Yard
     require 'yard/rake/yardoc_task'
     have?(:yard) { true }
 
-    # FIXME This is a monkey-patch till yard fixes the namespace method collision
-    Module.class_eval 'remove_method :namespace'
-
     ::Bones.config {
       yard {
         opts  [], :desc => 'Array of yard options to use when generating documentation.'
