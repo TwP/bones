@@ -1,3 +1,9 @@
+== 3.2.1 / 2010-02-01
+
+2 bug fixes
+  - Removed a self-dependency
+  - Removed "namespace" monkey patch [Kevin Williams]
+
 == 3.2.0 / 2009-12-07
 
 1 minor enhancement

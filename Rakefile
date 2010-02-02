@@ -28,7 +28,6 @@ Bones {
   ann.text        gem.extras[:post_install_message]
 
   use_gmail
-  enable_sudo
 
   depend_on  'rake'
   depend_on  'little-plugger'
