@@ -1,3 +1,8 @@
+== 3.3.0 / 2010-03-04
+
+1 minor enhancement
+  - updating the default ruby project template
+
 == 3.2.1 / 2010-02-01
 
 2 bug fixes

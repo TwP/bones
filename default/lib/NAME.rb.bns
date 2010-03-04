@@ -17,16 +17,34 @@ module <%= classname %>
   # they will be joined to the end of the libray path using
   # <tt>File.join</tt>.
   #
-  def self.libpath( *args )
-    args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
+  def self.libpath( *args, &block )
+    rv =  args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
+    if block
+      begin
+        $LOAD_PATH.unshift LIBPATH
+        rv = block.call
+      ensure
+        $LOAD_PATH.shift
+      end
+    end
+    return rv
   end
 
   # Returns the lpath for the module. If any arguments are given,
   # they will be joined to the end of the path using
   # <tt>File.join</tt>.
   #
-  def self.path( *args )
-    args.empty? ? PATH : ::File.join(PATH, args.flatten)
+  def self.path( *args, &block )
+    rv = args.empty? ? PATH : ::File.join(PATH, args.flatten)
+    if block
+      begin
+        $LOAD_PATH.unshift PATH
+        rv = block.call
+      ensure
+        $LOAD_PATH.shift
+      end
+    end
+    return rv
   end
 
   # Utility method used to require all files ending in .rb that lie in the
