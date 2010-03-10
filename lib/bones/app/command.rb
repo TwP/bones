@@ -89,7 +89,7 @@ class Bones::App::Command
     opts = OptionParser.new
 
     opts.banner = 'NAME'
-    opts.separator "  bones v#{::Bones::VERSION}"
+    opts.separator "  bones v#{::Bones.version}"
     opts.separator ''
 
     if self.class.synopsis

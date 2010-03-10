@@ -98,7 +98,7 @@ module Bones::Plugins::Gem
 
     config.gem.files ||= manifest
     config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
-    config.gem.development_dependencies << ['bones', ">= #{Bones::VERSION}"]
+    config.gem.development_dependencies << ['bones', ">= #{Bones.version}"]
 
     have?(:gemcutter) {
       Gem.searcher.instance_variable_get(:@gemspecs).

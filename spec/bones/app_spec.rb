@@ -81,11 +81,11 @@ describe Bones::App do
 
   it 'should report a version number' do
     @app.run %w[--version]
-    @out.readline.should == "Mr Bones v#{Bones::VERSION}"
+    @out.readline.should == "Mr Bones v#{Bones.version}"
     @out.clear
 
     @app.run %w[-v]
-    @out.readline.should == "Mr Bones v#{Bones::VERSION}"
+    @out.readline.should == "Mr Bones v#{Bones.version}"
   end
 
 end  # describe Bones::App

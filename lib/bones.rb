@@ -12,7 +12,6 @@ module Bones
   extend LittlePlugger
 
   # :stopdoc:
-  VERSION = '3.3.0'
   PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   LIBPATH = File.expand_path(File.join(PATH, 'lib'))
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
@@ -24,18 +23,42 @@ module Bones
   module Plugins; end
   # :startdoc:
 
+  # Returns the version of the Mr Bones library.
+  #
+  def self.version
+    @version ||= File.read(path('version.txt')).strip
+  end
+
   # Returns the path for Mr Bones. If any arguments are given,
   # they will be joined to the end of the path using <tt>File.join</tt>.
   #
-  def self.path( *args )
-    args.empty? ? PATH : File.join(PATH, args.flatten)
+  def self.path( *args, &block )
+    rv = args.empty? ? PATH : ::File.join(PATH, args.flatten)
+    if block
+      begin
+        $LOAD_PATH.unshift PATH
+        rv = block.call
+      ensure
+        $LOAD_PATH.shift
+      end
+    end
+    return rv
   end
 
   # Returns the lib path for Mr Bones. If any arguments are given,
   # they will be joined to the end of the path using <tt>File.join</tt>.
   #
-  def self.libpath( *args )
-    args.empty? ? LIBPATH : File.join(LIBPATH, args.flatten)
+  def self.libpath( *args, &block )
+    rv =  args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
+    if block
+      begin
+        $LOAD_PATH.unshift LIBPATH
+        rv = block.call
+      ensure
+        $LOAD_PATH.shift
+      end
+    end
+    return rv
   end
 
   # call-seq:

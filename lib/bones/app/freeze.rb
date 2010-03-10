@@ -33,7 +33,7 @@ skeleton.
     fm.copy
 
     stdout.puts "Project skeleton #{name.inspect} " <<
-                "has been frozen to Mr Bones #{::Bones::VERSION}"
+                "has been frozen to Mr Bones #{::Bones.version}"
   end
 
   def parse( args )

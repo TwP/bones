@@ -47,7 +47,7 @@ module Bones::App
         when nil, '-h', '--help'
           help
         when '-v', '--version'
-          stdout.puts "Mr Bones v#{::Bones::VERSION}"
+          stdout.puts "Mr Bones v#{::Bones.version}"
         else
           raise Error, "Unknown command #{cmd_str.inspect}"
         end
@@ -72,7 +72,7 @@ module Bones::App
     def help
       msg = <<-MSG
 NAME
-  bones v#{::Bones::VERSION}
+  bones v#{::Bones.version}
 
 DESCRIPTION
   Mr Bones is a handy tool that builds a skeleton for your new Ruby

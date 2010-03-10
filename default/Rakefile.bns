@@ -5,18 +5,13 @@ rescue LoadError
   abort '### Please install the "bones" gem ###'
 end
 
-ensure_in_path 'lib'
-require '<%= name %>'
-
 task :default => 'test:run'
 task 'gem:release' => 'test:run'
 
 Bones {
   name  '<%= name %>'
   authors  'FIXME (who is writing this software)'
-  email  'FIXME (your e-mail)'
-  url  'FIXME (project homepage)'
-  version  <%= classname %>::VERSION
+  email    'FIXME (your e-mail)'
+  url      'FIXME (project homepage)'
 }
 
-# EOF

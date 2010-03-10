@@ -56,7 +56,7 @@ module Bones::Plugins::BonesPlugin
         to your gem on gemcutter.org (soon to be rubygems.org).
       __
 
-      version  ENV['VERSION'] || '0.0.0', :desc => <<-__
+      version  nil, :desc => <<-__
         Version number to use when creating the gem. This can be set either
         in the Rakefile or on the command line by setting the VERSION flag to
         the desired value.
@@ -146,6 +146,12 @@ module Bones::Plugins::BonesPlugin
     config.changes     ||= paragraphs_of(config.history_file, 0..1).join("\n\n")
     config.description ||= paragraphs_of(config.readme_file, 'description').join("\n\n")
     config.summary     ||= config.description.split('.').first
+
+    config.version ||= ENV['VERSION']
+    if test(?f, 'version.txt') and !config.version
+      config.version = File.read('version.txt').strip
+    end
+    config.version ||= '0.0.0'
 
     if config.libs.empty?
       %w(lib ext).each { |dir| config.libs << dir if test ?d, dir }

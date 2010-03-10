@@ -10,7 +10,6 @@ Bones {
   authors      'Tim Pease'
   email        'tim.pease@gmail.com'
   url          'http://gemcutter.org/gems/bones'
-  version      Bones::VERSION
   ruby_opts    %w[-W0]
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'
