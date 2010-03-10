@@ -1,4 +1,6 @@
 
+require 'rubygems/dependency_installer'
+
 module Bones::Plugins::Gem
   include ::Bones::Helpers
   extend self
@@ -223,8 +225,21 @@ module Bones::Plugins::Gem
       task :cleanup do
         sh "#{SUDO} #{GEM} cleanup #{config.gem._spec.name}"
       end
-    end  # namespace :gem
 
+      desc 'Install gem dependencies'
+      task :install_dependencies => 'gem:prereqs' do
+        installer = Gem::DependencyInstaller.new
+        config.gem._spec.dependencies.each {|dep|
+          next if Gem.available? dep
+
+          $stdout.puts "Installing #{dep.name}"
+          installer.install dep
+          installer.installed_gems.each {|spec|
+            $stdout.puts "Successfully installed #{spec.full_name}"
+          }
+        }
+      end
+    end  # namespace :gem
 
     desc 'Alias to gem:package'
     task :gem => 'gem:package'
