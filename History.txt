@@ -1,3 +1,8 @@
+== 3.4.1 / 2010-03-15
+
+1 bug fix
+  - excluding the rdoc plugin causes gem tasks to fail
+
 == 3.4.0 / 2010-03-10
 
 2 minor enhancement

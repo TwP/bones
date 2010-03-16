@@ -139,7 +139,7 @@ module Bones::Plugins::Gem
         dirs = Dir["{#{config.libs.join(',')}}"]
         s.require_paths = dirs unless dirs.empty?
 
-        if config.rdoc
+        if have? :rdoc
           incl = Regexp.new(config.rdoc.include.join('|'))
           excl = config.rdoc.exclude.dup.concat %w[\.rb$ ^(\.\/|\/)?ext]
           excl = Regexp.new(excl.join('|'))
