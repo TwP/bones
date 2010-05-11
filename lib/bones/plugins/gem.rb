@@ -50,8 +50,8 @@ module Bones::Plugins::Gem
           A convenience method is provided to add gem dependencies, and so you
           should not muck about with this configuration setting manually.
 
-          |  depend_on 'bones', :deveopment => true
-          |  depend_on 'mocah', :version => '0.9.8', :development => true
+          |  depend_on 'bones', :development => true
+          |  depend_on 'mocha', :version => '0.9.8', :development => true
         __
 
         executables  nil, :desc => <<-__
