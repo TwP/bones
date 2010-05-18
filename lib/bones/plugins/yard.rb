@@ -4,15 +4,12 @@ module Bones::Plugins::Yard
   extend self
 
   def initialize_yard
-    ::Bones.config {
-      yard(:desc => 'Configuration settings for yard') {}
-    }
-
     require 'yard'
     require 'yard/rake/yardoc_task'
     have?(:yard) { true }
 
     ::Bones.config {
+      desc 'Configuration settings for yard'
       yard {
         opts  [], :desc => 'Array of yard options to use when generating documentation.'
 
