@@ -1,4 +1,9 @@
-== 3.4.2 / 2010-04
+== 3.4.3 / 2010-04-19
+
+1 bug fix
+  - fixing warning from loquacious about undefined configuration
+
+== 3.4.2 / 2010-04-18
 
 2 bug fix
   - small typo in gem task descriptions [Stephen Bannasch]

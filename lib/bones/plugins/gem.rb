@@ -119,7 +119,11 @@ module Bones::Plugins::Gem
         s.authors = Array(config.authors)
         s.email = config.email
         s.homepage = Array(config.url).first
-        s.rubyforge_project = config.rubyforge.name || config.name rescue config.name
+        s.rubyforge_project = config.name
+
+        if !config.rubyforge.nil? and config.rubyforge.name
+          s.rubyforge_project = config.rubyforge.name
+        end
 
         s.description = config.description
 
