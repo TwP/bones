@@ -4,9 +4,9 @@ module Bones::Helpers
   DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
   SUDO = if system("which sudo > #{DEV_NULL} 2>&1") then 'sudo'
          else '' end unless defined? SUDO
-  RCOV = "#{RUBY} -S rcov"
-  RDOC = "#{RUBY} -S rdoc"
-  GEM  = "#{RUBY} -S gem"
+  RCOV = "#{Bones::RUBY} -S rcov"
+  RDOC = "#{Bones::RUBY} -S rdoc"
+  GEM  = "#{Bones::RUBY} -S gem"
   HAVE_SVN = (Dir.entries(Dir.pwd).include?('.svn') and
               system("svn --version 2>&1 > #{DEV_NULL}"))
 
