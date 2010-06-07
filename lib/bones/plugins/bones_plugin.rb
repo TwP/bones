@@ -53,7 +53,7 @@ module Bones::Plugins::BonesPlugin
         where others can go to find out more information about the project
         such as links to source code, bug trackers, wikis, generated
         documentation, etc. A good recommendation would be to point
-        to your gem on gemcutter.org (soon to be rubygems.org).
+        to your gem on rubygems.org.
       __
 
       version  nil, :desc => <<-__

@@ -9,7 +9,7 @@ Bones {
   name         'bones'
   authors      'Tim Pease'
   email        'tim.pease@gmail.com'
-  url          'http://gemcutter.org/gems/bones'
+  url          'http://rubygems.org/gems/bones'
   ruby_opts    %w[-W0]
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'

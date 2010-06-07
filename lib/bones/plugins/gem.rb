@@ -101,11 +101,6 @@ module Bones::Plugins::Gem
     config.gem.files ||= manifest
     config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
     config.gem.development_dependencies << ['bones', ">= #{Bones.version}"]
-
-    have?(:gemcutter) {
-      Gem.searcher.instance_variable_get(:@gemspecs).
-      map {|gs| gs.name}.include? 'gemcutter'
-    }
   end
 
   def define_tasks
@@ -182,16 +177,14 @@ module Bones::Plugins::Gem
         pkg.need_zip = config.gem.need_zip
       end
 
-      if have? :gemcutter
-        desc 'Package and upload to Gemcutter'
-        task :release => [:clobber, 'gem'] do |t|
-          v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
-          abort "Versions don't match #{v} vs #{config.version}" if v != config.version
+      desc 'Package and upload to rubygems.org'
+      task :release => [:clobber, 'gem'] do |t|
+        v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
+        abort "Versions don't match #{v} vs #{config.version}" if v != config.version
 
-          Dir.glob("pkg/#{config.gem._spec.full_name}*.gem").each { |fn|
-            sh "#{GEM} push #{fn}"
-          }
-        end
+        Dir.glob("pkg/#{config.gem._spec.full_name}*.gem").each { |fn|
+          sh "#{GEM} push #{fn}"
+        }
       end
 
       desc 'Show information about the gem'
