@@ -109,40 +109,13 @@ module Kernel
     plugins = ::Bones.initialize_plugins.values
     return ::Bones unless block
 
-    config = ::Bones.config
-    extend_method = Object.instance_method(:extend).bind(config)
-    instance_eval_method = Object.instance_method(:instance_eval).bind(config)
-
+    extend_method = Object.instance_method(:extend).bind(::Bones.config)
     plugins.each { |plugin|
       ps = plugin.const_get :Syntax rescue next
       extend_method.call ps
     }
 
-    begin
-      instance_eval_method.call(&block)
-    rescue NoMethodError => err
-      raise unless err.backtrace
-
-      _, fn, line_number = %r/^([^:]+):(\d+)/.match(err.backtrace.first).to_a
-      raise unless fn =~ %r/Rakefile$/
-
-      line = File.readlines(fn)[line_number.to_i-1]
-      STDERR.puts <<-__
-There is an error on line #{line_number} of your Rakefile:
-
-    #{err.message}
-    [#{line_number}] #{line.chomp}
-
-Please ensure required gems are installed, otherwise Mr Bones will
-not generate default configuration settings and values. This can lead
-to undefined method errors on nil values.
-      __
-      exit 42
-    rescue StandardError
-      abort
-    end
-
-    # config.exclude << "^#{Regexp.escape(config.rcov.dir)}/"
+    ::Bones.config(&block)
 
     plugins.each { |plugin| plugin.post_load if plugin.respond_to? :post_load }
     plugins.each { |plugin| plugin.define_tasks if plugin.respond_to? :define_tasks }
@@ -152,4 +125,3 @@ to undefined method errors on nil values.
   end
 end
 
-# EOF

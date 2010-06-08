@@ -1,3 +1,10 @@
+== 3.4.5 / 2010-06-08
+
+3 bug fixes
+  - removing obsolete code
+  - fixing issues with rubinious
+  - simplifying the Bones configuration block method
+
 == 3.4.4 / 2010-06-07
 
 1 bug fix
