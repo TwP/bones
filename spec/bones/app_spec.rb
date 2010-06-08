@@ -1,6 +1,5 @@
 
-require File.expand_path(
-    File.join(File.dirname(__FILE__), %w[.. spec_helper]))
+require 'spec_helper'
 
 class Runner
   attr_accessor :name
