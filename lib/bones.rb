@@ -115,7 +115,8 @@ module Kernel
       extend_method.call ps
     }
 
-    ::Bones.config(&block)
+    instance_eval_method = Object.instance_method(:instance_eval).bind(::Bones.config)
+    instance_eval_method.call(&block)
 
     plugins.each { |plugin| plugin.post_load if plugin.respond_to? :post_load }
     plugins.each { |plugin| plugin.define_tasks if plugin.respond_to? :define_tasks }
