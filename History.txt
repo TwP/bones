@@ -1,3 +1,8 @@
+== 3.4.6 / 2010-06-09
+
+1 bug fix
+  - introduced a regression with dependency management
+
 == 3.4.5 / 2010-06-08
 
 3 bug fixes
