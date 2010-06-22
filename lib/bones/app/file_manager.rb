@@ -112,7 +112,9 @@ class FileManager
       next unless test(?f, fn) and '.bns' == File.extname(fn)
 
       txt = ERB.new(File.read(fn), nil, '-').result(binding)
-      File.open(fn.sub(%r/\.bns$/, ''), 'w') {|fd| fd.write(txt)}
+      new_fn = fn.sub(%r/\.bns$/, '')
+      File.open(new_fn, 'w') {|fd| fd.write(txt)}
+      FileUtils.chmod(File.stat(fn).mode, new_fn)
       FileUtils.rm_f(fn)
     end
     self

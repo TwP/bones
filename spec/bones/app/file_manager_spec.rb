@@ -38,7 +38,7 @@ describe Bones::App::FileManager do
     @fm.source = Bones.path %w[spec data default]
 
     ary = @fm._files_to_copy
-    ary.length.should == 6
+    ary.length.should == 7
 
     ary.should == %w[
       .bnsignore
@@ -46,6 +46,7 @@ describe Bones::App::FileManager do
       NAME/NAME.rb.bns
       README.txt.bns
       Rakefile.bns
+      bin/NAME.bns
       lib/NAME.rb.bns
     ]
   end
@@ -105,6 +106,17 @@ module FooBar
   end
 end
     TXT
+  end
+
+  it "preserves the executable status of .bns files" do
+    @fm.source = Bones.path(%w[spec data default])
+    @fm.destination = Bones.path(%w[spec data bar])
+    @fm.copy
+    @fm.finalize('foo_bar')
+
+    dir = @fm.destination
+    test(?e, File.join(dir, 'bin/foo_bar')).should == true
+    test(?x, File.join(dir, 'bin/foo_bar')).should == true
   end
 
   # ------------------------------------------------------------------------
