@@ -1,3 +1,8 @@
+== 3.4.7 / 2010-06-21
+
+1 bug fix
+  - FileManager not preserving executable status of template files [Nathan Witmer]
+
 == 3.4.6 / 2010-06-09
 
 1 bug fix
