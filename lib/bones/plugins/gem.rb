@@ -194,8 +194,8 @@ module Bones::Plugins::Gem
 
       desc 'Write the gemspec '
       task :spec => 'gem:prereqs' do
-        File.open("#{config.name}.gemspec", 'w') do |f|
-          f.write config.gem._spec.to_ruby
+        File.open('.specification', 'w') do |f|
+          f.write config.gem._spec.to_yaml
         end
       end
 
