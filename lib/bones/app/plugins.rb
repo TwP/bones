@@ -73,7 +73,7 @@ private
     specs = fetcher.find_matching dep
 
     specs.map! { |(name, version, _), _|
-      next unless name =~ %r/^bones-(.*?)(:?-(\d+))?$/i
+      next unless name =~ %r/^bones-(.*?)(?:-(\d+))?$/i
       $2 ? [$1, $2.to_i] : $1
     }
 
