@@ -1,7 +1,8 @@
 == 3.5.0 / 2010-10-14
 
-1 minor enhancement
+2 minor enhancements
   - Adding a "plugin" command to search for Mr Bones plugins
+  - Gem specs are emitted in YAML format
 
 == 3.4.7 / 2010-06-21
 
