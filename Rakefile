@@ -13,7 +13,6 @@ Bones {
   ruby_opts    %w[-W0]
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'
-  rubyforge.name 'codeforpeople'
 
   spec.opts << '--color'
   notes.exclude %w[^README\.rdoc$ ^data/]
@@ -34,7 +33,7 @@ Bones {
 
   depend_on  'rspec', :development => true
   depend_on  'bones-git', :development => true
-  depend_on  'bones-extras', :development => true
+  depend_on  'bones-rspec', :development => true
 }
 
 # don't want to depend on ourself

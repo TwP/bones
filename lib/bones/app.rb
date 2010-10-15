@@ -98,7 +98,7 @@ DESCRIPTION
              end
            }
 
-     ary = [:create, :freeze, :unfreeze, :info]
+     ary = [:create, :freeze, :unfreeze, :info, :plugins]
      ary.each(&fmt)
      (@plugins.keys - ary).each(&fmt)
 
