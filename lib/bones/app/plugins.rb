@@ -28,7 +28,7 @@ gems are not installed.
     else
       plugins.each { |name, version|
         gemspecs.each { |gem_name, gem_version|
-          next unless name == gem_name
+          next unless name.downcase == gem_name.downcase
           next if version && version != gem_version
           show_plugin(name, version)
         }
