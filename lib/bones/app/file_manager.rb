@@ -107,8 +107,7 @@ class FileManager
   #
   def _erb( name )
     binding = _erb_binding(name)
-
-    Dir.glob(File.join(destination, '**', '*')).each do |fn|
+    Dir.glob(File.join(destination, '**', '*'), File::FNM_DOTMATCH).each do |fn|
       next unless test(?f, fn) and '.bns' == File.extname(fn)
 
       txt = ERB.new(File.read(fn), nil, '-').result(binding)

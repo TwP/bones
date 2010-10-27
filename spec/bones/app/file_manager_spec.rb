@@ -38,10 +38,11 @@ describe Bones::App::FileManager do
     @fm.source = Bones.path %w[spec data default]
 
     ary = @fm._files_to_copy
-    ary.length.should == 7
+    ary.length.should == 8
 
     ary.should == %w[
       .bnsignore
+      .rvmrc.bns
       History
       NAME/NAME.rb.bns
       README.txt.bns
@@ -93,10 +94,12 @@ describe Bones::App::FileManager do
     test(?e, File.join(dir, 'Rakefile.bns')).should == false
     test(?e, File.join(dir, 'README.txt.bns')).should == false
     test(?e, File.join(dir, %w[foo_bar foo_bar.rb.bns])).should == false
+    test(?e, File.join(dir, '.rvmrc.bns')).should == false
 
     test(?e, File.join(dir, 'Rakefile')).should == true
     test(?e, File.join(dir, 'README.txt')).should == true
     test(?e, File.join(dir, %w[foo_bar foo_bar.rb])).should == true
+    test(?e, File.join(dir, '.rvmrc')).should == true
 
     txt = File.read(File.join(@fm.destination, %w[foo_bar foo_bar.rb]))
     txt.should == <<-TXT
