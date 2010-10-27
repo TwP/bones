@@ -2,7 +2,7 @@
 $:.unshift('lib')
 require 'bones'
 
-task :default => 'spec:specdoc'
+task :default => 'spec:run'
 task 'gem:release' => 'spec:run'
 
 Bones {
@@ -14,7 +14,7 @@ Bones {
   readme_file  'README.rdoc'
   ignore_file  '.gitignore'
 
-  spec.opts << '--color'
+  spec.opts.concat %w[--color --format specdoc]
   notes.exclude %w[^README\.rdoc$ ^data/]
   gem.extras[:post_install_message] = <<-MSG
 --------------------------
