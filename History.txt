@@ -1,3 +1,8 @@
+== 3.5.1 / 2010-10-27
+
+1 bugfix
+  - ERB formatting applies to dotfiles now [http://github.com/simplogical]
+
 == 3.5.0 / 2010-10-14
 
 2 minor enhancements
