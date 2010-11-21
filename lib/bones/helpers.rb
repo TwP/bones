@@ -34,28 +34,37 @@ module Bones::Helpers
   #    changes = paragraphs_of('History.txt', 0..1).join("\n\n")
   #    summary, *description = paragraphs_of('README.txt', 3, 3..8)
   #
-  def paragraphs_of( path, *paragraphs )
-    title = String === paragraphs.first ? paragraphs.shift : nil
-    ary = File.read(path).delete("\r").split(/\n\n+/)
+  def paragraphs_of( path, *title_or_ranges )
+    title = nil
+    title ||= title_or_ranges.shift if String === title_or_ranges.first
+    paragraphs_ranges = title_or_ranges
+    paragraphs_ranges << (0..-1) if paragraphs_ranges.empty?
 
-    result = if title
-      tmp, matching = [], false
-      rgxp = %r/^=+\s*#{Regexp.escape(title)}/i
-      paragraphs << (0..-1) if paragraphs.empty?
+    paragraphs = File.read(path).delete("\r").split(/\n\n+/)
 
-      ary.each do |val|
-        if val =~ rgxp
+    if title.nil?
+      found_paragraphs = paragraphs
+    else
+      found_paragraphs = []
+      title_begin_regexp = [%r/^=+\s*#{Regexp.escape(title)}/i,
+                            %r/^#{Regexp.escape(title)}\n[=-]+$/i]
+      title_end_regexp = [%r/^=+/i,
+                          %r/^.+\n[=-]+$/i]
+
+      matching = false
+      cur_regexp = title_begin_regexp
+      paragraphs.each do |para|
+        if cur_regexp.any? { |rxp| para =~ rxp }
           break if matching
           matching = true
-          rgxp = %r/^=+/i
+          cur_regexp = title_end_regexp
         elsif matching
-          tmp << val
+          found_paragraphs << para
         end
       end
-      tmp
-    else ary end
+    end
 
-    result.values_at(*paragraphs)
+    found_paragraphs.values_at(*paragraphs_ranges)
   end
 
   # Find a rake task using the task name and remove any description text. This
