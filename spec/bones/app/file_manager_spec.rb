@@ -45,7 +45,7 @@ describe Bones::App::FileManager do
       .rvmrc.bns
       History
       NAME/NAME.rb.bns
-      README.txt.bns
+      README.md.bns
       Rakefile.bns
       bin/NAME.bns
       lib/NAME.rb.bns
@@ -92,12 +92,12 @@ describe Bones::App::FileManager do
 
     dir = @fm.destination
     test(?e, File.join(dir, 'Rakefile.bns')).should == false
-    test(?e, File.join(dir, 'README.txt.bns')).should == false
+    test(?e, File.join(dir, 'README.md.bns')).should == false
     test(?e, File.join(dir, %w[foo_bar foo_bar.rb.bns])).should == false
     test(?e, File.join(dir, '.rvmrc.bns')).should == false
 
     test(?e, File.join(dir, 'Rakefile')).should == true
-    test(?e, File.join(dir, 'README.txt')).should == true
+    test(?e, File.join(dir, 'README.md')).should == true
     test(?e, File.join(dir, %w[foo_bar foo_bar.rb])).should == true
     test(?e, File.join(dir, '.rvmrc')).should == true
 

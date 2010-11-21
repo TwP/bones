@@ -1,32 +1,44 @@
 <%= name %>
-    by FIXME (your name)
-    FIXME (url)
-
-== DESCRIPTION:
+===========
 
 FIXME (describe your package)
 
-== FEATURES/PROBLEMS:
+Features
+--------
 
-* FIXME (list of features or problems)
+* FIXME (list of features and unsolved problems)
 
-== SYNOPSIS:
+Examples
+--------
 
-  FIXME (code sample of usage)
+    FIXME (code sample of usage)
 
-== REQUIREMENTS:
+Requirements
+------------
 
 * FIXME (list of requirements)
 
-== INSTALL:
+Install
+-------
 
 * FIXME (sudo gem install, anything else)
 
-== LICENSE:
+Author
+------
 
-(The MIT License)
+Original author: FIXME (author's name)
 
-Copyright (c) 2008 FIXME (different license?)
+Contributors:
+
+* FIXME (contributor 1?)
+* FIXME (contributor 2?)
+
+License
+-------
+
+(The MIT License) FIXME(different license?)
+
+Copyright (c) 2010 FIXME (author's name)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

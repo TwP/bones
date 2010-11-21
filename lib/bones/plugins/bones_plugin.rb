@@ -106,8 +106,8 @@ module Bones::Plugins::BonesPlugin
         but you are free to change it to whatever you choose.
       __
 
-      readme_file  'README.txt', :desc => <<-__
-        The name of your project's README file. The default is 'README.txt'
+      readme_file  'README.md', :desc => <<-__
+        The name of your project's README file. The default is 'README.md'
         but you are free to change it to whatever you choose. Since GitHub
         understand various markup languages, you can change the README
         file to support your markup language of choice.
