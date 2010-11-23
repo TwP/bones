@@ -5,10 +5,23 @@ module Bones::Plugins::Notes
 
   def initialize_notes
     ::Bones.config {
+      desc 'Configuration for extracting annotations from project files.'
       notes {
-        exclude  []
-        extensions  %w(.txt .rb .erb .rdoc) << ''
-        tags  %w(FIXME OPTIMIZE TODO)
+        exclude [], :desc => <<-__
+          A list of regular expression patterns that will be used to exclude
+          certain files from the annotation search. Each pattern is given as a
+          string, and they are all combined using the regular expression or
+          "|" operator.
+        __
+
+        extensions %w[.txt .rb .erb .rdoc .md] << '', :desc => <<-__
+          Only files with these extensions will be searched for annotations.
+        __
+
+        tags %w[FIXME OPTIMIZE TODO], :desc => <<-__
+          The list of annotation tags that will be extracted from the files
+          being searched.
+        __
       }
     }
 
