@@ -11,7 +11,7 @@ Features
 Examples
 --------
 
-    FIXME (code sample of usage)
+  FIXME (code sample of usage)
 
 Requirements
 ------------
@@ -36,9 +36,9 @@ Contributors:
 License
 -------
 
-(The MIT License) FIXME(different license?)
+(The MIT License) FIXME (different license?)
 
-Copyright (c) 2010 FIXME (author's name)
+Copyright (c) <%= Time.now.strftime('%Y') %> FIXME (author's name)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
