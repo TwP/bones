@@ -1,5 +1,6 @@
 
 module Bones::Helpers
+  extend self
 
   DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
   SUDO = if system("which sudo > #{DEV_NULL} 2>&1") then 'sudo'
@@ -28,34 +29,46 @@ module Bones::Helpers
     io.each {|x| x.close}
   end
 
-  # Reads a file at +path+ and spits out an array of the +paragraphs+
-  # specified.
+  # Reads the file located at the given +path+ and returns an array of the
+  # desired +paragraphs+. The paragraphs can be given as a single section
+  # +title+ or any number of paragraph numbers or ranges.
+  #
+  # For example:
   #
   #    changes = paragraphs_of('History.txt', 0..1).join("\n\n")
   #    summary, *description = paragraphs_of('README.md', 3, 3..8)
+  #    features = paragraphs_of('README.md', 'features').join("\n\n")
+  #    examples = paragraphs_of('README.md', 'examples').join("\n\n")
   #
-  def paragraphs_of( path, *paragraphs )
-    title = String === paragraphs.first ? paragraphs.shift : nil
-    ary = File.read(path).delete("\r").split(/\n\n+/)
+  def paragraphs_of( path, *args )
 
-    result = if title
-      tmp, matching = [], false
-      rgxp = %r/^=+\s*#{Regexp.escape(title)}/i
-      paragraphs << (0..-1) if paragraphs.empty?
+    title = String === args.first ? args.shift : nil
+    paragraphs = File.read(path).delete("\r").split(%r/\n\n+/)
 
-      ary.each do |val|
-        if val =~ rgxp
+    if title.nil? then
+      result = paragraphs
+
+    else
+      title = Regexp.escape title
+      start_rgxp = [%r/\A=+\s*#{title}/i, %r/\A#{title}\n[=-]+\s*\Z/i]
+      end_rgxp   = [%r/\A=+/i, %r/\A.+\n[=-]+\s*\Z/i]
+
+      result = []
+      matching = false
+      rgxp = start_rgxp
+
+      paragraphs.each do |p|
+        if rgxp.any? { |r| p =~ r }
           break if matching
           matching = true
-          rgxp = %r/^=+/i
+          rgxp = end_rgxp
         elsif matching
-          tmp << val
+          result << p
         end
       end
-      tmp
-    else ary end
+    end
 
-    result.values_at(*paragraphs)
+    args.empty? ? result : result.values_at(*args)
   end
 
   # Find a rake task using the task name and remove any description text. This

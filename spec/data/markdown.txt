@@ -1,0 +1,113 @@
+Mr Bones
+========
+
+Mr Bones is a handy tool that creates new Ruby projects from a code
+skeleton. The skeleton contains some starter code and a collection of rake
+tasks to ease the management and deployment of your source code. Several Mr
+Bones plugins are available for creating git repositories, creating GitHub
+projects, running various test suites and source code analysis tools.
+
+Features
+--------
+
+Mr Bones is configurable, helpful, and it simplifies project development.
+
+Mr Bones simplifies project creation by using a code template for generating
+a new working area for your code. This skeleton is customizable, and you can
+have multiple skeletons for various types of projects you work on - ruby
+libraries, web applications, or even writing projects.
+
+When working with Rake, Mr Bones provides a set of tasks that help simplify
+common development tasks. These tasks include ...
+
+* release announcements
+* gem packaging and management
+* releasing to gemcutter and rubyforge
+* documentation
+* annotation listing (TODO, FIXME, etc)
+* testing
+
+The provided rake tasks are configured using a "Bones" configuration block in
+the Rakefile. You can obtain a list of the available options and descriptive
+help for each option by running the various "bones" tasks (use "rake -T" to
+list the available tasks). Although there are many configuration options, the
+vast majority of them have sensible defaults; tailor to suit your needs in the
+Bones configuration block.
+
+Mr Bones can be extended via plugins. The plugins provide new rake tasks and
+configuration options for those tasks. Other developers can release plugins to
+automate the use of their libraries in a bones enabled system.
+
+Currently there are a "bones-git" plugin for interacting with github and git
+repositories and a "bones-extras" plugin for working with Rcov, RubyForge,
+and Rspec.
+
+There is far more information available in the Mr Bones manual.
+http://wiki.github.com/TwP/bones/manual
+
+Examples
+--------
+
+To create a new "Get Fuzzy" project:
+
+  bones create get_fuzzy
+
+If you ever get confused about what Mr Bones can do:
+
+  bones --help
+
+After your project is created, you can view all the available configuration
+options:
+
+  rake bones:options
+
+Detailed information about the options (or a subset of options) can also be
+displayed:
+
+  rake bones:help        #=> for all options
+  rake bones:help gem    #=> for the "gem" subset
+
+Install
+-------
+
+* gem install bones
+
+If you would like some extra functinoality the following plugins can be
+installed:
+
+* gem install bones-git
+* gem install bones-extras
+
+The 'bones-git' gem provides command line options for generating a git
+repository and pushing to github upon creation. Rake tasks for working with
+the git repository are also provided.
+
+The 'bones-extras' gem provides rake tasks for running Rspec tests, running
+Rcov on your source code, and pushing releases to RubyForge. You will need to
+have the corresponding gems installed for these tasks to be loaded.
+
+License
+-------
+
+MIT License
+Copyright (c) 2007 - 2010
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sub-license, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
