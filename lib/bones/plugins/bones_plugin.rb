@@ -145,7 +145,10 @@ module Bones::Plugins::BonesPlugin
     config.exclude << "^#{Regexp.escape(config.ignore_file)}$"
     config.changes     ||= paragraphs_of(config.history_file, 0..1).join("\n\n")
     config.description ||= paragraphs_of(config.readme_file, 'description').join("\n\n")
-    config.summary     ||= config.description.split('.').first
+    if config.description.empty?
+        config.description = paragraphs_of(config.readme_file, 1..1).first
+    end
+    config.summary ||= config.description[%r/^[^.]*\.?/]
 
     config.version ||= ENV['VERSION']
     if test(?f, 'version.txt') and !config.version
