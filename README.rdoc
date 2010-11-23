@@ -76,15 +76,17 @@ If you would like some extra functinoality the following plugins can be
 installed:
 
 * gem install bones-git
-* gem install bones-extras
+* gem install bones-yard
+* gem install bones-rspec
+* gem install bones-rcov
+
+A complete list of available plugins is available via the bones command:
+
+  bones plugins --all
 
 The 'bones-git' gem provides command line options for generating a git
 repository and pushing to github upon creation. Rake tasks for working with
 the git repository are also provided.
-
-The 'bones-extras' gem provides rake tasks for running Rspec tests, running
-Rcov on your source code, and pushing releases to RubyForge. You will need to
-have the corresponding gems installed for these tasks to be loaded.
 
 == ACKNOWLEDGEMENTS:
 
