@@ -7,6 +7,18 @@ describe Bones::Helpers do
     Bones::Helpers::HAVE.clear
   end
 
+  describe 'when given a list of files' do
+    it 'finds the one that exists on the filesystem' do
+      filename = Bones::Helpers.find_file(*%w[foo.txt bar.txt README History.txt baz buz])
+      filename.should == 'History.txt'
+    end
+
+    it 'returns the first file if none exist' do
+      filename = Bones::Helpers.find_file(*%w[foo.txt bar.txt README History baz buz])
+      filename.should == 'foo.txt'
+    end
+  end
+
   describe 'when extracting paragraphs' do
     it 'recognizes RDoc headers by title' do
       filename = Bones.path %w[spec data rdoc.txt]

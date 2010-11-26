@@ -82,6 +82,16 @@ module Bones::Helpers
     end
   end
 
+  # Given a list of filenames, return the first one that resolves to an
+  # existing file on the filesystem. This allows us to specify a list of valid
+  # files for the README and HISTORY files then pick the one that actually
+  # exists on the user's filesystem.
+  #
+  def find_file( *args )
+    args.each {|fn| return fn if test(?f, fn)}
+    args.first
+  end
+
 end  # module Bones::Helpers
 
 # We need a "valid" method thtat determines if a string is suitable for use
