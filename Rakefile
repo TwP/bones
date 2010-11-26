@@ -29,8 +29,7 @@ Bones {
   depend_on  'little-plugger'
   depend_on  'loquacious'
 
-  depend_on  'rspec', :development => true
-  depend_on  'bones-git', :development => true
+  depend_on  'bones-git',   :development => true
   depend_on  'bones-rspec', :development => true
 }
 
