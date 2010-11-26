@@ -11,8 +11,6 @@ Bones {
   email        'tim.pease@gmail.com'
   url          'http://rubygems.org/gems/bones'
   ruby_opts    %w[-W0]
-  readme_file  'README.rdoc'
-  ignore_file  '.gitignore'
 
   spec.opts.concat %w[--color --format specdoc]
   notes.exclude %w[^README\.rdoc$ ^data/]

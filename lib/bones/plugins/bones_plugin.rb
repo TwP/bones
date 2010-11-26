@@ -10,7 +10,7 @@ module Bones::Plugins::BonesPlugin
   end
 
   def initialize_bones_plugin
-    ::Bones.config {
+    config = ::Bones.config {
       # ==== Project Defaults
       name  nil, :desc => <<-__
         The project name that will be used for packaging and distributing
@@ -101,19 +101,19 @@ module Bones::Plugins::BonesPlugin
         project.
       __
 
-      history_file  'History.txt', :desc => <<-__
+      history_file  nil, :desc => <<-__
         The name of your project's History file. The default is 'History.txt'
         but you are free to change it to whatever you choose.
       __
 
-      readme_file  'README.md', :desc => <<-__
+      readme_file  nil, :desc => <<-__
         The name of your project's README file. The default is 'README.md'
         but you are free to change it to whatever you choose. Since GitHub
         understand various markup languages, you can change the README
         file to support your markup language of choice.
       __
 
-      ignore_file  '.bnsignore', :desc => <<-__
+      ignore_file  nil, :desc => <<-__
         Mr Bones does not use a manifest to determine which fiels should be
         included in your project. All files are included unless they appear
         in the ignore file or in the "exclude" configruation option. The
@@ -137,6 +137,13 @@ module Bones::Plugins::BonesPlugin
         This is equivalent to 'use_sudo true', but it reads a little nicer.
       __
     }
+
+    config.history_file = Proc.new { find_file(*%w[History.txt History HISTORY.txt HISTORY]) }
+    config.ignore_file = Proc.new { find_file(*%w[.gitignore .bnsignore]) }
+    config.readme_file = Proc.new { find_file(*%w[
+        README.txt README.rdoc README.md README
+        Readme.txt Readme.rdoc Readme.md Readme
+    ]) }
   end
 
   def post_load
