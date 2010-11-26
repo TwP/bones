@@ -1,3 +1,8 @@
+== 3.5.3 / 2010-11-23
+
+1 minor change
+  - Smart file searching
+
 == 3.5.2 / 2010-11-23
 
 1 minor change
