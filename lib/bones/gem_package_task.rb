@@ -38,7 +38,7 @@ class Bones::GemPackageTask < Rake::PackageTask
   def define
     super
     task :prereqs
-    task :package => ['gem:prereqs', "#{package_dir_path}/#{gem_file}"]
+    task :package => ["#{package_dir_path}/#{gem_file}"]
 
     file "#{package_dir_path}/#{gem_file}" => [package_dir_path] + package_files do
       when_writing("Creating GEM") {
@@ -51,7 +51,7 @@ class Bones::GemPackageTask < Rake::PackageTask
       }
     end
 
-    file package_dir_path do
+    file package_dir_path => 'gem:prereqs' do
       mkdir_p package_dir rescue nil
     end
   end
