@@ -41,6 +41,7 @@ module Bones::Helpers
   #    examples = paragraphs_of('README.md', 'examples').join("\n\n")
   #
   def paragraphs_of( path, *args )
+    return [] unless test(?f, path)
 
     title = String === args.first ? args.shift : nil
     paragraphs = File.read(path).delete("\r").split(%r/\n\n+/)

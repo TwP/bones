@@ -153,7 +153,7 @@ module Bones::Plugins::BonesPlugin
     config.changes     ||= paragraphs_of(config.history_file, 0..1).join("\n\n")
     config.description ||= paragraphs_of(config.readme_file, 'description').join("\n\n")
     if config.description.empty?
-        config.description = paragraphs_of(config.readme_file, 1..1).first
+        config.description = paragraphs_of(config.readme_file, 1..1).first.to_s
     end
     config.summary ||= config.description[%r/^[^.]*\.?/]
 
