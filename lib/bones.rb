@@ -82,16 +82,13 @@ module Bones
   end
 end  # module Bones
 
-begin
-  $LOAD_PATH.unshift Bones.libpath
+Bones.libpath {
   %w[colors helpers gem_package_task annotation_extractor smtp_tls app app/command app/file_manager].
   each { |fn| require File.join('bones', fn) }
 
   Bones.config {}
   Loquacious.remove :gem, :file, :test
-ensure
-  $LOAD_PATH.shift
-end
+}
 
 module Kernel
   # call-seq:
