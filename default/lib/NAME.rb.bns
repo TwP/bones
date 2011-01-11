@@ -16,12 +16,12 @@ module <%= classname %>
   # they will be joined to the end of the libray path using
   # <tt>File.join</tt>.
   #
-  def self.libpath( *args, &block )
+  def self.libpath( *args )
     rv =  args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
-    if block
+    if block_given?
       begin
         $LOAD_PATH.unshift LIBPATH
-        rv = block.call
+        rv = yield
       ensure
         $LOAD_PATH.shift
       end
@@ -33,12 +33,12 @@ module <%= classname %>
   # they will be joined to the end of the path using
   # <tt>File.join</tt>.
   #
-  def self.path( *args, &block )
+  def self.path( *args )
     rv = args.empty? ? PATH : ::File.join(PATH, args.flatten)
-    if block
+    if block_given?
       begin
         $LOAD_PATH.unshift PATH
-        rv = block.call
+        rv = yield
       ensure
         $LOAD_PATH.shift
       end
