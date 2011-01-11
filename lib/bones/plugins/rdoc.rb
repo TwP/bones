@@ -18,7 +18,7 @@ module Bones::Plugins::Rdoc
           will be converted in regular expressions.
         __
 
-        exclude  %w(extconf\.rb$), :desc => <<-__
+        exclude  %w(extconf\.rb$ ^version.txt), :desc => <<-__
           An array of patterns that will be used to exclude files from rdoc
           processing. This is an array of strings that will be converted in
           regular expressions.
