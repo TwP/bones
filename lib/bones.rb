@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'rake'
 require 'rake/clean'
+require 'pathname'
 require 'fileutils'
 require 'find'
 require 'rbconfig'
@@ -32,12 +33,12 @@ module Bones
   # Returns the path for Mr Bones. If any arguments are given,
   # they will be joined to the end of the path using <tt>File.join</tt>.
   #
-  def self.path( *args, &block )
+  def self.path( *args )
     rv = args.empty? ? PATH : ::File.join(PATH, args.flatten)
-    if block
+    if block_given?
       begin
         $LOAD_PATH.unshift PATH
-        rv = block.call
+        rv = yield
       ensure
         $LOAD_PATH.shift
       end
@@ -48,12 +49,12 @@ module Bones
   # Returns the lib path for Mr Bones. If any arguments are given,
   # they will be joined to the end of the path using <tt>File.join</tt>.
   #
-  def self.libpath( *args, &block )
+  def self.libpath( *args )
     rv =  args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
-    if block
+    if block_given?
       begin
         $LOAD_PATH.unshift LIBPATH
-        rv = block.call
+        rv = yield
       ensure
         $LOAD_PATH.shift
       end
@@ -87,7 +88,7 @@ Bones.libpath {
   each { |fn| require File.join('bones', fn) }
 
   Bones.config {}
-  Loquacious.remove :gem, :file, :test
+  Loquacious.remove :gem, :file, :test, :timeout
 }
 
 module Kernel
@@ -97,13 +98,14 @@ module Kernel
   # Configure Mr Bones using the given _block_ of code. If a block is not
   # given, the Bones module is returned.
   #
-  def Bones( &block )
+  def Bones( filename = nil, &block )
 
     # we absolutely have to have the bones plugin
     plugin_names = ::Bones.plugin_names
     ::Bones.plugin :bones_plugin unless plugin_names.empty? or plugin_names.include? :bones_plugin
 
     plugins = ::Bones.initialize_plugins.values
+    ::Bones::Plugins::Gem.import_gemspec(filename) if filename
     return ::Bones unless block
 
     extend_method = Object.instance_method(:extend).bind(::Bones.config)

@@ -5,6 +5,8 @@ module Bones::Plugins::Gem
   include ::Bones::Helpers
   extend self
 
+  GemspecError = Class.new(StandardError)
+
   module Syntax
     # Adds the given gem _name_ to the current project's dependency list. An
     # optional gem _version_ can be given. If omitted, the newest gem version
@@ -98,79 +100,83 @@ module Bones::Plugins::Gem
   def post_load
     config = ::Bones.config
 
-    config.gem.files ||= manifest
-    config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
-    config.gem.development_dependencies << ['bones', ">= #{Bones.version}"]
+    unless $bones_external_spec
+      config.gem.files ||= manifest
+      config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
+      config.gem.development_dependencies << ['bones', ">= #{Bones.version}"]
+    end
   end
 
   def define_tasks
     config = ::Bones.config
 
     namespace :gem do
-      config.gem._spec = Gem::Specification.new do |s|
-        s.name = config.name
-        s.version = config.version
-        s.summary = config.summary
-        s.authors = Array(config.authors)
-        s.email = config.email
-        s.homepage = Array(config.url).first
-        s.rubyforge_project = config.name
+      if config.gem._spec.nil?
+        config.gem._spec = Gem::Specification.new do |s|
+          s.name = config.name
+          s.version = config.version
+          s.summary = config.summary
+          s.authors = Array(config.authors)
+          s.email = config.email
+          s.homepage = Array(config.url).first
+          s.rubyforge_project = config.name
 
-        if !config.rubyforge.nil? and config.rubyforge.name
-          s.rubyforge_project = config.rubyforge.name
-        end
-
-        s.description = config.description
-
-        config.gem.dependencies.each do |dep|
-          s.add_dependency(*dep)
-        end
-
-        config.gem.development_dependencies.each do |dep|
-          s.add_development_dependency(*dep)
-        end
-
-        s.files = config.gem.files
-        s.executables = config.gem.executables.map {|fn| File.basename(fn)}
-        s.extensions = config.gem.files.grep %r/extconf\.rb$/
-
-        s.bindir = 'bin'
-        dirs = Dir["{#{config.libs.join(',')}}"]
-        s.require_paths = dirs unless dirs.empty?
-
-        if have? :rdoc
-          incl = Regexp.new(config.rdoc.include.join('|'))
-          excl = config.rdoc.exclude.dup.concat %w[\.rb$ ^(\.\/|\/)?ext]
-          excl = Regexp.new(excl.join('|'))
-          rdoc_files = config.gem.files.find_all do |fn|
-                         case fn
-                         when excl; false
-                         when incl; true
-                         else false end
-                       end
-          s.rdoc_options = config.rdoc.opts + ['--main', config.rdoc.main]
-          s.extra_rdoc_files = rdoc_files
-          s.has_rdoc = true
-        end
-
-        if config.test
-          if test ?f, config.test.file
-            s.test_file = config.test.file
-          else
-            s.test_files = config.test.files.to_a
+          if !config.rubyforge.nil? and config.rubyforge.name
+            s.rubyforge_project = config.rubyforge.name
           end
-        end
 
-        # Do any extra stuff the user wants
-        config.gem.extras.each do |msg, val|
-          case val
-          when Proc
-            val.call(s.send(msg))
-          else
-            s.send "#{msg}=", val
+          s.description = config.description
+
+          config.gem.dependencies.each do |dep|
+            s.add_dependency(*dep)
           end
-        end
-      end  # Gem::Specification.new
+
+          config.gem.development_dependencies.each do |dep|
+            s.add_development_dependency(*dep)
+          end
+
+          s.files = config.gem.files
+          s.executables = config.gem.executables.map {|fn| File.basename(fn)}
+          s.extensions = config.gem.files.grep %r/extconf\.rb$/
+
+          s.bindir = 'bin'
+          dirs = Dir["{#{config.libs.join(',')}}"]
+          s.require_paths = dirs unless dirs.empty?
+
+          if have? :rdoc
+            incl = Regexp.new(config.rdoc.include.join('|'))
+            excl = config.rdoc.exclude.dup.concat %w[\.rb$ ^(\.\/|\/)?ext]
+            excl = Regexp.new(excl.join('|'))
+            rdoc_files = config.gem.files.find_all do |fn|
+                           case fn
+                           when excl; false
+                           when incl; true
+                           else false end
+                         end
+            s.rdoc_options = config.rdoc.opts + ['--main', config.rdoc.main]
+            s.extra_rdoc_files = rdoc_files
+            s.has_rdoc = true
+          end
+
+          if config.test
+            if test ?f, config.test.file
+              s.test_file = config.test.file
+            else
+              s.test_files = config.test.files.to_a
+            end
+          end
+
+          # Do any extra stuff the user wants
+          config.gem.extras.each do |msg, val|
+            case val
+            when Proc
+              val.call(s.send(msg))
+            else
+              s.send "#{msg}=", val
+            end
+          end
+        end  # Gem::Specification.new
+      end  # if gem._spec.nil?
 
       ::Bones::GemPackageTask.new(config.gem._spec) do |pkg|
         pkg.need_tar = config.gem.need_tar
@@ -192,10 +198,13 @@ module Bones::Plugins::Gem
         puts config.gem._spec.to_ruby
       end
 
-      desc 'Write the gemspec'
-      task :spec => 'gem:prereqs' do
-        File.open("#{config.name}.gemspec", 'w') do |f|
-          f.write config.gem._spec.to_ruby
+      # don't use the "spec" task if we have an external gemspec
+      unless $bones_external_spec
+        desc 'Write the gemspec'
+        task :spec => 'gem:prereqs' do
+          File.open("#{config.name}.gemspec", 'w') do |f|
+            f.write config.gem._spec.to_ruby
+          end
         end
       end
 
@@ -288,6 +297,78 @@ module Bones::Plugins::Gem
     files.sort!
   end
 
+  # Import configuration from the given gemspec file.
+  #
+  def import_gemspec( filename )
+    $bones_external_spec = false
+    spec = load_gemspec(filename)
+    return if spec.nil?
+
+    config = ::Bones.config
+    config.gem._spec = spec
+    $bones_external_spec = true
+
+    config.name               = spec.name
+    config.version            = spec.version
+    config.summary            = spec.summary
+    config.authors            = spec.authors
+    config.email              = spec.email
+    config.url                = spec.homepage
+    config.description        = spec.description
+    config.files              = spec.files
+    config.libs               = spec.require_paths
+    config.rubyforge_project  = spec.rubyforge_project
+
+    config.gem.executables    = spec.executables
+    config.rdoc.opts          = spec.rdoc_options
+    config.test.file          = spec.test_file if spec.test_file
+    config.test.files         = spec.test_files if spec.test_files
+
+    spec.runtime_dependencies.each do |dep|
+      config.gem.dependencies << [dep.name, dep.requirements_list].flatten
+    end
+
+    spec.development_dependencies.each do |dep|
+      config.gem.development_dependencies << [dep.name, dep.requirements_list].flatten
+    end
+
+    [:signing_key, :cert_chain, :post_install_message, :licenses].each { |key|
+      value = spec.send(key)
+      next if value.nil? or value.empty?
+      config.gem.extras[key] = value
+    }
+
+    nil
+  end
+
+  # This method is stolen from the Bundler gem. It loads the gemspec from a
+  # file if available.
+  #
+  def load_gemspec( filename )
+    path = Pathname.new(filename)
+    # Eval the gemspec from its parent directory
+    Dir.chdir(path.dirname) do
+      begin
+        Gem::Specification.from_yaml(path.basename)
+        # Raises ArgumentError if the file is not valid YAML
+      rescue ArgumentError, SyntaxError, Gem::EndOfYAMLException, Gem::Exception
+        begin
+          eval(File.read(path.basename), TOPLEVEL_BINDING, path.expand_path.to_s)
+        rescue LoadError => e
+          original_line = e.backtrace.find { |line| line.include?(path.to_s) }
+          msg  = "There was a LoadError while evaluating #{path.basename}:\n  #{e.message}"
+          msg << " from\n  #{original_line}" if original_line
+          msg << "\n"
+
+          if RUBY_VERSION >= "1.9.0"
+            msg << "\nDoes it try to require a relative path? That doesn't work in Ruby 1.9."
+          end
+
+          raise GemspecError, msg
+        end
+      end
+    end
+  end
+
 end  # Bones::Plugins::Gem
 
-# EOF
