@@ -1,5 +1,15 @@
 
-require 'rake/rdoctask'
+# since RDoc v 2.4.2 has RDoc::Task to replace Rake::RDoctask
+begin
+  if RUBY_VERSION =~ /1\.9\./
+    gem 'rdoc'
+  else
+    require 'rubygems'
+  end
+  require 'rdoc/task'
+rescue LoadError
+  require 'rake/rdoctask'
+end
 
 module Bones::Plugins::Rdoc
   include ::Bones::Helpers
@@ -43,31 +53,45 @@ module Bones::Plugins::Rdoc
     config.rdoc.main ||= config.readme_file
   end
 
+  def rdoc_config(rd, config)
+    
+    rdoc = config.rdoc
+    incl = Regexp.new(rdoc.include.join('|'))
+    excl = Regexp.new(rdoc.exclude.join('|'))
+    files = config.gem.files.find_all do |fn|
+              case fn
+              when excl; false
+              when incl; true
+              else false end
+            end
+    title = "#{config.name}-#{config.version} Documentation"
+    rd.main = rdoc.main
+    rd.rdoc_dir = rdoc.dir
+
+    rd.rdoc_files.push(*files)
+
+    if rd.class == RDoc::Task
+      rd.title = title
+    else
+      rd.options << "-t #{title}"
+    end
+
+    rd.options.concat(rdoc.opts)
+  end
+
   def define_tasks
     config = ::Bones.config
 
     namespace :doc do
       desc 'Generate RDoc documentation'
-      Rake::RDocTask.new do |rd|
-        rdoc = config.rdoc
-        rd.main = rdoc.main
-        rd.rdoc_dir = rdoc.dir
 
-        incl = Regexp.new(rdoc.include.join('|'))
-        excl = Regexp.new(rdoc.exclude.join('|'))
-        files = config.gem.files.find_all do |fn|
-                  case fn
-                  when excl; false
-                  when incl; true
-                  else false end
-                end
-        rd.rdoc_files.push(*files)
-
-        title = "#{config.name}-#{config.version} Documentation"
-
-        rd.options << "-t #{title}"
-        rd.options.concat(rdoc.opts)
+      # rdoc-2.4.2
+      begin
+        rd = RDoc::Task.new
+      rescue NameError
+        rd = Rake::RDoctask.new
       end
+      rdoc_config(rd,config)
 
       desc 'Generate ri locally for testing'
       task :ri => :clobber_ri do
