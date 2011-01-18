@@ -10,8 +10,8 @@ class Bones::AnnotationExtractor
     # will be included in the string.
     #
     def to_s( opts = {} )
-      s = "[%3d] " % line
-      s << "[#{tag}] " if opts[:tag]
+      s = "[#{Bones::Colors.colorize('%3d', :magenta)}] " % line
+      s << "[#{Bones::Colors.colorize(tag, :cyan)}] " if opts[:tag]
       s << text
     end
   }
@@ -74,7 +74,7 @@ class Bones::AnnotationExtractor
 
       text = m[2]
       if text =~ @id_rgxp
-        text.gsub!(@id_rgxp) {|str| ::Bones::Colors.colorize(str, :green)}
+        text.gsub!(@id_rgxp) {|str| Bones::Colors.colorize(str, :green)}
         list << Annotation.new(lineno, m[1], text)
       end
       list
