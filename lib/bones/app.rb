@@ -17,6 +17,7 @@ module Bones::App
   end
 
   class Main
+    include Bones::Colors
     attr_reader :stdout
     attr_reader :stderr
 
@@ -58,11 +59,11 @@ module Bones::App
       end
 
     rescue Bones::App::Error => err
-      stderr.puts "ERROR:  While executing bones ..."
+      stderr.puts "#{colorize('ERROR', :white, :on_red)}:  While executing bones ..."
       stderr.puts "    #{err.message}"
       exit 1
     rescue StandardError => err
-      stderr.puts "ERROR:  While executing bones ... (#{err.class})"
+      stderr.puts "#{colorize('ERROR', :white, :on_red)}:  While executing bones ... (#{colorize(err.class, :red)})"
       stderr.puts "    #{err.to_s}"
       exit 1
     end

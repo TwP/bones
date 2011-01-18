@@ -3,6 +3,7 @@ require 'erb'
 
 module Bones::App
 class FileManager
+  include Bones::Colors
 
   Error = Class.new(StandardError)
 
@@ -45,7 +46,7 @@ class FileManager
   def archive_destination
     return false unless test(?e, destination)
 
-    @out.puts "archiving #{destination}" if verbose?
+    archiving(destination)
     FileUtils.rm_rf(archive)
     FileUtils.mv(destination, archive)
     true
@@ -162,11 +163,28 @@ class FileManager
     dst = File.join(dir,  File.basename(file))
     src = File.join(source, file)
 
-    @out.puts(test(?e, dst) ? "updating #{dst}" : "creating #{dst}") if verbose?
+    test(?e, dst) ? updating(dst) : creating(dst)
     FileUtils.mkdir_p(dir)
     FileUtils.cp src, dst
 
     FileUtils.chmod(File.stat(src).mode, dst)
+  end
+
+private
+
+  def archiving( filename )
+    return unless verbose?
+    @put.puts "    #{colorize('archiving', :cyan)} #{filename}"
+  end
+
+  def creating( filename )
+    return unless verbose?
+    @out.puts "    #{colorize('creating', :green)} #{filename}"
+  end
+
+  def updating( filename )
+    return unless verbose?
+    @out.puts "    #{colorize('updating', :yellow)} #{filename}"
   end
 
 end  # class FileManager

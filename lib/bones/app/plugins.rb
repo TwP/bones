@@ -14,6 +14,7 @@ gems are not installed.
     __
 
     option('-a', '--all', 'Show all plugins.', lambda { config[:all] = true })
+    option(standard_options[:colorize])
   end
 
   def run
@@ -46,7 +47,7 @@ gems are not installed.
     name = "bones-#{name}"
     name << "-#{version}" if version
 
-    stdout.puts("  [%s]  %s" % [installed?(name) ? 'installed' : 'available', name])
+    stdout.puts("  [%s]  %s" % [installed?(name) ? colorize('installed', :green) : colorize('available', :cyan), name])
   end
 
 private

@@ -1,8 +1,10 @@
 
 class Bones::App::Command
+  include Bones::Colors
 
   # :stopdoc:
   DEFAULT_SKELETON = 'default'
+  Bones.config() { colorize = true }
   # :startdoc:
 
   attr_reader :stdout
@@ -17,7 +19,7 @@ class Bones::App::Command
       :skeleton_dir => File.join(mrbones_dir, DEFAULT_SKELETON),
       :verbose => false,
       :name => nil,
-      :output_dir => nil
+      :output_dir => nil,
     }
     @config[:skeleton_dir] = ::Bones.path(DEFAULT_SKELETON) unless test(?d, skeleton_dir)
   end
@@ -129,7 +131,8 @@ class Bones::App::Command
     return opts
   end
 
-  #
+  # Returns a hash of the standard options that can be used for individual
+  # commadns.
   #
   def self.standard_options
     @standard_options ||= {
@@ -155,7 +158,10 @@ class Bones::App::Command
 
       :repository => ['-r', '--repository URL', String,
           'svn or git repository path.',
-          lambda { |value| config[:repository] = value }]
+          lambda { |value| config[:repository] = value }],
+
+      :colorize => ['-c', '--color', '--no-color', 'Colorize output',
+          lambda { |value| Bones.config.colorize = value }]
     }
   end
 

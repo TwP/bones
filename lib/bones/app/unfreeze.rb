@@ -13,6 +13,7 @@ not given then the default skeleton is removed.
     __
 
     option(standard_options[:verbose])
+    option(standard_options[:colorize])
   end
 
   def run

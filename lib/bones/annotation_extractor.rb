@@ -74,7 +74,7 @@ class Bones::AnnotationExtractor
 
       text = m[2]
       if text =~ @id_rgxp
-        text.gsub!(@id_rgxp) {|str| ::Bones::Colors.green(str)} if config.colorize
+        text.gsub!(@id_rgxp) {|str| ::Bones::Colors.colorize(str, :green)}
         list << Annotation.new(lineno, m[1], text)
       end
       list

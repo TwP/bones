@@ -18,6 +18,7 @@ be used as the skeleton if the '--repository' flag is given.
     option(standard_options[:skeleton])
     option(standard_options[:repository])
     option(standard_options[:verbose])
+    option(standard_options[:colorize])
   end
 
   def self.in_output_directory( *args )
@@ -59,6 +60,7 @@ be used as the skeleton if the '--repository' flag is given.
       :verbose => verbose?
     )
 
+    # TODO: consolidate into one method so the "create" messages are correct
     fm.copy
     fm.finalize name
   rescue Bones::App::FileManager::Error => err

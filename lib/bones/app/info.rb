@@ -14,9 +14,9 @@ class Info < Command
 
     msg  = "\n"
     msg << "The default project skeleton will be copied from:\n"
-    msg << "    " << skeleton_dir << "\n\n"
+    msg << "    " << colorize(skeleton_dir, :cyan) << "\n\n"
 
-    fmt = "    %-12s => %s\n"
+    fmt = "    #{colorize('%-12s', :green)} #{colorize('=>', :yellow)} #{colorize('%s', :cyan)}\n"
     msg << "Available projects skeletons are:\n"
     Dir.glob(File.join(mrbones_dir, '*')).sort.each do |fn|
       next if fn =~ %r/\.archive$/
@@ -25,7 +25,7 @@ class Info < Command
       if test(?f, fn)
         msg << fmt % [File.basename(fn), File.read(fn).strip]
       else
-        msg << "    " << File.basename(fn) << "\n"
+        msg << "    " << colorize(File.basename(fn), :green) << "\n"
       end
     end
 
