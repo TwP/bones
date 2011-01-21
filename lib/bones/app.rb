@@ -60,7 +60,7 @@ module Bones::App
 
     rescue Bones::App::Error => err
       stderr.puts "#{colorize('ERROR', :white, :on_red)}:  While executing bones ..."
-      stderr.puts "    #{err.message}"
+      stderr.puts "    #{err.message.split("\n").join("\n    ")}"
       exit 1
     rescue StandardError => err
       stderr.puts "#{colorize('ERROR', :white, :on_red)}:  While executing bones ... (#{colorize(err.class, :red)})"
