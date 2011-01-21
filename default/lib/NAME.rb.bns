@@ -4,13 +4,8 @@ module <%= classname %>
   # :stopdoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
+  VERSION = ::File.read(PATH + 'version.txt').strip
   # :startdoc:
-
-  # Returns the version string for the library.
-  #
-  def self.version
-    @version ||= File.read(path('version.txt')).strip
-  end
 
   # Returns the library path for the module. If any arguments are given,
   # they will be joined to the end of the libray path using
