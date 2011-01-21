@@ -17,7 +17,6 @@ be used as the skeleton if the '--repository' flag is given.
     option(standard_options[:directory])
     option(standard_options[:skeleton])
     option(standard_options[:repository])
-    option(standard_options[:verbose])
     option(standard_options[:colorize])
   end
 
@@ -57,23 +56,20 @@ be used as the skeleton if the '--repository' flag is given.
       :destination => output_dir,
       :stdout => stdout,
       :stderr => stderr,
-      :verbose => verbose?
+      :verbose => true
     )
-
-    # TODO: consolidate into one method so the "create" messages are correct
-    fm.copy
-    fm.finalize name
+    fm.template name
   rescue Bones::App::FileManager::Error => err
     FileUtils.rm_rf output_dir
     msg = "Could not create '#{name}'"
     msg << " in directory '#{output_dir}'" if name != output_dir
-    msg << "\n\t#{err.message}"
+    msg << "\n#{err.message}"
     raise Error, msg
   rescue Exception => err
     FileUtils.rm_rf output_dir
     msg = "Could not create '#{name}'"
     msg << " in directory '#{output_dir}'" if name != output_dir
-    msg << "\n\t#{err.inspect}"
+    msg << "\n#{err.inspect}"
     raise Error, msg
   end
 
@@ -85,11 +81,14 @@ be used as the skeleton if the '--repository' flag is given.
 
   def fixme
     return unless test ?f, 'Rakefile'
+
+    stdout.puts
+    stdout.puts colorize('-'*31, :yellow)
     stdout.puts 'Now you need to fix these files'
+    stdout.puts colorize('-'*31, :yellow)
     system "#{::Bones::RUBY} -S rake notes"
   end
 
 end  # class Create
 end  # module Bones::App
 
-# EOF

@@ -60,17 +60,26 @@ class FileManager
     else
       _files_to_copy.each {|fn| _cp(fn)}
     end
+    self
   end
 
+  # Gernate a new destination folder by copying files from the source, rename
+  # files and directories that contain "NAME", and perform ERB templating on
+  # ".bns" files. The _name_ use used for file/folder renaming and ERB
+  # templating.
   #
-  #
-  def finalize( name )
+  def template( name )
     name = name.to_s
     return if name.empty?
 
+    if repository?
+      _checkout(repository)
+    else
+      _files_to_copy.each {|fn| _cp(fn, false)}
+    end
+
     self.destination = _rename(destination, name)
     _erb(name)
-
     self
   end
 
@@ -109,10 +118,16 @@ class FileManager
   def _erb( name )
     binding = _erb_binding(name)
     Dir.glob(File.join(destination, '**', '*'), File::FNM_DOTMATCH).each do |fn|
-      next unless test(?f, fn) and '.bns' == File.extname(fn)
+      next unless test(?f, fn)
+      if File.extname(fn) != '.bns'
+        creating(fn)
+        next
+      end
+
+      new_fn = fn.sub(%r/\.bns$/, '')
+      creating(new_fn)
 
       txt = ERB.new(File.read(fn), nil, '-').result(binding)
-      new_fn = fn.sub(%r/\.bns$/, '')
       File.open(new_fn, 'w') {|fd| fd.write(txt)}
       FileUtils.chmod(File.stat(fn).mode, new_fn)
       FileUtils.rm_f(fn)
@@ -157,13 +172,14 @@ class FileManager
   # specified project location. A message will be displayed to the screen
   # indicating that the file is being created.
   #
-  def _cp( file )
+  def _cp( file, msg = true )
     dir = File.dirname(file)
     dir = (dir == '.' ? destination : File.join(destination, dir))
     dst = File.join(dir,  File.basename(file))
     src = File.join(source, file)
 
-    test(?e, dst) ? updating(dst) : creating(dst)
+    (test(?e, dst) ? updating(dst) : creating(dst)) if msg
+
     FileUtils.mkdir_p(dir)
     FileUtils.cp src, dst
 
