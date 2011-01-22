@@ -1,3 +1,14 @@
+== 3.6.0 / 2011-01-21
+
+Enhancements
+  - Use RDoc::Task if it's available. Otherwise fallback to Rake::RDoctask.
+  - Specify gem sources in the Bones configuration block.
+  - Initialize bones from an external gemspec file.
+  - Colorization of bones command output.
+
+Bug Fixes
+  - Excluding the "version.txt" file from rdoc processing.
+
 == 3.5.5 / 2011-01-10
 
 1 bug fix
