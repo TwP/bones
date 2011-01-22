@@ -74,7 +74,7 @@ describe Bones::App do
 
   it 'should report an error for unrecognized commands' do
     lambda {@app.run %w[foo]}.should raise_error(SystemExit)
-    @err.readline.should == 'ERROR:  While executing bones ...'
+    @err.readline.should == "\e[37m\e[41mERROR\e[0m:  While executing bones ..."
     @err.readline.should == '    Unknown command "foo"'
   end
 

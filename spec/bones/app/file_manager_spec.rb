@@ -87,8 +87,7 @@ describe Bones::App::FileManager do
   it "should perform ERb templating on '.bns' files" do
     @fm.source = Bones.path(%w[spec data default])
     @fm.destination = Bones.path(%w[spec data bar])
-    @fm.copy
-    @fm.finalize('foo_bar')
+    @fm.template('foo_bar')
 
     dir = @fm.destination
     test(?e, File.join(dir, 'Rakefile.bns')).should == false
@@ -114,8 +113,7 @@ end
   it "preserves the executable status of .bns files" do
     @fm.source = Bones.path(%w[spec data default])
     @fm.destination = Bones.path(%w[spec data bar])
-    @fm.copy
-    @fm.finalize('foo_bar')
+    @fm.template('foo_bar')
 
     dir = @fm.destination
     test(?e, File.join(dir, 'bin/foo_bar')).should == true
