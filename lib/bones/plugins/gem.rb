@@ -28,10 +28,21 @@ module Bones::Plugins::Gem
       development ?
           ::Bones.config.gem.development_dependencies << dep :
           ::Bones.config.gem.dependencies << dep
+      nil
+    end
+
+    # Add the given _url_ to the list of gem sources.
+    #
+    def source( url )
+      sources = ::Bones.config.gem.sources
+      sources << url unless sources.include? url
+      nil
     end
   end
 
   def initialize_gem
+    Gem.configuration
+
     ::Bones.config {
       desc 'Configuration settings for gem packaging.'
       gem {
@@ -91,6 +102,14 @@ module Bones::Plugins::Gem
           provided for by Mr Bones. You will need to refer to the rubygems
           documentation for a complete list of specification settings.
         __
+
+        sources  Gem.sources.dup, :desc => <<-__
+          An array of sources to fetch remote gems from. A convenience method
+          is provided to add new gem sources to this list.
+
+          |  source 'http://gems.example.com'
+          |  source 'http://rubygems.org'
+        __
       }
     }
 
@@ -99,6 +118,8 @@ module Bones::Plugins::Gem
 
   def post_load
     config = ::Bones.config
+
+    Gem.sources = config.gem.sources
 
     unless $bones_external_spec
       config.gem.files ||= manifest
