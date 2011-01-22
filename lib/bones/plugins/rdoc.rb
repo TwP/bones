@@ -1,11 +1,7 @@
 
 # since RDoc v 2.4.2 has RDoc::Task to replace Rake::RDoctask
 begin
-  if RUBY_VERSION =~ /1\.9\./
-    gem 'rdoc'
-  else
-    require 'rubygems'
-  end
+  gem 'rdoc'
   require 'rdoc/task'
 rescue LoadError
   require 'rake/rdoctask'
@@ -54,7 +50,6 @@ module Bones::Plugins::Rdoc
   end
 
   def rdoc_config(rd, config)
-    
     rdoc = config.rdoc
     incl = Regexp.new(rdoc.include.join('|'))
     excl = Regexp.new(rdoc.exclude.join('|'))
@@ -116,4 +111,3 @@ module Bones::Plugins::Rdoc
 
 end  # module Bones::Plugins::Rdoc
 
-# EOF
