@@ -1,5 +1,5 @@
 
-# since RDoc v 2.4.2 has RDoc::Task to replace Rake::RDoctask
+# since RDoc v 2.4.2 has RDoc::Task to replace Rake::RDocTask
 begin
   gem 'rdoc'
   require 'rdoc/task'
@@ -40,6 +40,7 @@ module Bones::Plugins::Rdoc
     }
 
     have?(:rdoc) { true }
+    have?(:rdoc_gem) { true } if defined? RDoc
   end
 
   def post_load
@@ -65,7 +66,8 @@ module Bones::Plugins::Rdoc
 
     rd.rdoc_files.push(*files)
 
-    if rd.class == RDoc::Task
+
+    if have? :rdoc_gem
       rd.title = title
     else
       rd.options << "-t #{title}"
@@ -81,11 +83,7 @@ module Bones::Plugins::Rdoc
       desc 'Generate RDoc documentation'
 
       # rdoc-2.4.2
-      begin
-        rd = RDoc::Task.new
-      rescue NameError
-        rd = Rake::RDoctask.new
-      end
+      rd = have?(:rdoc_gem) ? RDoc::Task.new : Rake::RDocTask.new
       rdoc_config(rd,config)
 
       desc 'Generate ri locally for testing'
