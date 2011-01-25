@@ -29,8 +29,10 @@ Bones {
   depend_on  'little-plugger'
   depend_on  'loquacious'
 
-  depend_on  'bones-git',   :development => true
-  depend_on  'bones-rspec', :development => true
+  # These are commented out to avoid circular dependencies when install
+  # bones-git or bones-rspec in development mode
+  # depend_on  'bones-git',   :development => true
+  # depend_on  'bones-rspec', :development => true
 }
 
 # don't want to depend on ourself
