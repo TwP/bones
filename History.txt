@@ -1,3 +1,9 @@
+== 3.6.2 / 2011-01-27
+
+Bug Fixes
+  - The "gem:install" task no longer forces the "--local" flag
+  - depend_on now defaults to strict equivalency when a solitary version number is given
+
 == 3.6.1 / 2011-01-25
 
 Bug Fixes

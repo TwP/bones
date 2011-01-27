@@ -22,7 +22,7 @@ module Bones::Plugins::Gem
 
       dep = case version
             when nil; [name]
-            when %r/^\d/; [name, ">= #{version}"]
+            when %r/^\d/; [name, "= #{version}"]
             else [name, version] end
 
       development ?
@@ -53,7 +53,7 @@ module Bones::Plugins::Gem
           should not muck about with this configuration setting manually.
 
           |  depend_on 'rake'
-          |  depend_on 'rspec', '1.2.8'    # expands to '>= 1.2.8'
+          |  depend_on 'rspec', '1.2.8'    # expands to '= 1.2.8'
           |  depend_on 'main', '~> 2.0'
         __
 
@@ -238,7 +238,7 @@ module Bones::Plugins::Gem
 
       desc 'Install the gem'
       task :install => [:clobber, 'gem:package'] do
-        sh "#{SUDO} #{GEM} install --local pkg/#{config.gem._spec.full_name}"
+        sh "#{SUDO} #{GEM} install pkg/#{config.gem._spec.full_name}"
 
         # use this version of the command for rubygems > 1.0.0
         #sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{config.gem._spec.full_name}"
