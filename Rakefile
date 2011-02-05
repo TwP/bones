@@ -5,6 +5,8 @@ require 'bones'
 task :default => 'spec:run'
 task 'gem:release' => 'spec:run'
 
+begin gem('rspec', '~> 1.3.0'); rescue LoadError; end
+
 Bones {
   name         'bones'
   authors      'Tim Pease'
@@ -28,6 +30,8 @@ Bones {
   depend_on  'rake'
   depend_on  'little-plugger'
   depend_on  'loquacious'
+
+  depend_on  'rspec', '~> 1.3.0', :development => true
 
   # These are commented out to avoid circular dependencies when install
   # bones-git or bones-rspec in development mode
