@@ -13,8 +13,9 @@ module Bones
   extend LittlePlugger
 
   # :stopdoc:
-  PATH = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-  LIBPATH = File.expand_path(File.join(PATH, 'lib'))
+  PATH = File.expand_path('../..', __FILE__) + File::SEPARATOR
+  LIBPATH = File.expand_path('..', __FILE__) + File::SEPARATOR
+  VERSION = File.read(PATH + '/version.txt').strip
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
 
   # Ruby Interpreter location - taken from Rake source code
@@ -27,7 +28,7 @@ module Bones
   # Returns the version of the Mr Bones library.
   #
   def self.version
-    @version ||= File.read(path('version.txt')).strip
+    VERSION
   end
 
   # Returns the path for Mr Bones. If any arguments are given,
@@ -84,8 +85,15 @@ module Bones
 end  # module Bones
 
 Bones.libpath {
-  %w[colors helpers gem_package_task annotation_extractor smtp_tls app app/command app/file_manager].
-  each { |fn| require File.join('bones', fn) }
+  require 'bones/colors'
+  require 'bones/helpers'
+  require 'bones/rake_override_task'
+  require 'bones/gem_package_task'
+  require 'bones/annotation_extractor'
+  require 'bones/smtp_tls'
+  require 'bones/app'
+  require 'bones/app/command'
+  require 'bones/app/file_manager'
 
   Bones.config {}
   Loquacious.remove :gem, :file, :test, :timeout

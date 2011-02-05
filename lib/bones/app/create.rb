@@ -82,6 +82,9 @@ be used as the skeleton if the '--repository' flag is given.
   def fixme
     return unless test ?f, 'Rakefile'
 
+    tasks = %x{#{::Bones::RUBY} -S rake -T}
+    return unless tasks =~ %r/^(rake )?notes/m
+
     stdout.puts
     stdout.puts colorize('-'*31, :yellow)
     stdout.puts 'Now you need to fix these files'
@@ -89,6 +92,6 @@ be used as the skeleton if the '--repository' flag is given.
     system "#{::Bones::RUBY} -S rake notes"
   end
 
-end  # class Create
-end  # module Bones::App
+end  # Create
+end  # Bones::App
 

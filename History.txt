@@ -1,3 +1,12 @@
+== 3.6.3 / 2011-02-
+
+Enhancements
+  - Added an "override_task" method for working with rake tasks
+
+Bug Fixes
+  - Copying version from ENV to avoid frozen strings [Douglas A. Seifert]
+  - Check for tasks before attempting to execute them
+
 == 3.6.2 / 2011-01-27
 
 Bug Fixes

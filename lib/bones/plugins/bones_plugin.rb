@@ -206,4 +206,3 @@ module Bones::Plugins::BonesPlugin
 
 end  # module Bones::Plugins::BonesPlugin
 
-# EOF
