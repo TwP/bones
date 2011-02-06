@@ -157,7 +157,7 @@ module Bones::Plugins::BonesPlugin
     end
     config.summary ||= config.description[%r/^[^.]*\.?/]
 
-    config.version ||= ENV['VERSION']
+    config.version ||= (ENV['VERSION'] ? ENV['VERSION'].dup : nil)
     if test(?f, 'version.txt') and !config.version
       config.version = File.read('version.txt').strip
     end
