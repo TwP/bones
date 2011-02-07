@@ -18,7 +18,7 @@ module Bones::Plugins::Gem
       development = opts.key?(:development) ? opts[:development] : opts.key?(:dev) ? opts[:dev] : false
 
       spec = Gem.source_index.find_name(name).last
-      version = spec.version.to_s if version.nil? and !spec.nil?
+      version = ">= #{spec.version.to_s}" if version.nil? and !spec.nil?
 
       dep = case version
             when nil; [name]
