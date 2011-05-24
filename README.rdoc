@@ -1,6 +1,6 @@
 Mr Bones
     by Tim Pease
-    http://gemcutter.org/gems/bones
+    https://rubygems.org/gems/bones
 
 == DESCRIPTION:
 
@@ -45,7 +45,7 @@ common development tasks. These tasks include ...
 
 * release announcements
 * gem packaging and management
-* releasing to gemcutter and rubyforge
+* releasing to rubygems.org and rubyforge.org
 * documentation
 * annotation listing (TODO, FIXME, etc)
 * testing
