@@ -17,7 +17,17 @@ module Bones::Plugins::Gem
       version = args.first || opts[:version]
       development = opts.key?(:development) ? opts[:development] : opts.key?(:dev) ? opts[:dev] : false
 
-      spec = Gem.source_index.find_name(name).last
+      spec = nil
+      # FIXME: check for rubygems version 1.8.X
+      if Gem::Specification.respond_to? :find_by_name
+        begin
+          spec = Gem::Specification.find_by_name(name)
+        rescue Gem::LoadError => err
+        end
+      else
+        spec = Gem.source_index.find_name(name).last
+      end
+
       version = ">= #{spec.version.to_s}" if version.nil? and !spec.nil?
 
       dep = case version
@@ -176,7 +186,6 @@ module Bones::Plugins::Gem
                          end
             s.rdoc_options = config.rdoc.opts + ['--main', config.rdoc.main]
             s.extra_rdoc_files = rdoc_files
-            s.has_rdoc = true
           end
 
           if config.test
@@ -246,7 +255,11 @@ module Bones::Plugins::Gem
 
       desc 'Uninstall the gem'
       task :uninstall do
-        installed_list = Gem.source_index.find_name(config.name)
+        # FIXME: check for rubygems version 1.8.X
+        installed_list = Gem::Specification.respond_to?(:find_all_by_name) ?
+            Gem::Specification.find_all_by_name(config.name) :
+            Gem.source_index.find_name(config.name)
+
         if installed_list and installed_list.collect { |s| s.version.to_s}.include?(config.version) then
           sh "#{SUDO} #{GEM} uninstall --version '#{config.version}' --ignore-dependencies --executables #{config.name}"
         end
@@ -264,7 +277,12 @@ module Bones::Plugins::Gem
       task :install_dependencies => 'gem:prereqs' do
         installer = Gem::DependencyInstaller.new
         config.gem._spec.dependencies.each {|dep|
-          next if Gem.available? dep
+          # FIXME: check for rubygems version 1.8.X
+          if dep.respond_to? :matching_specs
+            next unless dep.matching_specs(true).empty?
+          else
+            next if Gem.available? dep
+          end
 
           $stdout.puts "Installing #{dep.name}"
           installer.install dep
