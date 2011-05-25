@@ -27,7 +27,7 @@ Bones {
 
   use_gmail
 
-  depend_on  'rake'
+  depend_on  'rake', '>= 0.8.7'
   depend_on  'little-plugger'
   depend_on  'loquacious'
 
