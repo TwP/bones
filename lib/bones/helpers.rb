@@ -1,5 +1,6 @@
 
 module Bones::Helpers
+  include Rake::DSL if defined?(Rake::DSL)
   extend self
 
   DEV_NULL = File.exist?('/dev/null') ? '/dev/null' : 'NUL:'
