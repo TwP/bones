@@ -48,25 +48,32 @@ module Bones::Helpers
     paragraphs = File.read(path).delete("\r").split(%r/\n\n+/)
 
     if title.nil? then
-      result = paragraphs
-
+      title = '.+'
+      single_section = false
     else
-      title = Regexp.escape title
-      start_rgxp = [%r/\A=+\s*#{title}/i, %r/\A#{title}\n[=-]+\s*\Z/i]
-      end_rgxp   = [%r/\A=+/i, %r/\A.+\n[=-]+\s*\Z/i]
+      title = Regexp.escape(title)
+      single_section = true
+    end
 
-      result = []
-      matching = false
-      rgxp = start_rgxp
+    start_rgxp = [%r/\A=+\s*#{title}/i, %r/\A#{title}\n[=-]+\s*\Z/i]
+    end_rgxp   = [%r/\A=+/i, %r/\A.+\n[=-]+\s*\Z/i]
 
-      paragraphs.each do |p|
-        if rgxp.any? { |r| p =~ r }
-          break if matching
-          matching = true
-          rgxp = end_rgxp
-        elsif matching
-          result << p
+    result = []
+    matching = false
+    rgxp = start_rgxp
+
+    paragraphs.each do |p|
+      if rgxp.any? { |r| p =~ r }
+        if matching && single_section
+          break
         end
+        matching = true
+        rgxp = end_rgxp
+        next
+      end
+
+      if matching
+        result << p
       end
     end
 
