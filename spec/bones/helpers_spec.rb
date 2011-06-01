@@ -53,7 +53,7 @@ describe Bones::Helpers do
     it 'uses paragraph numbers' do
       filename = Bones.path %w[spec data markdown.txt]
 
-      ary = Bones::Helpers.paragraphs_of(filename, 1, 3..5)
+      ary = Bones::Helpers.paragraphs_of(filename, 0, 1..3)
       ary.length.should == 4
       ary.first.should == %Q{Mr Bones is a handy tool that creates new Ruby projects from a code\nskeleton. The skeleton contains some starter code and a collection of rake\ntasks to ease the management and deployment of your source code. Several Mr\nBones plugins are available for creating git repositories, creating GitHub\nprojects, running various test suites and source code analysis tools.}
       ary.last.should == %Q{When working with Rake, Mr Bones provides a set of tasks that help simplify\ncommon development tasks. These tasks include ...}

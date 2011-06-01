@@ -151,11 +151,13 @@ module Bones::Plugins::BonesPlugin
 
     config.exclude << "^#{Regexp.escape(config.ignore_file)}$"
     config.changes     ||= paragraphs_of(config.history_file, 0..1).join("\n\n")
+
+    first_readme_para = paragraphs_of(config.readme_file, 0..0).first.to_s
+    config.summary ||= first_readme_para[%r/^[^.]*\.?/]
     config.description ||= paragraphs_of(config.readme_file, 'description').join("\n\n")
     if config.description.empty?
-        config.description = paragraphs_of(config.readme_file, 1..1).first.to_s
+        config.description = first_readme_para
     end
-    config.summary ||= config.description[%r/^[^.]*\.?/]
 
     config.version ||= (ENV['VERSION'] ? ENV['VERSION'].dup : nil)
     if test(?f, 'version.txt') and !config.version
