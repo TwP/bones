@@ -1,8 +1,11 @@
-== 3.7.0 / 2011-05-25
+== 3.7.0 / 2011-06-01
 
 Enhancements
   - updates to support rake 0.9.0 [gioele]
   - support for rubygems 1.8.X
+
+Bug Fixes
+  - paragraph_of fixes [gioele]
 
 == 3.6.5 / 2011-02-07
 
