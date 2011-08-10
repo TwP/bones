@@ -5,7 +5,7 @@ require 'bones'
 task :default => 'spec:run'
 task 'gem:release' => 'spec:run'
 
-begin gem('rspec', '~> 1.3.0'); rescue LoadError; end
+begin gem('rspec', '~> 2.6.0'); rescue LoadError; end
 
 Bones {
   name         'bones'
@@ -14,7 +14,7 @@ Bones {
   url          'http://rubygems.org/gems/bones'
   ruby_opts    %w[-W0]
 
-  spec.opts.concat %w[--color --format specdoc]
+  spec.opts.concat %w[--color --format documentation]
   notes.exclude %w[^README\.rdoc$ ^data/]
   gem.extras[:post_install_message] = <<-MSG
 --------------------------
@@ -31,7 +31,7 @@ Bones {
   depend_on  'little-plugger'
   depend_on  'loquacious'
 
-  depend_on  'rspec', '~> 1.3.0', :development => true
+  depend_on  'rspec', '~> 2.6.0', :development => true
 
   # These are commented out to avoid circular dependencies when install
   # bones-git or bones-rspec in development mode
