@@ -13,7 +13,7 @@ those gems. Passing in the 'all' flag will show plugins even if the related
 gems are not installed.
     __
 
-    option('-a', '--all', 'Show all plugins.', lambda { config[:all] = true })
+    option('-a', '--all', 'Show all plugins.', lambda { |_| config[:all] = true })
     option(standard_options[:colorize])
   end
 
@@ -27,6 +27,7 @@ gems are not installed.
     if all?
       plugins.each { |name, version| show_plugin(name, version) }
     else
+      gemspecs = find_gemspecs
       plugins.each { |name, version|
         gemspecs.each { |gem_name, gem_version|
           next unless name.downcase == gem_name.downcase
@@ -52,11 +53,14 @@ gems are not installed.
 
 private
 
-  def gemspecs
-    specs = Gem.source_index.map { |_, spec| spec }
+  def find_gemspecs
+    if Gem::Specification.respond_to? :map
+      specs = Gem::Specification.map { |spec| spec }
+    else
+      specs = Gem.source_index.map { |_, spec| spec }
+    end
 
     specs.map! { |s| [s.name, s.version.segments.first] }
-
     specs.sort! { |a, b|
       names = a.first <=> b.first
       next names if names.nonzero?
@@ -68,7 +72,12 @@ private
   end
 
   def find_bones_plugins
-    dep = Gem::Dependency.new(%r/^bones/i, Gem::Requirement.default)
+    if Gem.const_defined? :Deprecate
+      # FIXME: this needs to change when rubygems removes the option to pass a regular expression to the Gem::Dependency initializer
+      dep = Gem::Deprecate.skip_during { Gem::Dependency.new(%r/^bones/i, Gem::Requirement.default) }
+    else
+      dep = Gem::Dependency.new(%r/^bones/i, Gem::Requirement.default)
+    end
 
     fetcher = Gem::SpecFetcher.fetcher
     specs = fetcher.find_matching dep
@@ -84,8 +93,18 @@ private
   end
 
   def installed?( name, version = Gem::Requirement.default )
-    dep = Gem::Dependency.new name, version
-    !Gem.source_index.search(dep).empty?
+    # FIXME: check for rubygems version 1.8.X
+    if Gem::Specification.respond_to? :find_by_name
+      begin
+        Gem::Specification.find_by_name(name, version)
+        true
+      rescue Gem::LoadError => err
+        false
+      end
+    else
+      dep = Gem::Dependency.new name, version
+      !Gem.source_index.search(dep).empty?
+    end
   end
 
 end  # class Plugins
