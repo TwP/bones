@@ -7,7 +7,8 @@ class FileManager
 
   Error = Class.new(StandardError)
 
-  attr_accessor :source, :destination, :archive, :verbose
+  attr_reader :destination
+  attr_accessor :source, :archive, :verbose
   alias :verbose? :verbose
 
   #
