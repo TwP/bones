@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+root = File.expand_path('../..', __FILE__)
 
 begin
   require File.join(root, %w[lib bones])
@@ -11,4 +11,3 @@ end
 Bones::App.initialize_plugins
 Bones::App.run
 
-# EOF
