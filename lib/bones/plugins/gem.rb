@@ -18,7 +18,6 @@ module Bones::Plugins::Gem
       development = opts.key?(:development) ? opts[:development] : opts.key?(:dev) ? opts[:dev] : false
 
       spec = nil
-      # FIXME: check for rubygems version 1.8.X
       if Gem::Specification.respond_to? :find_by_name
         begin
           spec = Gem::Specification.find_by_name(name)

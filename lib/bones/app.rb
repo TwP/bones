@@ -119,4 +119,3 @@ DESCRIPTION
   end  # class Main
 end  # module Bones::App
 
-# EOF
