@@ -1,7 +1,8 @@
 == 3.7.2 / 2011-11-17
 
 Enhancements
-  - cleaning up Gem deprecation warnings.
+  - remove SMTP TLS patch for Ruby 1.8.6
+  - cleaning up rubygems deprecation warnings
   - updating the default project skeleton
   - ignore the .rvmrc file
   - cleanup of comment lines
