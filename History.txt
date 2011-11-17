@@ -1,3 +1,13 @@
+== 3.7.2 / 2011-11-17
+
+Enhancements
+  - cleaning up Gem deprecation warnings.
+  - updating the default project skeleton
+  - ignore the .rvmrc file
+  - cleanup of comment lines
+  - minor tweak to the discovery of the root directory
+  - updating Rakefile
+
 == 3.7.1 / 2011-08-10
 
 Enhancements
