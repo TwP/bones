@@ -37,22 +37,22 @@ describe Bones::App do
 
   it 'should provide a create command' do
     @app.run %w[create]
-    @runner.name.should == :create
+    @runner.name.should be == :create
   end
 
   it 'should provide a freeze command' do
     @app.run %w[freeze]
-    @runner.name.should == :freeze
+    @runner.name.should be == :freeze
   end
 
   it 'should provide an unfreeze command' do
     @app.run %w[unfreeze]
-    @runner.name.should == :unfreeze
+    @runner.name.should be == :unfreeze
   end
 
   it 'should provide an info command' do
     @app.run %w[info]
-    @runner.name.should == :info
+    @runner.name.should be == :info
   end
 
   it 'should provide a help command' do
@@ -74,17 +74,17 @@ describe Bones::App do
 
   it 'should report an error for unrecognized commands' do
     lambda {@app.run %w[foo]}.should raise_error(SystemExit)
-    @err.readline.should == "\e[37m\e[41mERROR\e[0m:  While executing bones ..."
-    @err.readline.should == '    Unknown command "foo"'
+    @err.readline.should be == "\e[37m\e[41mERROR\e[0m:  While executing bones ..."
+    @err.readline.should be == '    Unknown command "foo"'
   end
 
   it 'should report a version number' do
     @app.run %w[--version]
-    @out.readline.should == "Mr Bones v#{Bones.version}"
+    @out.readline.should be == "Mr Bones v#{Bones.version}"
     @out.clear
 
     @app.run %w[-v]
-    @out.readline.should == "Mr Bones v#{Bones.version}"
+    @out.readline.should be == "Mr Bones v#{Bones.version}"
   end
 
 end  # describe Bones::App
