@@ -1,4 +1,7 @@
 
+require 'net/smtp'
+require 'time'
+
 module Bones::Plugins::Ann
   include ::Bones::Helpers
   extend self
@@ -73,6 +76,11 @@ module Bones::Plugins::Ann
             one of :plain, :login, or :cram_md5. See the documentation on the
             Net::SMTP class for more information.
           __
+
+          enable_starttls_auto  true, :desc => <<-__
+            When set to true, detects if STARTTLS is enabled in your SMTP server
+            and starts to use it. It works only on Ruby >= 1.8.7 and Ruby >= 1.9.
+          __
         }
       }
     }
@@ -143,15 +151,18 @@ module Bones::Plugins::Ann
         rfc822msg << "<#{"%.8f" % Time.now.to_f}@#{email.domain}>\n\n"
         rfc822msg << File.read(ann.file)
 
-        params = [:server, :port, :domain, :username, :password, :authtype].map { |key| email[key] }
-
-        if params[4].nil?
-          STDOUT.write "Please enter your e-mail password (#{params[3]}): "
-          params[4] = STDIN.gets.chomp
+        params = [:domain, :username, :password, :authtype].map { |key| email[key] }
+        if params[2].nil?
+          STDOUT.write "Please enter your e-mail password (#{params[1]}): "
+          params[2] = STDIN.gets.chomp
         end
 
         ### send email
-        Net::SMTP.start(*params) {|smtp| smtp.sendmail(rfc822msg, from, to)}
+        smtp = Net::SMTP.new(email[:server], email[:port])
+        smtp.enable_starttls_auto if email[:enable_starttls_auto] and smtp.respond_to?(:enable_starttls_auto)
+        smtp.start(*params) { |_smtp_|
+          _smtp_.sendmail(rfc822msg, from, to)
+        }
       end
     end  # namespace :ann
 

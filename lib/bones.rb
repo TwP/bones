@@ -90,7 +90,6 @@ Bones.libpath {
   require 'bones/rake_override_task'
   require 'bones/gem_package_task'
   require 'bones/annotation_extractor'
-  require 'bones/smtp_tls'
   require 'bones/app'
   require 'bones/app/command'
   require 'bones/app/file_manager'
