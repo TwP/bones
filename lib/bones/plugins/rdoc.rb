@@ -1,7 +1,7 @@
 
 # since RDoc v 2.4.2 has RDoc::Task to replace Rake::RDocTask
 begin
-  gem 'rdoc' rescue nil  # ignore if the RDoc gem is not installed
+  gem 'rdoc'
   require 'rdoc/task'
 rescue LoadError
   require 'rake/rdoctask'
