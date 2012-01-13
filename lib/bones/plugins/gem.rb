@@ -315,6 +315,7 @@ module Bones::Plugins::Gem
         next if line =~ comment
         line.chomp!
         line.strip!
+        line.sub! %r{^/}, ''
         next if line.nil? or line.empty?
 
         glob = line =~ %r/\*\./ ? File.join('**', line) : line
