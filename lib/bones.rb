@@ -19,8 +19,8 @@ module Bones
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
 
   # Ruby Interpreter location - taken from Rake source code
-  RUBY = File.join(Config::CONFIG['bindir'],
-                   Config::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
+  RUBY = File.join(RbConfig::CONFIG['bindir'],
+                   RbConfig::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
 
   module Plugins; end
   # :startdoc:
