@@ -1,5 +1,5 @@
 
-require 'spec_helper'
+require File.expand_path('../../spec_helper', __FILE__)
 
 class Runner
   attr_accessor :name
@@ -89,4 +89,3 @@ describe Bones::App do
 
 end  # describe Bones::App
 
-# EOF

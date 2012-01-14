@@ -41,4 +41,3 @@ end
 
 end  # unless defined?
 
-# EOF

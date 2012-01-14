@@ -1,5 +1,5 @@
 
-require 'spec_helper'
+require File.expand_path('../spec_helper', __FILE__)
 
 describe Bones do
 
@@ -19,4 +19,3 @@ describe Bones do
 
 end  # describe Bones
 
-# EOF
