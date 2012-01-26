@@ -137,7 +137,7 @@ class Bones::App::Command
   def self.standard_options
     @standard_options ||= {
       :verbose => ['-v', '--verbose', 'Enable verbose output.',
-          lambda { config[:verbose] = true }],
+          lambda { |_| config[:verbose] = true }],
 
       :directory => ['-d', '--directory DIRECTORY', String,
           'Project directory to create.',  '(defaults to project_name)',
