@@ -1,6 +1,8 @@
 
-require File.expand_path(
-    File.join(File.dirname(__FILE__), %w[.. lib <%= name %>]))
+require 'rubygems'
+require 'rspec'
+
+require File.expand_path('../../lib/<%= name %>', __FILE__)
 
 RSpec.configure do |config|
   # == Mock Framework
