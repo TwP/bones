@@ -1,3 +1,13 @@
+== 3.8.0 / 2012-03-05
+
+Enhancements
+  - updating everything to use RSpec 2
+  - add a "remove_task" method
+
+Bug Fixes
+  - optparse handling error in ruby 1.9
+  - remove deprecation warnings
+
 == 3.7.3 / 2011-12-15
 
 Bug Fixes
