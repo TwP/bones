@@ -37,6 +37,7 @@ not given then the default skeleton is removed.
     opts = super args
     config[:name] = args.empty? ? DEFAULT_SKELETON : args.join('_')
     config[:output_dir] = File.join(mrbones_dir, name)
+    opts
   end
 
 end  # class Unfreeze

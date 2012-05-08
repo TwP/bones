@@ -82,7 +82,7 @@ private
     fetcher = Gem::SpecFetcher.fetcher
     specs = fetcher.find_matching dep
 
-    specs.map! { |(name, version, _), _|
+    specs.map! { |(name, _, _), _|
       next unless name =~ %r/^bones-(.*?)(?:-(\d+))?$/i
       $2 ? [$1, $2.to_i] : $1
     }
@@ -98,7 +98,7 @@ private
       begin
         Gem::Specification.find_by_name(name, version)
         true
-      rescue Gem::LoadError => err
+      rescue Gem::LoadError
         false
       end
     else

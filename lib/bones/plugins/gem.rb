@@ -358,9 +358,7 @@ module Bones::Plugins::Gem
     config.rubyforge_project  = spec.rubyforge_project
 
     config.gem.executables    = spec.executables
-    if have? :rdoc
-      config.rdoc.opts        = spec.rdoc_options
-    end
+    config.rdoc.opts          = spec.rdoc_options
     config.test.file          = spec.test_file if spec.test_file
     config.test.files         = spec.test_files if spec.test_files
 

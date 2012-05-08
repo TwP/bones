@@ -4,7 +4,7 @@ class Bones::App::Command
 
   # :stopdoc:
   DEFAULT_SKELETON = 'default'
-  Bones.config() { colorize = true }
+  Bones.config() { colorize true }
   # :startdoc:
 
   attr_reader :stdout

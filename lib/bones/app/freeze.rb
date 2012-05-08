@@ -41,6 +41,7 @@ skeleton.
     opts = super args
     config[:name] = args.empty? ? DEFAULT_SKELETON : args.join('_')
     config[:output_dir] = File.join(mrbones_dir, name)
+    opts
   end
 
   # Freeze the project skeleton to the git or svn repository that the user
