@@ -284,7 +284,13 @@ module Bones::Plugins::Gem
           end
 
           $stdout.puts "Installing #{dep.name}"
-          installer.install dep
+          begin
+            installer.install dep
+          rescue
+            $stdout.puts('  '+Bones::Colors.colorize("Could not install #{dep.name}!", :white, :on_red))
+            $stdout.puts('  '+Bones::Colors.colorize("The gem does not appear to exist in any known repository.", :cyan))
+            next
+          end
           installer.installed_gems.each {|spec|
             $stdout.puts "Successfully installed #{spec.full_name}"
           }
