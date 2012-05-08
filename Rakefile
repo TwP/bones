@@ -27,8 +27,9 @@ Bones {
   use_gmail
 
   depend_on  'rake', '>= 0.8.7'
-  depend_on  'little-plugger', '~> 1.1.3'
-  depend_on  'loquacious', '~> 1.9.1'
+  depend_on  'rdoc', '~> 3.0'
+  depend_on  'little-plugger', '~> 1.1'
+  depend_on  'loquacious', '~> 1.9'
 
   depend_on  'rspec', '~> 2.6', :development => true
 
