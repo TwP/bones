@@ -249,7 +249,7 @@ module Bones::Plugins::Gem
         sh "#{SUDO} #{GEM} install pkg/#{config.gem._spec.full_name}"
 
         # use this version of the command for rubygems > 1.0.0
-        #sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{config.gem._spec.full_name}"
+        # sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{config.gem._spec.full_name}"
       end
 
       desc 'Uninstall the gem'
@@ -364,7 +364,9 @@ module Bones::Plugins::Gem
     config.rubyforge_project  = spec.rubyforge_project
 
     config.gem.executables    = spec.executables
-    config.rdoc.opts          = spec.rdoc_options
+    if have? :rdoc
+      config.rdoc.opts        = spec.rdoc_options
+    end
     config.test.file          = spec.test_file if spec.test_file
     config.test.files         = spec.test_files if spec.test_files
 
