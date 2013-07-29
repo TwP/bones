@@ -16,17 +16,17 @@ describe Bones::App do
 
   before :each do
     @runner = ::Runner.new
-    @runner.stub!(:parse).and_return(Hash.new)
+    @runner.stub(:parse).and_return(Hash.new)
 
     @app = Bones::App::Main.new(:stdout => @out, :stderr => @err)
 
-    Bones::App::Create.stub!(:new).
+    Bones::App::Create.stub(:new).
         and_return {@runner.name = :create; @runner}
-    Bones::App::Freeze.stub!(:new).
+    Bones::App::Freeze.stub(:new).
         and_return {@runner.name = :freeze; @runner}
-    Bones::App::Unfreeze.stub!(:new).
+    Bones::App::Unfreeze.stub(:new).
         and_return {@runner.name = :unfreeze; @runner}
-    Bones::App::Info.stub!(:new).
+    Bones::App::Info.stub(:new).
         and_return {@runner.name = :info; @runner}
   end
 
