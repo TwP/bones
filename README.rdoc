@@ -88,6 +88,21 @@ The 'bones-git' gem provides command line options for generating a git
 repository and pushing to github upon creation. Rake tasks for working with
 the git repository are also provided.
 
+== Development
+
+To begin development first generate a `.gemspec`
+
+  rake gem:spec
+
+Then you can bundle to install the dependencies
+
+  gem install bundler
+  bundle
+
+To run the specs simply run rspec directly
+
+  rspec spec
+
 == ACKNOWLEDGEMENTS:
 
 Ryan Davis and Eric Hodel and their Hoe gem (from which much of the Mr Bones
