@@ -47,7 +47,11 @@ class Bones::GemPackageTask < Rake::PackageTask
     file "#{package_dir_path}/#{gem_file}" => [package_dir_path] + package_files do
       when_writing("Creating GEM") {
         chdir(package_dir_path) do
-          Gem::Builder.new(gem_spec).build
+          if RUBY_VERSION >= "2"
+            Gem::Package.build(gem_spec)
+          else
+            Gem::Builder.new(gem_spec).build
+          end
           verbose(true) {
             mv gem_file, "../#{gem_file}"
           }
