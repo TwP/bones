@@ -1,3 +1,10 @@
+== 3.8.1 / 2013-10-10
+
+Bug Fixes
+  - compatibility with Ruby 2.0 [thanks @daveworth]
+  - fix deprecation warnings [thanks @daveworth]
+  - script/bootstrap for development
+
 == 3.8.0 / 2012-03-05
 
 Enhancements
