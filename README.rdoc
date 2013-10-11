@@ -88,6 +88,20 @@ The 'bones-git' gem provides command line options for generating a git
 repository and pushing to github upon creation. Rake tasks for working with
 the git repository are also provided.
 
+== DEVELOPMENT:
+
+Download a copy of the source code from GitHub
+
+* git clone https://github.com/TwP/bones.git
+
+Run the bootstrap script to install the development dependencies
+
+* script/bootstrap
+
+You should now be able to run the test specs and see them pass
+
+* rake spec
+
 == ACKNOWLEDGEMENTS:
 
 Ryan Davis and Eric Hodel and their Hoe gem (from which much of the Mr Bones
@@ -98,7 +112,7 @@ Howard for letting me squat in the codeforpeople rubyforge project.
 == LICENSE:
 
 MIT License
-Copyright (c) 2007 - 2010
+Copyright (c) 2007 - 2013
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
