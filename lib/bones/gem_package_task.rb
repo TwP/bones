@@ -2,7 +2,11 @@
 require 'find'
 require 'rake/packagetask'
 require 'rubygems/user_interaction'
-require 'rubygems/builder'
+if RUBY_VERSION >= "2"
+  require 'rubygems/package'
+else
+  require 'rubygems/builder'
+end
 
 class Bones::GemPackageTask < Rake::PackageTask
 
