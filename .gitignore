@@ -10,4 +10,4 @@ doc
 pkg
 manual.txt
 .yardoc
-.rvmrc
+vendor

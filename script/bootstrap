@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+function gem_install {
+  gem list -i $1 >/dev/null 2>&1
+  rc=$?
+  if [[ $rc != 0 ]]; then
+    gem install $1
+  fi
+}
+
+gem_install 'little-plugger'
+gem_install 'loquacious'
+
+rake gem:install_dependencies
+
+gem_install 'bones-git'
+gem_install 'bones-rspec'
+
+# gem uninstall -a -I -x 'bones'
