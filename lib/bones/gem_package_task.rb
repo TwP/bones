@@ -2,9 +2,9 @@
 require 'find'
 require 'rake/packagetask'
 require 'rubygems/user_interaction'
-if RUBY_VERSION >= "2"
+begin
   require 'rubygems/package'
-else
+rescue LoadError
   require 'rubygems/builder'
 end
 
