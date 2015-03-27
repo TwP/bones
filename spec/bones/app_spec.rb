@@ -20,14 +20,10 @@ describe Bones::App do
 
     @app = Bones::App::Main.new(:stdout => @out, :stderr => @err)
 
-    Bones::App::Create.stub(:new).
-        and_return {@runner.name = :create; @runner}
-    Bones::App::Freeze.stub(:new).
-        and_return {@runner.name = :freeze; @runner}
-    Bones::App::Unfreeze.stub(:new).
-        and_return {@runner.name = :unfreeze; @runner}
-    Bones::App::Info.stub(:new).
-        and_return {@runner.name = :info; @runner}
+    Bones::App::Create.stub(:new) {@runner.name = :create; @runner}
+    Bones::App::Freeze.stub(:new) {@runner.name = :freeze; @runner}
+    Bones::App::Unfreeze.stub(:new) {@runner.name = :unfreeze; @runner}
+    Bones::App::Info.stub(:new) {@runner.name = :info; @runner}
   end
 
   after :each do
