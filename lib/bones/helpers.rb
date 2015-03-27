@@ -55,8 +55,8 @@ module Bones::Helpers
       single_section = true
     end
 
-    start_rgxp = [%r/\A=+\s*#{title}/i, %r/\A#{title}\n[=-]+\s*\Z/i]
-    end_rgxp   = [%r/\A=+/i, %r/\A.+\n[=-]+\s*\Z/i]
+    start_rgxp = [%r/\A[=#]+\s*#{title}/i, %r/\A#{title}\n[=-]+\s*\Z/i]
+    end_rgxp   = [%r/\A[=#]+/i, %r/\A.+\n[=-]+\s*\Z/i]
 
     result = []
     matching = false
