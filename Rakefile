@@ -26,12 +26,12 @@ Bones {
 
   use_gmail
 
-  depend_on  'rake', '~> 10.0'
-  depend_on  'rdoc', '~> 4.0'
+  depend_on  'rake', '~> 12.0'
+  depend_on  'rdoc', '~> 5.0'
   depend_on  'little-plugger', '~> 1.1'
   depend_on  'loquacious', '~> 1.9'
 
-  depend_on  'rspec', '~> 3.2', :development => true
+  depend_on  'rspec', '~> 3.5', :development => true
 
   # These are commented out to avoid circular dependencies when installing
   # bones-git or bones-rspec in development mode
