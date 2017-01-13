@@ -2,9 +2,9 @@
 require 'find'
 require 'rake/packagetask'
 require 'rubygems/user_interaction'
-if RUBY_VERSION >= "2"
+begin
   require 'rubygems/package'
-else
+rescue LoadError
   require 'rubygems/builder'
 end
 
@@ -47,7 +47,7 @@ class Bones::GemPackageTask < Rake::PackageTask
     file "#{package_dir_path}/#{gem_file}" => [package_dir_path] + package_files do
       when_writing("Creating GEM") {
         chdir(package_dir_path) do
-          if RUBY_VERSION >= "2"
+          if defined? Gem::Package.build
             Gem::Package.build(gem_spec)
           else
             Gem::Builder.new(gem_spec).build
