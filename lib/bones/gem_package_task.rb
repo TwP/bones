@@ -1,8 +1,7 @@
-
 require 'find'
 require 'rake/packagetask'
 require 'rubygems/user_interaction'
-if RUBY_VERSION >= "2"
+if RUBY_VERSION.match(/(\d+\.\d+)/)[1].to_f >= 1.9
   require 'rubygems/package'
 else
   require 'rubygems/builder'
