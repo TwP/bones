@@ -144,7 +144,7 @@ module Bones::Plugins::Gem
       if config.gem._spec.nil?
         config.gem._spec = Gem::Specification.new do |s|
           s.name = config.name
-          s.version = config.version
+          s.version = config.version.dup
           s.summary = config.summary
           s.authors = Array(config.authors)
           s.email = config.email
