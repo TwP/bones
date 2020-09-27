@@ -1,3 +1,9 @@
+== 3.8.5 / 2020-09-27
+
+Bug Fixes
+  - updating gem dependencies
+  - cleaning up ERB usage
+
 == 3.8.1 / 2013-10-10
 
 Bug Fixes
