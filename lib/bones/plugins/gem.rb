@@ -21,7 +21,7 @@ module Bones::Plugins::Gem
       if Gem::Specification.respond_to? :find_by_name
         begin
           spec = Gem::Specification.find_by_name(name)
-        rescue Gem::LoadError => err
+        rescue Gem::LoadError
         end
       else
         spec = Gem.source_index.find_name(name).last
@@ -149,11 +149,6 @@ module Bones::Plugins::Gem
           s.authors = Array(config.authors)
           s.email = config.email
           s.homepage = Array(config.url).first
-          s.rubyforge_project = config.name
-
-          if !config.rubyforge.nil? and config.rubyforge.name
-            s.rubyforge_project = config.rubyforge.name
-          end
 
           s.description = config.description
 
@@ -361,7 +356,6 @@ module Bones::Plugins::Gem
     config.description        = spec.description
     config.files              = spec.files
     config.libs               = spec.require_paths
-    config.rubyforge_project  = spec.rubyforge_project
 
     config.gem.executables    = spec.executables
     if have? :rdoc

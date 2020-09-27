@@ -128,7 +128,7 @@ class FileManager
       new_fn = fn.sub(%r/\.bns$/, '')
       creating(new_fn)
 
-      txt = ERB.new(File.read(fn), nil, '-').result(binding)
+      txt = ERB.new(File.read(fn), trim_mode: '-').result(binding)
       File.open(new_fn, 'w') {|fd| fd.write(txt)}
       FileUtils.chmod(File.stat(fn).mode, new_fn)
       FileUtils.rm_f(fn)
