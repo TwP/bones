@@ -12,6 +12,7 @@ Bones {
   authors      'Tim Pease'
   email        'tim.pease@gmail.com'
   url          'http://rubygems.org/gems/bones'
+  license      'MIT'
 
   spec.opts.concat %w[--color --format documentation]
   notes.exclude %w[^README\.rdoc$ ^data/]
