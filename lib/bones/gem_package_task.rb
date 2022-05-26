@@ -64,16 +64,12 @@ class Bones::GemPackageTask < Rake::PackageTask
     end
   end
 
-  #
-  #
   def gem_file
     if @gem_spec.platform == Gem::Platform::RUBY
-      "#{package_name}.gem"
+      "#{gem_spec.full_name}.gem"
     else
-      "#{package_name}-#{@gem_spec.platform}.gem"
+      "#{gem_spec.full_name}-#{gem_spec.platform}.gem"
     end
   end
+end
 
-end  # class Bones::GemPackageTask
-
-# EOF

@@ -38,6 +38,13 @@ module Bones::Plugins::BonesPlugin
         most current release are included.
       __
 
+      license  nil, :desc => <<-__
+        This should just be the name of your license. The full text of the
+        license should be in a LICENSE file at the top-level of your gem when
+        you build it. The simplest way is to specify the standard SPDX ID
+        https://spdx.org/licenses/ for the license.
+      __
+
       authors  nil, :desc => <<-__
         This can be a single author (as a string) or an array of authors
         if more than one person is working on the project.
@@ -173,8 +180,6 @@ module Bones::Plugins::BonesPlugin
   end
 
   def define_tasks
-    config = ::Bones.config
-
     namespace :bones do
       desc 'Show the current Mr Bones configuration'
       task :debug do |t|
@@ -202,9 +207,7 @@ module Bones::Plugins::BonesPlugin
 
         ::Bones.help.show(atr, :descriptions => false, :values => false)
       end
-
-    end  # namespace :bones
+    end
   end
-
-end  # module Bones::Plugins::BonesPlugin
+end
 
