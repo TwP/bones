@@ -11,8 +11,7 @@ module Bones::Plugins::Gem
     # Adds the given gem _name_ to the current project's dependency list. An
     # optional gem _version_ can be given. If omitted, the newest gem version
     # will be used.
-    #
-    def depend_on( name, *args )
+    def depend_on(name, *args)
       opts = Hash === args.last ? args.pop : {}
       version = args.first || opts[:version]
       development = opts.key?(:development) ? opts[:development] : opts.key?(:dev) ? opts[:dev] : false
@@ -27,7 +26,7 @@ module Bones::Plugins::Gem
         spec = Gem.source_index.find_name(name).last
       end
 
-      version = ">= #{spec.version.to_s}" if version.nil? and !spec.nil?
+      version = "~> #{spec.version.to_s}" if version.nil? and !spec.nil?
 
       dep = case version
             when nil; [name]
@@ -40,9 +39,8 @@ module Bones::Plugins::Gem
       nil
     end
 
-    # Add the given _url_ to the list of gem sources.
-    #
-    def source( url )
+    # Add the given `url` to the list of gem sources.
+    def source(url)
       sources = ::Bones.config.gem.sources
       sources << url unless sources.include? url
       nil
@@ -133,7 +131,7 @@ module Bones::Plugins::Gem
     unless $bones_external_spec
       config.gem.files ||= manifest
       config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
-      config.gem.development_dependencies << ['bones', ">= #{Bones.version}"]
+      config.gem.development_dependencies << ['bones', "~> #{Bones.version}"]
     end
   end
 
@@ -149,8 +147,8 @@ module Bones::Plugins::Gem
           s.authors = Array(config.authors)
           s.email = config.email
           s.homepage = Array(config.url).first
-
           s.description = config.description
+          s.license = config.license
 
           config.gem.dependencies.each do |dep|
             s.add_dependency(*dep)
@@ -338,7 +336,7 @@ module Bones::Plugins::Gem
 
   # Import configuration from the given gemspec file.
   #
-  def import_gemspec( filename )
+  def import_gemspec(filename)
     $bones_external_spec = false
     spec = load_gemspec(filename)
     return if spec.nil?
@@ -356,6 +354,7 @@ module Bones::Plugins::Gem
     config.description        = spec.description
     config.files              = spec.files
     config.libs               = spec.require_paths
+    config.license            = spec.license
 
     config.gem.executables    = spec.executables
     if have? :rdoc
@@ -384,7 +383,7 @@ module Bones::Plugins::Gem
   # This method is stolen from the Bundler gem. It loads the gemspec from a
   # file if available.
   #
-  def load_gemspec( filename )
+  def load_gemspec(filename)
     path = Pathname.new(filename)
     # Eval the gemspec from its parent directory
     Dir.chdir(path.dirname) do
@@ -409,6 +408,5 @@ module Bones::Plugins::Gem
       end
     end
   end
-
-end  # Bones::Plugins::Gem
+end
 
