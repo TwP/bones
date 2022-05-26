@@ -9,5 +9,6 @@ coverage
 doc
 pkg
 manual.txt
-.yardoc
 vendor
+.yardoc
+.tool-versions
