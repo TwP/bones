@@ -1,3 +1,13 @@
+== 3.9.0 / 2022-05-26
+
+Enhancements
+  - use feature detection for rubygems package loading - #45 [thanks @kares]
+  - adding license option to the top-level bones configuration - #49
+
+Bug Fixes
+  - fixing gem naming issue on Ruby 3 - #48
+  - fixing the plugins command - #50
+
 == 3.8.5 / 2020-09-27
 
 Bug Fixes
