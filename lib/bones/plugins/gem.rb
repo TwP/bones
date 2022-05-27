@@ -239,10 +239,7 @@ module Bones::Plugins::Gem
 
       desc 'Install the gem'
       task :install => [:clobber, 'gem:package'] do
-        sh "#{SUDO} #{GEM} install pkg/#{config.gem._spec.full_name}"
-
-        # use this version of the command for rubygems > 1.0.0
-        # sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{config.gem._spec.full_name}"
+        sh "#{SUDO} #{GEM} install pkg/#{config.gem._spec.full_name}.gem"
       end
 
       desc 'Uninstall the gem'
