@@ -25,7 +25,7 @@ gems are not installed.
       stdout.puts
 
       if all?
-        plugins.each { |name, version| show_plugin(name, version) }
+        plugins.each {|name, version| show_plugin(name, version)}
       else
         gemspecs = find_gemspecs
         plugins.each { |name, version|
@@ -44,7 +44,7 @@ gems are not installed.
       config[:all]
     end
 
-    def show_plugin( name, version )
+    def show_plugin(name, version)
       name = "bones-#{name}"
       name << "-#{version}" if version
 
@@ -87,7 +87,7 @@ gems are not installed.
       return specs
     end
 
-    def installed?( name, version = Gem::Requirement.default )
+    def installed?(name, version = Gem::Requirement.default)
       # FIXME: check for rubygems version 1.8.X
       if Gem::Specification.respond_to? :find_by_name
         begin
