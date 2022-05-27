@@ -17,10 +17,7 @@ module Bones
   LIBPATH = File.expand_path('..', __FILE__) + File::SEPARATOR
   VERSION = File.read(PATH + '/version.txt').strip
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
-
-  # Ruby Interpreter location - taken from Rake source code
-  RUBY = File.join(RbConfig::CONFIG['bindir'],
-                   RbConfig::CONFIG['ruby_install_name']).sub(/.*\s.*/m, '"\&"')
+  RUBY = 'ruby'
 
   module Plugins; end
   # :startdoc:
