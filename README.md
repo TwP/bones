@@ -1,8 +1,6 @@
-Mr Bones
-    by Tim Pease
-    https://rubygems.org/gems/bones
+[![.github/workflows/ruby.yml](https://github.com/TwP/bones/actions/workflows/ruby.yml/badge.svg)](https://github.com/TwP/bones/actions/workflows/ruby.yml)
 
-== DESCRIPTION:
+# Mr Bones
 
 Mr Bones is a handy tool that creates new Ruby projects from a code
 skeleton. The skeleton contains some starter code and a collection of rake
@@ -10,28 +8,38 @@ tasks to ease the management and deployment of your source code. Several Mr
 Bones plugins are available for creating git repositories, creating GitHub
 projects, running various test suites and source code analysis tools.
 
-== SYNOPSIS:
+https://rubygems.org/gems/bones
+
+## Synopsis
 
 To create a new "Get Fuzzy" project:
 
-  bones create get_fuzzy
+```sh
+bones create get_fuzzy
+```
 
 If you ever get confused about what Mr Bones can do:
 
-  bones --help
+```sh
+bones --help
+```
 
 After your project is created, you can view all the available configuration
 options:
 
-  rake bones:options
+```sh
+rake bones:options
+```
 
 Detailed information about the options (or a subset of options) can also be
 displayed:
 
-  rake bones:help        #=> for all options
-  rake bones:help gem    #=> for the "gem" subset
+```sh
+rake bones:help        #=> for all options
+rake bones:help gem    #=> for the "gem" subset
+```
 
-== FEATURES:
+## Features
 
 Mr Bones is configurable, helpful, and it simplifies project development.
 
@@ -45,7 +53,7 @@ common development tasks. These tasks include ...
 
 * release announcements
 * gem packaging and management
-* releasing to rubygems.org and rubyforge.org
+* releasing to rubygems.org
 * documentation
 * annotation listing (TODO, FIXME, etc)
 * testing
@@ -65,71 +73,56 @@ Currently there are a "bones-git" plugin for interacting with github and git
 repositories and a "bones-extras" plugin for working with Rcov, RubyForge,
 and Rspec.
 
-There is far more information available in the Mr Bones manual.
-http://wiki.github.com/TwP/bones/manual
+## Install
 
-== INSTALL:
+```sh
+gem install bones
+```
 
-* gem install bones
-
-If you would like some extra functinoality the following plugins can be
+If you would like some extra functionality the following plugins can be
 installed:
 
-* gem install bones-git
-* gem install bones-yard
-* gem install bones-rspec
-* gem install bones-rcov
+```sh
+gem install bones-git
+gem install bones-yard
+gem install bones-rspec
+gem install bones-rcov
+```
 
 A complete list of available plugins is available via the bones command:
 
-  bones plugins --all
+```sh
+bones plugins --all
+```
 
-The 'bones-git' gem provides command line options for generating a git
+The `bones-git` gem provides command line options for generating a git
 repository and pushing to github upon creation. Rake tasks for working with
 the git repository are also provided.
 
-== DEVELOPMENT:
+## Development
 
 Download a copy of the source code from GitHub
 
-* git clone https://github.com/TwP/bones.git
+```sh
+git clone https://github.com/TwP/bones.git
+```
 
 Run the bootstrap script to install the development dependencies
 
-* script/bootstrap
+```sh
+script/bootstrap
+```
 
 You should now be able to run the test specs and see them pass
 
-* rake spec
+```sh
+rake spec
+```
 
-== ACKNOWLEDGEMENTS:
+## Acknowledgements
 
 Ryan Davis and Eric Hodel and their Hoe gem (from which much of the Mr Bones
 rake tasks have been stolen). The rails team and their source annotation
 extractor. Bruce Williams for help in coming up with the project name. Ara T.
 Howard for letting me squat in the codeforpeople rubyforge project.
-
-== LICENSE:
-
-MIT License
-Copyright (c) 2007 - 2013
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sub-license, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 

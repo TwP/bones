@@ -7,12 +7,7 @@ gem_install () {
   fi
 }
 
-gem_install 'little-plugger'
-gem_install 'loquacious'
+gem_install 'bones'
 
 rake gem:install_dependencies
 
-gem_install 'bones-git'
-gem_install 'bones-rspec'
-
-# gem uninstall -a -I -x 'bones'
