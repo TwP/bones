@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-function gem_install {
+gem_install () {
   gem list -i $1 >/dev/null 2>&1
   rc=$?
   if [[ $rc != 0 ]]; then
