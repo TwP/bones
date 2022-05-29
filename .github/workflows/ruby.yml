@@ -40,4 +40,4 @@ jobs:
       run: script/bootstrap
 
     - name: Run Tests
-      run: rake test
+      run: rake spec
