@@ -4,14 +4,13 @@ module <%= classname %>
   # :stopdoc:
   LIBPATH = ::File.expand_path('..', __FILE__) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
-  VERSION = ::File.read(PATH + 'version.txt').strip
   # :startdoc:
 
   # Returns the library path for the module. If any arguments are given,
   # they will be joined to the end of the libray path using
   # <tt>File.join</tt>.
   #
-  def self.libpath( *args )
+  def self.libpath(*args)
     rv =  args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
     if block_given?
       begin
@@ -28,7 +27,7 @@ module <%= classname %>
   # they will be joined to the end of the path using
   # <tt>File.join</tt>.
   #
-  def self.path( *args )
+  def self.path(*args)
     rv = args.empty? ? PATH : ::File.join(PATH, args.flatten)
     if block_given?
       begin
@@ -46,15 +45,14 @@ module <%= classname %>
   # in. Optionally, a specific _directory_ name can be passed in such that
   # the _filename_ does not have to be equivalent to the directory.
   #
-  def self.require_all_libs_relative_to( fname, dir = nil )
+  def self.require_all_libs_relative_to(fname, dir = nil)
     dir ||= ::File.basename(fname, '.*')
     search_me = ::File.expand_path(
         ::File.join(::File.dirname(fname), dir, '**', '*.rb'))
 
     Dir.glob(search_me).sort.each {|rb| require rb}
   end
-
-end  # module <%= classname %>
+end
 
 <%= classname %>.require_all_libs_relative_to(__FILE__)
 
