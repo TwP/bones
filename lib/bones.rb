@@ -15,23 +15,15 @@ module Bones
   # :stopdoc:
   PATH = File.expand_path('../..', __FILE__) + File::SEPARATOR
   LIBPATH = File.expand_path('..', __FILE__) + File::SEPARATOR
-  VERSION = File.read(PATH + '/version.txt').strip
   HOME = File.expand_path(ENV['HOME'] || ENV['USERPROFILE'])
   RUBY = 'ruby'
 
   module Plugins; end
   # :startdoc:
 
-  # Returns the version of the Mr Bones library.
-  #
-  def self.version
-    VERSION
-  end
-
   # Returns the path for Mr Bones. If any arguments are given,
-  # they will be joined to the end of the path using <tt>File.join</tt>.
-  #
-  def self.path( *args )
+  # they will be joined to the end of the path using `File.join`.
+  def self.path(*args)
     rv = args.empty? ? PATH : ::File.join(PATH, args.flatten)
     if block_given?
       begin
@@ -45,9 +37,8 @@ module Bones
   end
 
   # Returns the lib path for Mr Bones. If any arguments are given,
-  # they will be joined to the end of the path using <tt>File.join</tt>.
-  #
-  def self.libpath( *args )
+  # they will be joined to the end of the path using `File.join`.
+  def self.libpath(*args)
     rv =  args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
     if block_given?
       begin
@@ -66,7 +57,7 @@ module Bones
   #
   # Returns the configuration object for setting up Mr Bones options.
   #
-  def self.config( &block )
+  def self.config(&block)
     Loquacious.configuration_for('Bones', &block)
   end
 
@@ -77,11 +68,12 @@ module Bones
   # configuration and descriptions for the various configuration attributes.
   #
   def self.help
-    Loquacious.help_for('Bones', :colorize => config.colorize, :nesting_nodes => false)
+    Loquacious.help_for('Bones', colorize: config.colorize, nesting_nodes: false)
   end
-end  # module Bones
+end
 
 Bones.libpath {
+  require 'bones/version'
   require 'bones/colors'
   require 'bones/helpers'
   require 'bones/rake_override_task'
@@ -92,7 +84,7 @@ Bones.libpath {
   require 'bones/app/file_manager'
 
   Bones.config {}
-  Loquacious.remove :gem, :file, :test, :timeout
+  Loquacious.remove(:gem, :file, :test, :timeout)
 }
 
 module Kernel
@@ -102,27 +94,27 @@ module Kernel
   # Configure Mr Bones using the given _block_ of code. If a block is not
   # given, the Bones module is returned.
   #
-  def Bones( filename = nil, &block )
+  def Bones(filename = nil, &block)
 
     # we absolutely have to have the bones plugin
     plugin_names = ::Bones.plugin_names
-    ::Bones.plugin :bones_plugin unless plugin_names.empty? or plugin_names.include? :bones_plugin
+    ::Bones.plugin :bones_plugin unless plugin_names.empty? || plugin_names.include?(:bones_plugin)
 
     plugins = ::Bones.initialize_plugins.values
     ::Bones::Plugins::Gem.import_gemspec(filename) if filename
     return ::Bones unless block
 
     extend_method = Object.instance_method(:extend).bind(::Bones.config)
-    plugins.each { |plugin|
-      ps = plugin.const_get :Syntax rescue next
-      extend_method.call ps
-    }
+    plugins.each do |plugin|
+      ps = plugin.const_get(:Syntax) rescue next
+      extend_method.call(ps)
+    end
 
     instance_eval_method = Object.instance_method(:instance_eval).bind(::Bones.config)
     instance_eval_method.call(&block)
 
-    plugins.each { |plugin| plugin.post_load if plugin.respond_to? :post_load }
-    plugins.each { |plugin| plugin.define_tasks if plugin.respond_to? :define_tasks }
+    plugins.each {|plugin| plugin.post_load if plugin.respond_to?(:post_load)}
+    plugins.each {|plugin| plugin.define_tasks if plugin.respond_to?(:define_tasks)}
 
     rakefiles = Dir.glob(File.join(Dir.pwd, %w[tasks *.rake])).sort
     rakefiles.each {|fn| Rake.application.add_import(fn)}
