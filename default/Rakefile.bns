@@ -5,6 +5,10 @@ rescue LoadError
   abort '### Please install the "bones" gem ###'
 end
 
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require '<%= name %>/version'
+
 task :default => 'test:run'
 task 'gem:release' => 'test:run'
 
@@ -13,6 +17,7 @@ Bones {
   authors  'FIXME (who is writing this software)'
   email    'FIXME (your e-mail)'
   url      'FIXME (project homepage)'
+  version  <%= classname %>::VERSION
   license  'MIT'
 }
 
