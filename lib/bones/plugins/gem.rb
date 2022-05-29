@@ -131,7 +131,10 @@ module Bones::Plugins::Gem
     unless $bones_external_spec
       config.gem.files ||= manifest
       config.gem.executables ||= config.gem.files.find_all {|fn| fn =~ %r/^bin/}
-      config.gem.development_dependencies << ['bones', "~> #{Bones.version}"]
+
+      # strip of the final version number such that "3.9.12" becomes "3.9"
+      version = Bones.version.sub(%r/\.\d+\z/, '')
+      config.gem.development_dependencies << ['bones', "~> #{version}"]
     end
   end
 
@@ -178,14 +181,6 @@ module Bones::Plugins::Gem
                          end
             s.rdoc_options = config.rdoc.opts + ['--main', config.rdoc.main]
             s.extra_rdoc_files = rdoc_files
-          end
-
-          if config.test
-            if test ?f, config.test.file
-              s.test_file = config.test.file
-            else
-              s.test_files = config.test.files.to_a
-            end
           end
 
           # Do any extra stuff the user wants
