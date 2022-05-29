@@ -4,8 +4,7 @@ unless defined? BONES_SPEC_HELPER
 BONES_SPEC_HELPER = true
 
 require 'stringio'
-require File.expand_path(
-    File.join(File.dirname(__FILE__), %w[.. lib bones]))
+require File.expand_path(File.join(File.dirname(__FILE__), %w[.. lib bones]))
 
 RSpec.configure do |config|
   # == Mock Framework

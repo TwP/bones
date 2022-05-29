@@ -8,14 +8,11 @@ describe Bones do
   end
 
   it "finds things releative to 'root'" do
-    Bones.path(%w[lib bones helpers]).
-        should == File.join(@root_dir, %w[lib bones helpers])
+    expect(Bones.path(%w[lib bones helpers])).to eq(File.join(@root_dir, %w[lib bones helpers]))
   end
 
   it "finds things releative to 'lib'" do
-    Bones.libpath(%w[bones helpers]).
-        should == File.join(@root_dir, %w[lib bones helpers])
+    expect(Bones.libpath(%w[bones helpers])).to eq(File.join(@root_dir, %w[lib bones helpers]))
   end
-
-end  # describe Bones
+end
 

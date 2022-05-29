@@ -16,14 +16,14 @@ describe Bones::App do
 
   before :each do
     @runner = ::Runner.new
-    @runner.stub(:parse).and_return(Hash.new)
+    allow(@runner).to receive(:parse).and_return(Hash.new)
 
     @app = Bones::App::Main.new(:stdout => @out, :stderr => @err)
 
-    Bones::App::Create.stub(:new) {@runner.name = :create; @runner}
-    Bones::App::Freeze.stub(:new) {@runner.name = :freeze; @runner}
-    Bones::App::Unfreeze.stub(:new) {@runner.name = :unfreeze; @runner}
-    Bones::App::Info.stub(:new) {@runner.name = :info; @runner}
+    allow(Bones::App::Create).to   receive(:new) {@runner.name = :create; @runner}
+    allow(Bones::App::Freeze).to   receive(:new) {@runner.name = :freeze; @runner}
+    allow(Bones::App::Unfreeze).to receive(:new) {@runner.name = :unfreeze; @runner}
+    allow(Bones::App::Info).to     receive(:new) {@runner.name = :info; @runner}
   end
 
   after :each do
@@ -33,55 +33,54 @@ describe Bones::App do
 
   it 'should provide a create command' do
     @app.run %w[create]
-    @runner.name.should be == :create
+    expect(@runner.name).to eq(:create)
   end
 
   it 'should provide a freeze command' do
     @app.run %w[freeze]
-    @runner.name.should be == :freeze
+    expect(@runner.name).to eq(:freeze)
   end
 
   it 'should provide an unfreeze command' do
     @app.run %w[unfreeze]
-    @runner.name.should be == :unfreeze
+    expect(@runner.name).to eq(:unfreeze)
   end
 
   it 'should provide an info command' do
     @app.run %w[info]
-    @runner.name.should be == :info
+    expect(@runner.name).to eq(:info)
   end
 
   it 'should provide a help command' do
     @app.run %w[--help]
     4.times { @out.readline }
-    @out.readline.should match(%r/^  Mr Bones is a handy tool that builds/)
+    expect(@out.readline).to match(%r/^  Mr Bones is a handy tool that builds/)
     @out.clear
 
     @app.run %w[-h]
     4.times { @out.readline }
-    @out.readline.should match(%r/^  Mr Bones is a handy tool that builds/)
+    expect(@out.readline).to match(%r/^  Mr Bones is a handy tool that builds/)
   end
 
   it 'should default to the help message if no command is given' do
     @app.run []
     4.times { @out.readline }
-    @out.readline.should match(%r/^  Mr Bones is a handy tool that builds/)
+    expect(@out.readline).to match(%r/^  Mr Bones is a handy tool that builds/)
   end
 
   it 'should report an error for unrecognized commands' do
-    lambda {@app.run %w[foo]}.should raise_error(SystemExit)
-    @err.readline.should be == "\e[37m\e[41mERROR\e[0m:  While executing bones ..."
-    @err.readline.should be == '    Unknown command "foo"'
+    expect {@app.run %w[foo]}.to raise_error(SystemExit)
+    expect(@err.readline).to eq("\e[37m\e[41mERROR\e[0m:  While executing bones ...")
+    expect(@err.readline).to eq('    Unknown command "foo"')
   end
 
   it 'should report a version number' do
     @app.run %w[--version]
-    @out.readline.should be == "Mr Bones v#{Bones.version}"
+    expect(@out.readline).to eq("Mr Bones v#{Bones.version}")
     @out.clear
 
     @app.run %w[-v]
-    @out.readline.should be == "Mr Bones v#{Bones.version}"
+    expect(@out.readline).to eq("Mr Bones v#{Bones.version}")
   end
-
-end  # describe Bones::App
+end
 
